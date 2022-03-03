@@ -8,9 +8,9 @@ import {AppRoutingModule} from "./app-routing.module";
 import { HomeComponent } from './pages/home/home.component';
 import { HeaderComponent } from './shared/header/header.component';
 import { FooterComponent } from './shared/footer/footer.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DetailsProductComponent } from './pages/details-product/details-product.component';
 import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -23,8 +23,8 @@ import { HttpClientModule } from '@angular/common/http';
     imports: [
         BrowserModule,
       AppRoutingModule,
-      NgbModule,
-      HttpClientModule
+      HttpClientModule,
+      BrowserAnimationsModule
     ],
   providers: [
     ProductsService
