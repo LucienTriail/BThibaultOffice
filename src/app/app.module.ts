@@ -11,6 +11,8 @@ import { FooterComponent } from './shared/footer/footer.component';
 import { DetailsProductComponent } from './pages/details-product/details-product.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatIconModule} from "@angular/material/icon";
+import {MatToolbarModule} from "@angular/material/toolbar";
 
 @NgModule({
   declarations: [
@@ -20,12 +22,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FooterComponent,
     DetailsProductComponent
   ],
-    imports: [
-        BrowserModule,
-      AppRoutingModule,
-      HttpClientModule,
-      BrowserAnimationsModule
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MatIconModule,
+    MatToolbarModule
+  ],
   providers: [
     ProductsService
   ],
