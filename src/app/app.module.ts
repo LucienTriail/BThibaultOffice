@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
-import {RouterModule} from "@angular/router";
 import {ProductsService} from "./core/services/products.service";
 import {AppRoutingModule} from "./app-routing.module";
 import { HomeComponent } from './pages/home/home.component';
@@ -16,6 +15,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatButtonModule} from "@angular/material/button";
 import { BasicButtonComponent } from './shared/buttons/basic-button/basic-button.component';
+import {MatMenuModule} from "@angular/material/menu";
 
 @NgModule({
   declarations: [
@@ -24,18 +24,19 @@ import { BasicButtonComponent } from './shared/buttons/basic-button/basic-button
     HeaderComponent,
     FooterComponent,
     DetailsProductComponent,
-    BasicButtonComponent
+    BasicButtonComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatGridListModule,
-    MatButtonModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatGridListModule,
+        MatButtonModule,
+        MatMenuModule
+    ],
   providers: [
     ProductsService
   ],
