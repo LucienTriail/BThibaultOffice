@@ -10,6 +10,7 @@ export class HeaderComponent implements OnInit {
 active:number=1;
 //TODO: ajouter la méthode getCategory
 categories = ['Poissons', 'Crustacés'];
+isLoginPage:boolean = true;
 
   constructor(private router:Router ) { }
 

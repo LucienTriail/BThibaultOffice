@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
-import {RouterModule} from "@angular/router";
 import {ProductsService} from "./core/services/products.service";
 import {AppRoutingModule} from "./app-routing.module";
 import { HomeComponent } from './pages/home/home.component';
@@ -17,6 +16,11 @@ import {MatGridListModule} from "@angular/material/grid-list";
 import {MatButtonModule} from "@angular/material/button";
 import { BasicButtonComponent } from './shared/buttons/basic-button/basic-button.component';
 import {MatCardModule} from "@angular/material/card";
+import {MatMenuModule} from "@angular/material/menu";
+import { ExpansionPanelComponent } from './shared/expansion-panel/expansion-panel.component';
+import {MatExpansionModule} from "@angular/material/expansion";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
 
 @NgModule({
   declarations: [
@@ -25,7 +29,8 @@ import {MatCardModule} from "@angular/material/card";
     HeaderComponent,
     FooterComponent,
     DetailsProductComponent,
-    BasicButtonComponent
+    BasicButtonComponent,
+    ExpansionPanelComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +41,11 @@ import {MatCardModule} from "@angular/material/card";
     MatIconModule,
     MatGridListModule,
     MatButtonModule,
-    MatCardModule
+    MatCardModule,
+    MatMenuModule,
+    MatExpansionModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
 
   providers: [
