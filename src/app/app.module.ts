@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
-import {RouterModule} from "@angular/router";
 import {ProductsService} from "./core/services/products.service";
 import {AppRoutingModule} from "./app-routing.module";
 import { HomeComponent } from './pages/home/home.component';
@@ -16,6 +15,11 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatButtonModule} from "@angular/material/button";
 import { BasicButtonComponent } from './shared/buttons/basic-button/basic-button.component';
+import { LoginComponent } from './pages/login/login.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from "@angular/material/form-field";
+import {MatCardModule} from '@angular/material/card';
+
 
 @NgModule({
   declarations: [
@@ -24,7 +28,8 @@ import { BasicButtonComponent } from './shared/buttons/basic-button/basic-button
     HeaderComponent,
     FooterComponent,
     DetailsProductComponent,
-    BasicButtonComponent
+    BasicButtonComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +39,12 @@ import { BasicButtonComponent } from './shared/buttons/basic-button/basic-button
     MatToolbarModule,
     MatIconModule,
     MatGridListModule,
-    MatButtonModule
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCardModule
+    
+    
   ],
   providers: [
     ProductsService
@@ -42,3 +52,4 @@ import { BasicButtonComponent } from './shared/buttons/basic-button/basic-button
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
