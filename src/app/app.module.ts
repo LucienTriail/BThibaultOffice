@@ -16,6 +16,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatButtonModule} from "@angular/material/button";
 import { BasicButtonComponent } from './shared/buttons/basic-button/basic-button.component';
+import {MatCardModule} from "@angular/material/card";
 
 @NgModule({
   declarations: [
@@ -34,8 +35,10 @@ import { BasicButtonComponent } from './shared/buttons/basic-button/basic-button
     MatToolbarModule,
     MatIconModule,
     MatGridListModule,
-    MatButtonModule
+    MatButtonModule,
+    MatCardModule
   ],
+
   providers: [
     ProductsService
   ],
