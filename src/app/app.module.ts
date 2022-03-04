@@ -11,6 +11,11 @@ import { FooterComponent } from './shared/footer/footer.component';
 import { DetailsProductComponent } from './pages/details-product/details-product.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatIconModule} from "@angular/material/icon";
+import {MatGridListModule} from "@angular/material/grid-list";
+import {MatButtonModule} from "@angular/material/button";
+import { BasicButtonComponent } from './shared/buttons/basic-button/basic-button.component';
 
 @NgModule({
   declarations: [
@@ -18,14 +23,19 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HomeComponent,
     HeaderComponent,
     FooterComponent,
-    DetailsProductComponent
+    DetailsProductComponent,
+    BasicButtonComponent
   ],
-    imports: [
-        BrowserModule,
-      AppRoutingModule,
-      HttpClientModule,
-      BrowserAnimationsModule
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatGridListModule,
+    MatButtonModule
+  ],
   providers: [
     ProductsService
   ],
