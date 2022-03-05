@@ -12,16 +12,19 @@
         <mat-icon>close</mat-icon>
       </button>
       <mat-error *ngIf="priceFormControl.hasError('pattern')">
-        Entrez uniquement des chiffres
+        Entrez uniquement des chiffres positifs
       </mat-error>
     </mat-form-field>
+
+    <mat-divider></mat-divider>
+
     <mat-form-field *ngIf="promotion"  appearance="fill">
         <mat-label>Prix en promotion</mat-label>
-        <input matInput [formControl]="priceDiscountedFormControl" [errorStateMatcher]="matcher">
-      <mat-error *ngIf="priceDiscountedFormControl.hasError('pattern')">
-        Entrez uniquement des chiffres
-      </mat-error>
+        <input matInput disabled>
       </mat-form-field>
+
+    <mat-divider></mat-divider>
+
     <mat-form-field  appearance="fill">
       <mat-label>Pourcentage de promotion</mat-label>
       <input matInput [formControl]="percentageDiscountFormControl" [errorStateMatcher]="matcher">
@@ -29,6 +32,9 @@
         Entrez uniquement des chiffres
       </mat-error>
     </mat-form-field>
+
+    <mat-divider></mat-divider>
+
     <mat-form-field  appearance="fill">
       <mat-label>Quantité</mat-label>
       <input matInput type="number" [formControl]="quantityFormControl" [errorStateMatcher]="matcher">
@@ -36,17 +42,24 @@
         Entrez uniquement des chiffres
       </mat-error>
 <!--      TODO: mettre un validateur de range, pas de chiffres negatifs-->
-
-
     </mat-form-field>
+
+    <mat-divider></mat-divider>
+
     <mat-form-field  appearance="fill">
       <mat-label>Quantité vendue</mat-label>
       <input matInput disabled>
     </mat-form-field>
+
+    <mat-divider></mat-divider>
+
     <mat-form-field  appearance="fill">
 <!--      TODO:mettre ce validator-->
       <mat-label>Commentaires</mat-label>
-      <textarea matInput ></textarea>
+      <textarea matInput [formControl]="lengthFormControl" [errorStateMatcher]="matcher"></textarea>
+      <mat-error *ngIf="lengthFormControl.hasError('maxLength')">
+        Limite de caractères atteinte
+      </mat-error>
     </mat-form-field>
   </mat-expansion-panel>
 </mat-accordion>

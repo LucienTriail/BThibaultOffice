@@ -22,6 +22,7 @@ import {MatExpansionModule} from "@angular/material/expansion";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {ReactiveFormsModule} from "@angular/forms";
+import {MatDividerModule} from "@angular/material/divider";
 
 @NgModule({
   declarations: [
@@ -33,22 +34,23 @@ import {ReactiveFormsModule} from "@angular/forms";
     BasicButtonComponent,
     ExpansionPanelComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatGridListModule,
-    MatButtonModule,
-    MatCardModule,
-    MatMenuModule,
-    MatExpansionModule,
-    MatFormFieldModule,
-    MatInputModule,
-    ReactiveFormsModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatGridListModule,
+        MatButtonModule,
+        MatCardModule,
+        MatMenuModule,
+        MatExpansionModule,
+        MatFormFieldModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatDividerModule
+    ],
 
   providers: [
     ProductsService

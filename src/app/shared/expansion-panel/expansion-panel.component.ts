@@ -16,7 +16,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./expansion-panel.component.css']
 })
 export class ExpansionPanelComponent implements OnInit {
-@Input() promotion:boolean = false;
+@Input() promotion:boolean = true;
   value:string='';
 
   constructor() { }
@@ -25,11 +25,9 @@ export class ExpansionPanelComponent implements OnInit {
   }
 
   priceFormControl = new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]);
-   priceDiscountedFormControl = new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]);
    percentageDiscountFormControl = new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]);
    quantityFormControl = new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]);
-   quantitySoldFormControl = new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]);
-
+  lengthFormControl = new FormControl('', Validators.maxLength(255));
 
   matcher = new MyErrorStateMatcher();
 
