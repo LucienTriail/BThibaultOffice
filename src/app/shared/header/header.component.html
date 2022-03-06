@@ -7,7 +7,7 @@
         <button mat-button [matMenuTriggerFor]="menu">Détails</button>
         <mat-menu #menu="matMenu">
           <div class="child">
-          <button mat-menu-item  *ngFor="let item of categories">{{item}}</button>
+          <button mat-menu-item  *ngFor="let item of categories" (click)="goToDetails()">{{item}}</button>
           </div>
         </mat-menu>
       </div>

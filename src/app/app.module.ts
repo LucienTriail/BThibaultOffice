@@ -23,6 +23,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatDividerModule} from "@angular/material/divider";
+import {MatTableModule} from "@angular/material/table";
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import {MatDividerModule} from "@angular/material/divider";
         MatFormFieldModule,
         MatInputModule,
         ReactiveFormsModule,
-        MatDividerModule
+        MatDividerModule,
+        MatTableModule
     ],
 
   providers: [
