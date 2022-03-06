@@ -1,10 +1,15 @@
-<mat-toolbar color="primary">
+<mat-toolbar *ngIf="isLoginPage"  color="primary">
 
   <button mat-button (click)="goToHome()"><mat-icon>home</mat-icon></button>
   <div class="categories">
     <div class="children right-children">
       <div class="child">
-        <app-basic-button  role="Détails" (click)="goToDetails()"></app-basic-button>
+        <button mat-button [matMenuTriggerFor]="menu">Détails</button>
+        <mat-menu #menu="matMenu">
+          <div class="child">
+          <button mat-menu-item  *ngFor="let item of categories">{{item}}</button>
+          </div>
+        </mat-menu>
       </div>
       <div class="child">
         <app-basic-button  role="Gestion des stocks"></app-basic-button>
