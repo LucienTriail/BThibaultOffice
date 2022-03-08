@@ -5,10 +5,13 @@ import {MatDialogModule} from '@angular/material/dialog';
 
 
 @NgModule({
-  declarations: [DialogSingleProductComponent],
-  imports: [
-    CommonModule,
-    MatDialogModule
-  ]
+    declarations: [DialogSingleProductComponent],
+    exports: [
+        DialogSingleProductComponent
+    ],
+    imports: [
+        CommonModule,
+        MatDialogModule
+    ]
 })
 export class DialogSingleProductModule { }
