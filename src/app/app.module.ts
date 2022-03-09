@@ -20,6 +20,7 @@ import {DetailsProductModule} from "./pages/details-product/details-product.modu
 import {FooterModule} from "./shared/footer/footer.module";
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
