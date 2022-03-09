@@ -19,7 +19,9 @@ import { LoginComponent } from './pages/login/login.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from "@angular/material/form-field";
 import {MatCardModule} from '@angular/material/card';
-
+import { AccueilComponent } from './pages/accueil/accueil.component';
+import { NgxEchartsModule } from 'ngx-echarts';
+import {MatTabsModule} from '@angular/material/tabs';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ import {MatCardModule} from '@angular/material/card';
     FooterComponent,
     DetailsProductComponent,
     BasicButtonComponent,
-    LoginComponent
+    LoginComponent,
+    AccueilComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +45,11 @@ import {MatCardModule} from '@angular/material/card';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    MatCardModule
+    MatCardModule,
+    NgxEchartsModule.forRoot({
+      echarts: () => import('echarts')
+    }),
+    MatTabsModule
     
     
   ],
