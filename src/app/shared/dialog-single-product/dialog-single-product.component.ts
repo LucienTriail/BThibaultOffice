@@ -9,7 +9,7 @@ import {Products} from "../../core/interface/products";
   templateUrl: './dialog-single-product.component.html',
   styleUrls: ['./dialog-single-product.component.css']
 })
-@Injectable({providedIn:'root'})
+@Injectable({ providedIn: 'root' })
 export class DialogSingleProductComponent implements OnInit {
 
   ptest: Products ={
@@ -32,28 +32,29 @@ export class DialogSingleProductComponent implements OnInit {
 
   openDialog(product:Products){
     this.dialog.open(
-      SingleProductCardComponent,
-      {
-        data: {
-          price_on_sale : product.price_on_sale,
-          name  : product.name,
-          discount : product.discount,
-          quantity : product.quantity_stock,
-          sold_quantity : product.quantity_sold,
-          comments : product.comments
-        }
-      });
+      SingleProductCardComponent,{
+  data: {
+    name:product.name,
+    price:product.price,
+    price_on_sale:product.price_on_sale,
+    discount:product.discount,
+    quantity_stock:product.quantity_stock,
+    quantity_sold:product.quantity_sold,
+    comments:product.comments
+
+
+  },
+});
 
   }
 
-/*{
-  data: {
-    name:product.name,
-    price:product.price
-  },
-}*/
+
 
   ngOnInit(): void {
   }
 
 }
+/*
+
+
+ */
