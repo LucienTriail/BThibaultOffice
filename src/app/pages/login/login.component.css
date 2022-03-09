@@ -22,8 +22,9 @@
     max-width: 400px;
 }
 
-body {
-    color:black;
-    background-color:white;
-    background-image:url(src\assets\static\ocean.png);
-    }
+.divimage {
+    background-image: url("src/assets/static/ocean.png");
+    width: 100%;
+    height: 100%;
+}
+

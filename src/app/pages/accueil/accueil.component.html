@@ -1,18 +1,9 @@
-<!-- <mat-tab-group mat-align-tabs = "center">
-<mat-tab label="profit">
+<mat-tab-group mat-align-tabs = "center">
+<mat-tab label="Volume des ventes">
 <div echarts [options]="options" class="demo-chart"></div>
 </mat-tab>
-<mat-tab label = "autre graphique">
-    </mat-tab>
-</mat-tab-group> -->
 
-<ng-container *ngIf="(asyncTabs | async) === null">
-    Loading tabs...
-  </ng-container>
-  
-  <mat-tab-group>
-    <mat-tab *ngFor="let tab of asyncTabs | async">
-<div echarts [options]=`{{tab.graph}}` class="demo-chart"></div>
-
+<mat-tab label = "Stock">
+  <div echarts [options]="options2" class="demo-chart2"></div>
     </mat-tab>
-  </mat-tab-group>
+</mat-tab-group>
