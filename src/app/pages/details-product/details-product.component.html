@@ -1,43 +1,25 @@
-<h1>Détails</h1>
+<!--<h1>Détails</h1>-->
 <mat-form-field appearance="standard">
-  <mat-label>Filter</mat-label>
-  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+  <mat-label>Filtrer</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. filet de bar" #input>
 </mat-form-field>
 
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort>
 
-  <!-- description Column -->
-  <ng-container matColumnDef="description">
-    <th mat-header-cell *matHeaderCellDef> No. </th>
-    <td mat-cell *matCellDef="let element"> {{element.description}} </td>
-  </ng-container>
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Nom </th>
+      <td mat-cell *matCellDef="let product" (click)="openDialog(product)"> {{product.name}} </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let product; columns: displayedColumns;"></tr>
 
-  <!-- Name Column -->
-  <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef> Name </th>
-    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-  </ng-container>
-
-  <!-- price Column -->
-  <ng-container matColumnDef="price">
-    <th mat-header-cell *matHeaderCellDef> prix </th>
-    <td mat-cell *matCellDef="let element"> {{element.price}} </td>
-  </ng-container>
-
-  <!-- discount Column -->
-  <ng-container matColumnDef="discount">
-    <th mat-header-cell *matHeaderCellDef> Promotion </th>
-    <td mat-cell *matCellDef="let element"> {{element.discount}} </td>
-  </ng-container>
-
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-  <!-- Row shown when there is no matching data. -->
-  <tr class="mat-row" *matNoDataRow>
-    <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
-  </tr>
-</table>
+    <!-- Row shown when there is no matching data. -->
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="1">No data matching the filter "{{input.value}}"</td>
+    </tr>
+  </table>
 
   <mat-paginator [pageSizeOptions]="[3, 10, 25, 100]" aria-label="Select page"></mat-paginator>
 </div>
