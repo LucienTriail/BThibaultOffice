@@ -1,8 +1,14 @@
 /* Structure */
 
 
-.mat-elevation-z8, mat-form-field,mat-table{
+.mat-elevation-z8{
   font-size: 14px;
   width: 40%;
+  flex: auto;
+}
+
+.mat-form-field,mat-table{
+  font-size: 14px;
+  width: 100%;
   flex: auto;
 }

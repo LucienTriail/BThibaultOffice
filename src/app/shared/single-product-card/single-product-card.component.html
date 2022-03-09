@@ -1,7 +1,9 @@
 
 
 <mat-dialog-content>
-  <mat-grid-list cols="2" rowHeight="1:1" gutterSize="20px">
+
+      <h2> {{data.name}}</h2>
+  <mat-grid-list cols="2" rowHeight="2:1" gutterSize="20px">
     <mat-grid-tile colspan="1">
     <mat-form-field  appearance="fill">
       <mat-label>Prix</mat-label>
@@ -19,43 +21,42 @@
 
 
     <mat-grid-tile colspan="1" >
-    <mat-form-field *ngIf="promotion"  appearance="fill">
-      <mat-label>Prix en promotion</mat-label>
-      <input matInput disabled>
-    </mat-form-field>
+      <mat-form-field *ngIf="promotion"  appearance="fill">
+        <mat-label>Prix en promotion</mat-label>
+        <input matInput disabled>
+      </mat-form-field>
     </mat-grid-tile>
 
 <!--    <mat-divider></mat-divider>-->
     <mat-grid-tile colspan="1">
-
-    <mat-form-field  appearance="fill">
-      <mat-label>Pourcentage de promotion</mat-label>
-      <input matInput [formControl]="percentageDiscountFormControl" [errorStateMatcher]="matcher">
-      <mat-error *ngIf="percentageDiscountFormControl.hasError('pattern')">
-        Entrez uniquement des chiffres
-      </mat-error>
-    </mat-form-field>
+      <mat-form-field  appearance="fill">
+        <mat-label>Pourcentage de promotion</mat-label>
+        <input matInput [formControl]="percentageDiscountFormControl" [errorStateMatcher]="matcher">
+        <mat-error *ngIf="percentageDiscountFormControl.hasError('pattern')">
+          Entrez uniquement des chiffres
+        </mat-error>
+      </mat-form-field>
     </mat-grid-tile>
 <!--    <mat-divider></mat-divider>-->
 
     <mat-grid-tile colspan="1">
-    <mat-form-field  appearance="fill">
-      <mat-label>Quantité</mat-label>
-      <input matInput type="number" [formControl]="quantityFormControl" [errorStateMatcher]="matcher">
-      <mat-error *ngIf="quantityFormControl.hasError('pattern')">
-        Entrez uniquement des chiffres
-      </mat-error>
-      <!--      TODO: mettre un validateur de range, pas de chiffres negatifs-->
-    </mat-form-field>
+      <mat-form-field  appearance="fill">
+        <mat-label>Quantité</mat-label>
+        <input matInput type="number" [formControl]="quantityFormControl" [errorStateMatcher]="matcher">
+        <mat-error *ngIf="quantityFormControl.hasError('pattern')">
+          Entrez uniquement des chiffres
+        </mat-error>
+        <!--      TODO: mettre un validateur de range, pas de chiffres negatifs-->
+      </mat-form-field>
     </mat-grid-tile>
 
 <!--    <mat-divider></mat-divider>-->
-<mat-grid-tile colspan="1">
-    <mat-form-field  appearance="fill">
-      <mat-label>Quantité vendue</mat-label>
-      <input matInput disabled>
-    </mat-form-field>
-</mat-grid-tile>
+    <mat-grid-tile colspan="1">
+      <mat-form-field  appearance="fill">
+        <mat-label>Quantité vendue</mat-label>
+        <input matInput disabled>
+      </mat-form-field>
+    </mat-grid-tile>
 
 <!--    <mat-divider></mat-divider>-->
 <mat-grid-tile colspan="1">

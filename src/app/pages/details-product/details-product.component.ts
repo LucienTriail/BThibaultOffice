@@ -4,13 +4,15 @@ import {ProductsService} from "../../core/services/products.service";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
+import {SingleProductCardComponent} from "../../shared/single-product-card/single-product-card.component";
+import {DialogSingleProductComponent} from "../../shared/dialog-single-product/dialog-single-product.component";
 
 @Component({
   selector: 'app-details-product',
   templateUrl: './details-product.component.html',
   styleUrls: ['./details-product.component.css']
 })
-export class DetailsProductComponent implements OnInit {
+export class DetailsProductComponent implements OnInit , AfterViewInit{
 
   productsList: Products[] | undefined;
   displayedColumns: string[] = [ 'name'];
@@ -20,7 +22,7 @@ export class DetailsProductComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private productService : ProductsService ) { };
+  constructor(private productService : ProductsService, private dialogeSingle : DialogSingleProductComponent) { };
 
 
   ngOnInit(): void {
@@ -42,6 +44,10 @@ export class DetailsProductComponent implements OnInit {
     }
   }
 
+  openDialog(product:Products){
+    this.dialogeSingle.openDialog(product);
+
+  }
   getProducts(){
     this.productService.getProductsFromJson().subscribe((res : Products[]) => {
   //https://angular.io/guide/http pour ameliorer la requete

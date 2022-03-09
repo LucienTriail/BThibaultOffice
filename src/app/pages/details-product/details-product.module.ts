@@ -5,7 +5,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatTableModule} from "@angular/material/table";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatInputModule} from "@angular/material/input";
-
+import {MatSortModule} from "@angular/material/sort";
 
 @NgModule({
   declarations: [DetailsProductComponent],
@@ -14,7 +14,8 @@ import {MatInputModule} from "@angular/material/input";
     MatFormFieldModule,
     MatTableModule,
     MatPaginatorModule,
-    MatInputModule
+    MatInputModule,
+    MatSortModule
   ]
 })
 export class DetailsProductModule { }
