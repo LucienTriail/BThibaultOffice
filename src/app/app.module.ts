@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppComponent } from './app.component';
 import {ProductsService} from "./core/services/products.service";
 import {AppRoutingModule} from "./app-routing.module";
@@ -18,8 +17,8 @@ import {HeaderModule} from "./shared/header/header.module";
 import {BasicButtonModule} from "./shared/buttons/basic-button/basic-button.module";
 import {DetailsProductModule} from "./pages/details-product/details-product.module";
 import {FooterModule} from "./shared/footer/footer.module";
-
-
+import { LoginModule } from './pages/login/login.module';
+import { AccueilModule } from './pages/accueil/accueil.module';
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,22 +33,15 @@ import {FooterModule} from "./shared/footer/footer.module";
     MatIconModule,
     MatGridListModule,
     MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatCardModule,
-    NgxEchartsModule.forRoot({
-      echarts: () => import('echarts')
-    }),
-    MatTabsModule
-    
-    
     MatTableModule,
     DialogSingleProductModule,
     SingleProductCardModule,
     HeaderModule,
     BasicButtonModule,
     DetailsProductModule,
-    FooterModule
+    FooterModule,
+    LoginModule,
+    AccueilModule
 
   ],
 
