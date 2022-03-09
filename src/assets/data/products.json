@@ -202,7 +202,7 @@
     "availability": true,
     "category": 1,
     "price": 38,
-    "price_on_salune": 38,
+    "price_on_sale": 38,
     "unit": "4 Dz",
     "sale": false,
     "quantity_stock": 20,

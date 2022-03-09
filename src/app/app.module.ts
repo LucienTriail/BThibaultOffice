@@ -19,6 +19,7 @@ import {BasicButtonModule} from "./shared/buttons/basic-button/basic-button.modu
 import {DetailsProductModule} from "./pages/details-product/details-product.module";
 import {FooterModule} from "./shared/footer/footer.module";
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,6 +41,7 @@ import {FooterModule} from "./shared/footer/footer.module";
     BasicButtonModule,
     DetailsProductModule,
     FooterModule
+
   ],
 
   providers: [

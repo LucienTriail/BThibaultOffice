@@ -1,6 +1,8 @@
 
 
 <mat-dialog-content>
+  <mat-grid-list cols="2" rowHeight="1:1" gutterSize="20px">
+    <mat-grid-tile colspan="1">
     <mat-form-field  appearance="fill">
       <mat-label>Prix</mat-label>
       <input matInput [(ngModel)]="value" type="text" [formControl]="priceFormControl" [errorStateMatcher]="matcher" >
@@ -11,15 +13,20 @@
         Entrez uniquement des chiffres positifs
       </mat-error>
     </mat-form-field>
+    </mat-grid-tile>
 
-    <mat-divider></mat-divider>
+<!--    <mat-divider></mat-divider>-->
 
+
+    <mat-grid-tile colspan="1" >
     <mat-form-field *ngIf="promotion"  appearance="fill">
       <mat-label>Prix en promotion</mat-label>
       <input matInput disabled>
     </mat-form-field>
+    </mat-grid-tile>
 
-    <mat-divider></mat-divider>
+<!--    <mat-divider></mat-divider>-->
+    <mat-grid-tile colspan="1">
 
     <mat-form-field  appearance="fill">
       <mat-label>Pourcentage de promotion</mat-label>
@@ -28,9 +35,10 @@
         Entrez uniquement des chiffres
       </mat-error>
     </mat-form-field>
+    </mat-grid-tile>
+<!--    <mat-divider></mat-divider>-->
 
-    <mat-divider></mat-divider>
-
+    <mat-grid-tile colspan="1">
     <mat-form-field  appearance="fill">
       <mat-label>Quantité</mat-label>
       <input matInput type="number" [formControl]="quantityFormControl" [errorStateMatcher]="matcher">
@@ -39,16 +47,18 @@
       </mat-error>
       <!--      TODO: mettre un validateur de range, pas de chiffres negatifs-->
     </mat-form-field>
+    </mat-grid-tile>
 
-    <mat-divider></mat-divider>
-
+<!--    <mat-divider></mat-divider>-->
+<mat-grid-tile colspan="1">
     <mat-form-field  appearance="fill">
       <mat-label>Quantité vendue</mat-label>
       <input matInput disabled>
     </mat-form-field>
+</mat-grid-tile>
 
-    <mat-divider></mat-divider>
-
+<!--    <mat-divider></mat-divider>-->
+<mat-grid-tile colspan="1">
     <mat-form-field  appearance="fill">
       <mat-label>Commentaires</mat-label>
       <textarea matInput [formControl]="lengthFormControl" [errorStateMatcher]="matcher"></textarea>
@@ -56,6 +66,9 @@
         Limite de caractères atteinte
       </mat-error>
     </mat-form-field>
+    </mat-grid-tile>
+
+  </mat-grid-list>
 
 </mat-dialog-content>
 
