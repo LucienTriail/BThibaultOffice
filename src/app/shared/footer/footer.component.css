@@ -5,9 +5,13 @@
   display: block;
   background: #3f51b5;
   color: #fff;
+  flex-shrink: 0;
 }
 .liens{
   color: white;
 }
 
+body{
+  flex-shrink: 1;
+}
 

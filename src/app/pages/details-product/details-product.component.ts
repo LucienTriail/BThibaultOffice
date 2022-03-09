@@ -1,9 +1,68 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit,Component, OnInit, ViewChild} from '@angular/core';
 import {Products} from "../../core/interface/products";
 import {ProductsService} from "../../core/services/products.service";
-import {MatTableDataSource} from '@angular/material/table';
+import {MatTableDataSource} from "@angular/material/table";
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
 
-const ELEMENT_DATA: Products[] = [{
+@Component({
+  selector: 'app-details-product',
+  templateUrl: './details-product.component.html',
+  styleUrls: ['./details-product.component.css']
+})
+export class DetailsProductComponent implements OnInit {
+
+  productsList: Products[] | undefined;
+  displayedColumns: string[] = [ 'name'];
+  dataSource: MatTableDataSource<Products>;
+  //dataSource = new MatTableDataSource(products);
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
+  constructor(private productService : ProductsService ) { };
+
+
+  ngOnInit(): void {
+    this.getProducts();
+    this.dataSource = new MatTableDataSource(products);
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
+  getProducts(){
+    this.productService.getProductsFromJson().subscribe((res : Products[]) => {
+  //https://angular.io/guide/http pour ameliorer la requete
+
+  this.productsList = res
+        // console.log(this.productsList);
+  },
+  (err) => {
+  alert('no data');
+  });
+  }
+
+  getProductsByCat( l_category: number){
+    this.getProducts();
+    this.productsList = this.productsList?.filter(x => x.category > l_category);
+  }
+}
+
+
+
+const products: Products[] = [{
   "comments": "",
   "category": 1,
   "availability": true,
@@ -228,52 +287,3 @@ const ELEMENT_DATA: Products[] = [{
     "quantity_stock": 20,
     "quantity_sold": 100
   }];
-
-
-@Component({
-  selector: 'app-details-product',
-  templateUrl: './details-product.component.html',
-  styleUrls: ['./details-product.component.css']
-})
-export class DetailsProductComponent implements OnInit {
-
-  productsList: Products[] | undefined;
-  displayedColumns: string[] = [ 'name', 'price', 'discount'];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
-
-  // data: MatTableDataSource<Products> | undefined;
-
-  constructor(private productService : ProductsService, ) { };
-
-
-  ngOnInit(): void {
-    this.getProducts();
-    // dataSource = new MatTableDataSource(ELEMENT_DATA);
-
-  }
-
-
-
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
-
-
-  getProducts(){
-    this.productService.getProductsFromJson().subscribe((res : Products[]) => {
-  //https://angular.io/guide/http pour ameliorer la requete
-
-  this.productsList = res
-        // console.log(this.productsList);
-  },
-  (err) => {
-  alert('no data');
-  });
-  }
-
-  getProductsByCat( category: number){
-    this.getProducts();
-    this.productsList = this.productsList?.filter(x => x.category > category);
-  }
-}

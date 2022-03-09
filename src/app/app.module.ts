@@ -24,6 +24,7 @@ import {MatInputModule} from "@angular/material/input";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatDividerModule} from "@angular/material/divider";
 import {MatTableModule} from "@angular/material/table";
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 @NgModule({
   declarations: [
@@ -35,24 +36,25 @@ import {MatTableModule} from "@angular/material/table";
     BasicButtonComponent,
     ExpansionPanelComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        HttpClientModule,
-        BrowserAnimationsModule,
-        MatToolbarModule,
-        MatIconModule,
-        MatGridListModule,
-        MatButtonModule,
-        MatCardModule,
-        MatMenuModule,
-        MatExpansionModule,
-        MatFormFieldModule,
-        MatInputModule,
-        ReactiveFormsModule,
-        MatDividerModule,
-        MatTableModule
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatGridListModule,
+    MatButtonModule,
+    MatCardModule,
+    MatMenuModule,
+    MatExpansionModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatDividerModule,
+    MatTableModule,
+    MatPaginatorModule
+  ],
 
   providers: [
     ProductsService
