@@ -1,0 +1,17 @@
+/* Structure */
+
+.mat-elevation-z8{
+  font-size: 14px;
+  width: 40%;
+  flex: auto;
+}
+
+table {
+  width: 100%;
+  flex: auto;
+}
+
+
+td, th {
+  width: 25%;
+}
