@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./footer.component.css']
 })
 export class FooterComponent implements OnInit {
-  isLoginPage:boolean = true;
+  isLoginPage:boolean = false;
 
   constructor() { }
 

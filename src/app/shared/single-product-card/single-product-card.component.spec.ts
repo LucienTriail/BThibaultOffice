@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ExpansionPanelComponent } from './expansion-panel.component';
+import { SingleProductCardComponent } from './single-product-card.component';
 
-describe('ExpansionPanelComponent', () => {
-  let component: ExpansionPanelComponent;
-  let fixture: ComponentFixture<ExpansionPanelComponent>;
+describe('SingleProductCardComponent', () => {
+  let component: SingleProductCardComponent;
+  let fixture: ComponentFixture<SingleProductCardComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ExpansionPanelComponent ]
+      declarations: [ SingleProductCardComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ExpansionPanelComponent);
+    fixture = TestBed.createComponent(SingleProductCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
