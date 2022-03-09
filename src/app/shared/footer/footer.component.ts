@@ -7,7 +7,6 @@ import { Component, OnInit} from '@angular/core';
 })
 export class FooterComponent implements OnInit {
 
-   isLoginPage:boolean = false;
   constructor() { }
 
   ngOnInit(): void {

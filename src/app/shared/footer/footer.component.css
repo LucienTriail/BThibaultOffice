@@ -1,6 +1,8 @@
+
+/* Ne pas utiliser position: fixed, ou on ne peut pas le cacher*/
 .mat-toolbar2{
-  position:fixed;
-  bottom:0px;
+  position:sticky;
+  bottom:0;
   width:100%;
   display: block;
   background: #3f51b5;
