@@ -1,12 +1,13 @@
 
 
 <mat-dialog-content>
-  <mat-grid-list cols="2" rowHeight="1:1" gutterSize="20px">
+  <h2>{{data.name}}</h2>
+  <mat-grid-list cols="2" rowHeight="2:1" gutterSize="20px">
     <mat-grid-tile colspan="1">
     <mat-form-field  appearance="fill">
       <mat-label>Prix</mat-label>
-      <input matInput [(ngModel)]="value" type="text" [formControl]="priceFormControl" [errorStateMatcher]="matcher" >
-      <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+      <input  [(ngModel)]="data.price"  matInput  type="text" [formControl]="priceFormControl" [errorStateMatcher]="matcher" >
+      <button *ngIf="data.price" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
         <mat-icon>close</mat-icon>
       </button>
       <mat-error *ngIf="priceFormControl.hasError('pattern')">
@@ -21,7 +22,7 @@
     <mat-grid-tile colspan="1" >
     <mat-form-field *ngIf="promotion"  appearance="fill">
       <mat-label>Prix en promotion</mat-label>
-      <input matInput disabled>
+      <input  [(ngModel)]="data.price_on_sale" matInput disabled>
     </mat-form-field>
     </mat-grid-tile>
 
@@ -30,7 +31,7 @@
 
     <mat-form-field  appearance="fill">
       <mat-label>Pourcentage de promotion</mat-label>
-      <input matInput [formControl]="percentageDiscountFormControl" [errorStateMatcher]="matcher">
+      <input  [(ngModel)]="data.discount" matInput [formControl]="percentageDiscountFormControl" [errorStateMatcher]="matcher">
       <mat-error *ngIf="percentageDiscountFormControl.hasError('pattern')">
         Entrez uniquement des chiffres
       </mat-error>
@@ -41,7 +42,7 @@
     <mat-grid-tile colspan="1">
     <mat-form-field  appearance="fill">
       <mat-label>Quantité</mat-label>
-      <input matInput type="number" [formControl]="quantityFormControl" [errorStateMatcher]="matcher">
+      <input [(ngModel)]="data.quantity_stock" matInput type="number" [formControl]="quantityFormControl" [errorStateMatcher]="matcher">
       <mat-error *ngIf="quantityFormControl.hasError('pattern')">
         Entrez uniquement des chiffres
       </mat-error>
@@ -53,7 +54,7 @@
 <mat-grid-tile colspan="1">
     <mat-form-field  appearance="fill">
       <mat-label>Quantité vendue</mat-label>
-      <input matInput disabled>
+      <input [(ngModel)]="data.quantity_sold" matInput disabled>
     </mat-form-field>
 </mat-grid-tile>
 
@@ -61,7 +62,7 @@
 <mat-grid-tile colspan="1">
     <mat-form-field  appearance="fill">
       <mat-label>Commentaires</mat-label>
-      <textarea matInput [formControl]="lengthFormControl" [errorStateMatcher]="matcher"></textarea>
+      <textarea [(ngModel)]="data.comments" matInput [formControl]="lengthFormControl" [errorStateMatcher]="matcher"></textarea>
       <mat-error *ngIf="lengthFormControl.hasError('maxLength')">
         Limite de caractères atteinte
       </mat-error>

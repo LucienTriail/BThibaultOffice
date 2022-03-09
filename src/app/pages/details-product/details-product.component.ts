@@ -4,24 +4,31 @@ import {ProductsService} from "../../core/services/products.service";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
+import {DialogSingleProductComponent} from "../../shared/dialog-single-product/dialog-single-product.component";
 
 @Component({
   selector: 'app-details-product',
   templateUrl: './details-product.component.html',
   styleUrls: ['./details-product.component.css']
 })
-export class DetailsProductComponent implements OnInit {
+export class DetailsProductComponent implements OnInit, AfterViewInit {
 
-  productsList: Products[] | undefined;
+
+  // @ts-ignore
+  productsList: Products[] ;
   displayedColumns: string[] = [ 'name'];
-  dataSource: MatTableDataSource<Products>;
+  // @ts-ignore
+  dataSource: MatTableDataSource<Products> ;
   //dataSource = new MatTableDataSource(products);
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
+  @ViewChild(MatSort) sort: MatSort | undefined;
 
-  constructor(private productService : ProductsService ) { };
+  constructor(private productService : ProductsService, private dialog: DialogSingleProductComponent ) { };
 
+  openDialog(item:Products){
+    this.dialog.openDialog(item);
+  }
 
   ngOnInit(): void {
     this.getProducts();
@@ -29,7 +36,9 @@ export class DetailsProductComponent implements OnInit {
   }
 
   ngAfterViewInit() {
+    // @ts-ignore
     this.dataSource.paginator = this.paginator;
+    // @ts-ignore
     this.dataSource.sort = this.sort;
   }
 
