@@ -1,6 +1,6 @@
 
 
-
+<mat-dialog-content>
     <mat-form-field  appearance="fill">
       <mat-label>Prix</mat-label>
       <input matInput [(ngModel)]="value" type="text" [formControl]="priceFormControl" [errorStateMatcher]="matcher" >
@@ -50,7 +50,6 @@
     <mat-divider></mat-divider>
 
     <mat-form-field  appearance="fill">
-      <!--      TODO:mettre ce validator-->
       <mat-label>Commentaires</mat-label>
       <textarea matInput [formControl]="lengthFormControl" [errorStateMatcher]="matcher"></textarea>
       <mat-error *ngIf="lengthFormControl.hasError('maxLength')">
@@ -58,6 +57,9 @@
       </mat-error>
     </mat-form-field>
 
+</mat-dialog-content>
 
-
-
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Annuler</button>
+  <button mat-button color="primary" [mat-dialog-close]="true" cdkFocusInitial>Enregistrer les modifications</button>
+</mat-dialog-actions>

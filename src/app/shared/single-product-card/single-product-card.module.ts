@@ -9,6 +9,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
 import {MatDividerModule} from "@angular/material/divider";
 import {MatButtonModule} from "@angular/material/button";
+import {MatDialogModule} from "@angular/material/dialog";
 
 
 
@@ -23,7 +24,8 @@ import {MatButtonModule} from "@angular/material/button";
     ReactiveFormsModule,
     MatInputModule,
     MatDividerModule,
-    MatButtonModule
+    MatButtonModule,
+    MatDialogModule
   ]
 })
 export class SingleProductCardModule { }
