@@ -19,7 +19,7 @@ import {BasicButtonModule} from "./shared/buttons/basic-button/basic-button.modu
 import {DetailsProductModule} from "./pages/details-product/details-product.module";
 import {FooterModule} from "./shared/footer/footer.module";
 
-import {MatPaginatorModule} from "@angular/material/paginator";
+
 
 @NgModule({
   declarations: [

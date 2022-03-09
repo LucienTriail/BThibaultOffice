@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import {DetailsProductComponent} from "./details-product.component";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatTableModule} from "@angular/material/table";
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatInputModule} from "@angular/material/input";
 
 
 @NgModule({
@@ -10,7 +12,9 @@ import {MatTableModule} from "@angular/material/table";
   imports: [
     CommonModule,
     MatFormFieldModule,
-    MatTableModule
+    MatTableModule,
+    MatPaginatorModule,
+    MatInputModule
   ]
 })
 export class DetailsProductModule { }
