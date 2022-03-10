@@ -1,13 +1,16 @@
+
+/* Ne pas utiliser position: fixed, ou on ne peut pas le cacher*/
 .mat-toolbar2{
-  position: fixed;
-  bottom:0px;
-  width:100%;
-  display: block;
-  background: #3f51b5;
-  color: #fff;
-  /*flex-shrink: 0;*/
+
+display:block;
+margin-bottom:0px;
+padding-bottom: 0px ;
+width:100%;
+background: #3f51b5;
+color: #fff;
 }
 .liens{
   color: white;
 }
+
 
