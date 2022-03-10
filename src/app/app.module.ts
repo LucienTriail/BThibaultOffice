@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import {ProductsService} from "./core/services/products.service";
@@ -20,6 +21,8 @@ import {FooterModule} from "./shared/footer/footer.module";
 import { LoginModule } from './pages/login/login.module';
 import { AccueilModule } from './pages/accueil/accueil.module';
 import { StockProductComponent } from './pages/stock-product/stock-product.component';
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 
 
@@ -30,26 +33,28 @@ import { StockProductComponent } from './pages/stock-product/stock-product.compo
     HomeComponent,
     StockProductComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatGridListModule,
-    MatButtonModule,
-    MatTableModule,
-    DialogSingleProductModule,
-    SingleProductCardModule,
-    HeaderModule,
-    BasicButtonModule,
-    DetailsProductModule,
-    FooterModule,
-    LoginModule,
-    AccueilModule
-
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatGridListModule,
+        MatButtonModule,
+        MatTableModule,
+        DialogSingleProductModule,
+        SingleProductCardModule,
+        HeaderModule,
+        BasicButtonModule,
+        DetailsProductModule,
+        FooterModule,
+        LoginModule,
+        AccueilModule,
+        MatFormFieldModule,
+        MatPaginatorModule,
+        FormsModule
+    ],
 
   providers: [
     ProductsService
