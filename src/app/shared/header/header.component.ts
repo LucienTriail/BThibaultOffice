@@ -24,4 +24,8 @@ isLoginPage:boolean = false;
   goToDetails(){
     this.router.navigate(['/details']);
   }
+
+  goToStock(){
+    this.router.navigate(['/stock']);
+  }
 }

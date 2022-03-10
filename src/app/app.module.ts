@@ -19,6 +19,7 @@ import {DetailsProductModule} from "./pages/details-product/details-product.modu
 import {FooterModule} from "./shared/footer/footer.module";
 import { LoginModule } from './pages/login/login.module';
 import { AccueilModule } from './pages/accueil/accueil.module';
+import { StockProductComponent } from './pages/stock-product/stock-product.component';
 
 
 
@@ -27,6 +28,7 @@ import { AccueilModule } from './pages/accueil/accueil.module';
   declarations: [
     AppComponent,
     HomeComponent,
+    StockProductComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,4 @@
 <mat-toolbar *ngIf="!isLoginPage"  color="primary">
-
   <button mat-button (click)="goToHome()"><mat-icon>home</mat-icon></button>
   <div class="categories">
     <div class="children right-children">
@@ -12,7 +11,7 @@
         </mat-menu>
       </div>
       <div class="child">
-        <app-basic-button  role="Gestion des stocks"></app-basic-button>
+        <app-basic-button  role="Gestion des stocks" (click)="goToStock()"></app-basic-button>
       </div>
       <div class="child">
         <app-basic-button  role="Comptabilité"></app-basic-button>
@@ -22,7 +21,6 @@
     </div>
   </div>
   </mat-toolbar>
-  
-  
-  
-  
+
+
+
