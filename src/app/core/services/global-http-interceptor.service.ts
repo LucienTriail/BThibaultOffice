@@ -29,17 +29,17 @@ export class GlobalHttpInterceptorService implements HttpInterceptor {
             console.log(`error status : ${error.status} ${error.statusText}`);
             switch (error.status) {
              /* case 401:      //login
-                this.router.navigateByUrl("/login");
+                this.router.navigate(["/login"]);
                 console.log(`redirect to login`);
                 handled = true;
                 break;
               case 403:     //forbidden
-                this.router.navigateByUrl("/login");
+                this.router.navigateByUrl(["/login"]);
                 console.log(`redirect to login`);
                 handled = true;
                 break;*/
               case 404:
-                this.router.navigateByUrl("/login");
+                this.router.navigate(["/login"]);
                 console.log(`redirect to login`);
                 handled = true;
                 break;
