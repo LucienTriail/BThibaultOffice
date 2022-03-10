@@ -21,11 +21,13 @@ export class GlobalHttpInterceptorService implements HttpInterceptor {
       catchError((error) => {
 
         let handled: boolean = false;
-        console.error(error);
+
         if (error instanceof HttpErrorResponse) {
+
           if (error.error instanceof ErrorEvent) {
-            console.error("Error Event");
-          } else {
+            console.error("Error Event, not HTTP related");
+          }
+          else {
             console.log(`error status : ${error.status} ${error.statusText}`);
             switch (error.status) {
              /* case 401:      //login
@@ -47,15 +49,12 @@ export class GlobalHttpInterceptorService implements HttpInterceptor {
             }
           }
         }
-        else {
-          console.error("Other Errors");
-        }
 
         if (handled) {
-          console.log('return back ');
+          console.log('Redirecting');
           return of(error);
         } else {
-          console.log('throw error back to to the subscriber');
+          console.log('error not handled, throwing back to to the subscriber');
           return throwError(error);
         }
 
