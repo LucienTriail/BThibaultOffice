@@ -1,3 +1,5 @@
+
+/* Ne pas utiliser position: fixed, ou on ne peut pas le cacher*/
 .mat-toolbar2{
 
 display:block;
