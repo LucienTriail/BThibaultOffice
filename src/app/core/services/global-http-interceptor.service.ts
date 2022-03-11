@@ -16,7 +16,7 @@ export class GlobalHttpInterceptorService implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     const token: string = 'invalid token';
-    req = req.clone({ headers: req.headers.set('Authorization', 'Bearer ' + token) });
+    req = req.clone({ headers: req.headers.set('Authorization', token) });
 
     return next.handle(req).pipe
     (
