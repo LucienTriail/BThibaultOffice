@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
-import {HttpEvent, HttpHandler, HttpInterceptor,HttpRequest,HttpResponse,HttpErrorResponse} from '@angular/common/http';
+import {HttpEvent, HttpHandler, HttpInterceptor,HttpRequest,HttpErrorResponse} from '@angular/common/http';
 import {Observable, of, throwError} from "rxjs";
-import {catchError, map} from 'rxjs/operators';
+import {catchError} from 'rxjs/operators';
 import {Router} from "@angular/router";
 
 @Injectable()
@@ -38,6 +38,7 @@ export class GlobalHttpInterceptorService implements HttpInterceptor {
                 console.log(`redirect to login`);
                 handled = true;
                 break;
+                /*
               case 403:     //forbidden
                 this.router.navigateByUrl(["/login"]);
                 console.log(`redirect to login`);
