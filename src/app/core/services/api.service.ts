@@ -14,6 +14,34 @@ export class ApiService {
 
   constructor(private http:HttpClient) { }
 
+  getSingleUser(id : number): Observable<Users>{
+    return this.http.get<Users>(this.BASE_URL + 'users/' + id + '/')
+      .pipe(
+        catchError((err) => {
+          return throwError(err);
+        })
+      );
+  }
+
+getUsers(): Observable<Users[]>{
+  return this.http.get<Users[]>(this.BASE_URL + 'users/')
+    .pipe(
+      catchError((err) => {
+        return throwError(err);
+      })
+    );
+
+}
+
+editSingleUser(user:Users): Observable<Users>{
+  return this.http.put<Users>(this.BASE_URL + 'users/' + user.id +'/', user)
+    .pipe(
+      catchError((err) => {
+        return throwError(err);
+      })
+    );
+
+}
 
 
 
@@ -28,7 +56,13 @@ export class ApiService {
         )
   }
 
-  getProduit(id:number){
+  editSingleProduct(product:Products): Observable<Products>{
+    return this.http.put<Products>(this.BASE_URL + 'products/' + product.id +'/', product)
+      .pipe(
+        catchError((err) => {
+          return throwError(err);
+        })
+      );
 
   }
 }

@@ -7,6 +7,7 @@ import {Router} from "@angular/router";
 @Injectable()
 export class GlobalHttpInterceptorService implements HttpInterceptor {
 
+  //private?
   constructor(public router: Router) {
   }
 
@@ -17,8 +18,10 @@ export class GlobalHttpInterceptorService implements HttpInterceptor {
     const token: string = 'invalid token';
     req = req.clone({ headers: req.headers.set('Authorization', 'Bearer ' + token) });
 
-    return next.handle(req).pipe(
-      catchError((error) => {
+    return next.handle(req).pipe
+    (
+      catchError(
+        (error) => {
 
         let handled: boolean = false;
 
