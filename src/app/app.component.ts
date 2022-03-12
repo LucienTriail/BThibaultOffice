@@ -15,13 +15,13 @@ export class AppComponent {
   /*constructor(public router: Router) {
   }*/
 
-  showHead = true;
+  showHeaderAndFooter = true;
 
   constructor(private router: Router) {
     // on route change to '/login', set the variable showHead to false
     router.events.forEach((event) => {
       if (event instanceof NavigationStart) {
-        this.showHead = !(event['url'] == '/login' || event['url'] == '/error');
+        this.showHeaderAndFooter = !(event['url'] == '/login' || event['url'] == '/error');
       }
     });
   }

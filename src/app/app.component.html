@@ -1,8 +1,8 @@
 <div class="container">
-    <app-header *ngIf="showHead"></app-header>
+    <app-header *ngIf="showHeaderAndFooter"></app-header>
     <div class="content">
         <router-outlet></router-outlet>
     </div>
-    <app-footer *ngIf="showHead"></app-footer>
+    <app-footer *ngIf="showHeaderAndFooter"></app-footer>
 </div>
 

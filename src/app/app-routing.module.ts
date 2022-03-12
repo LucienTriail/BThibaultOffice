@@ -16,6 +16,8 @@ const routes: Routes = [
   {path:'accueil',component:AccueilComponent},
   {path:'error',component:ErrorComponent},
   {path:'user', component:UserDetailComponent},
+  {path:'**', pathMatch:'full',redirectTo:'accueil'},
+
 
 
 ];
