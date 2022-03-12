@@ -1,6 +1,6 @@
 import {AfterViewInit,Component, OnInit, ViewChild} from '@angular/core';
 import {Products} from "../../core/interface/products";
-import {ProductsService} from "../../core/services/products.service";
+import {ApiService} from "../../core/services/api.service";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
@@ -24,14 +24,14 @@ export class DetailsProductComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
   @ViewChild(MatSort) sort: MatSort | undefined;
 
-  constructor(private productService : ProductsService, private dialog: DialogSingleProductComponent ) { };
+  constructor(private productService : ApiService, private dialog: DialogSingleProductComponent ) { };
 
   openDialog(item:Products){
     this.dialog.openDialog(item);
   }
 
   ngOnInit(): void {
-    this.getProducts();
+     this.getProducts();
     this.dataSource = new MatTableDataSource(products);
   }
 
@@ -52,13 +52,13 @@ export class DetailsProductComponent implements OnInit, AfterViewInit {
   }
 
   getProducts(){
-    this.productService.getProductsFromJson().subscribe((res : Products[]) => {
+    this.productService.getProducts().subscribe((response : Products[]) => {
   //https://angular.io/guide/http pour ameliorer la requete
 
-  this.productsList = res
-        // console.log(this.productsList);
+  this.productsList = response;
+  console.log(this.productsList);
   },
-  (err) => {
+  () => {
   alert('no data');
   });
   }

@@ -1,10 +1,10 @@
-import { NgModule } from '@angular/core';
+import {ErrorHandler, NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
-import {ProductsService} from "./core/services/products.service";
+import {ApiService} from "./core/services/api.service";
 import {AppRoutingModule} from "./app-routing.module";
 import { HomeComponent } from './pages/home/home.component';
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule} from "@angular/material/icon";
@@ -19,6 +19,15 @@ import {DetailsProductModule} from "./pages/details-product/details-product.modu
 import {FooterModule} from "./shared/footer/footer.module";
 import { LoginModule } from './pages/login/login.module';
 import { AccueilModule } from './pages/accueil/accueil.module';
+import { JwtModule } from "@auth0/angular-jwt";
+import {GlobalHttpInterceptorService} from "./core/services/global-http-interceptor.service";
+import {GlobalErrorHandlerService} from "./core/services/global-error-handler.service";
+import {ErrorModule} from "./pages/error/error.module";
+import {UserDetailModule} from "./pages/user-detail/user-detail.module";
+
+export function tokenGetter() {
+  return localStorage.getItem("access_token");
+}
 
 
 
@@ -45,12 +54,23 @@ import { AccueilModule } from './pages/accueil/accueil.module';
     DetailsProductModule,
     FooterModule,
     LoginModule,
-    AccueilModule
+    AccueilModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        allowedDomains: ["localhost:8000"],
+        disallowedRoutes: [],
+      },
+    }),
+    ErrorModule,
+    UserDetailModule
 
   ],
 
   providers: [
-    ProductsService
+    ApiService,
+    { provide: HTTP_INTERCEPTORS, useClass: GlobalHttpInterceptorService, multi: true  },
+    { provide: ErrorHandler, useClass:GlobalErrorHandlerService}
   ],
   bootstrap: [AppComponent]
 })

@@ -1,4 +1,6 @@
-import { Component, OnInit , OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import {ApiService} from "../../core/services/api.service";
+import {Users} from "../../core/interface/users";
 
 
 export interface ExampleTab {
@@ -11,107 +13,41 @@ export interface ExampleTab {
   styleUrls: ['./accueil.component.css']
 })
 export class AccueilComponent implements OnInit {
-  revenue :number[] = [];
-   profit:number[] = []
-  options:any;
-  updateOptions: any;
+  options: any;
+  options2 : any;
+  updateOptions:any;
+  updateOptions2:any;
 
-  //TODO: faire call API au lieu des randomData...
-randomData(){
-  for (let i=0;i<12;i++){
-    let truc = Math.random();
-    this.profit.push(truc)
+
+
+  constructor(private api:ApiService) {
   }
 
-  for (let j=0;j<12;j++){
-    let truc = Math.random();
-    this.revenue.push(truc)
-  }
-}
-
-
-  constructor() {}
 
   ngOnInit(): void {
-  this.randomData();
-    /*const xAxisData = ["Janvier","Fevrier","Mars","Avril","Mai","Juin","Juillet","Aout","Septembre","Octobre","Novembre","Decembre"];
-    const data1 = [100];
-    const data2 = [100];
+    const revenue :number[] = [];
+    const profit :number[] = [];
 
-    this.options = {
-      legend: {
-        data: ["chiffre d'affaires", 'benefices'],
-        align: 'left',
-      },
-      tooltip: {},
-      xAxis: {
-        data: xAxisData,
-        silent: false,
-        splitLine: {
-          show: false,
-        },
-      },
-      yAxis: {},
-      series: [
-        {
-          name: "chiffre d'affaires",
-          type: 'bar',
-          data: data1,
-          animationDelay: (idx: number) => idx * 10,
-        },
-        {
-          name: 'benefices',
-          type: 'bar',
-          data: data2,
-          animationDelay: (idx: number) => idx * 10 + 100,
-        },
-      ],
-      animationEasing: 'elasticOut',
-      animationDelayUpdate: (idx: number) => idx * 5,
-    };
-    this.options2 = {
-      legend: {
-        data: ['en stock', 'vendus'],
-        align: 'left',
-      },
-      tooltip: {},
-      xAxis: {
-        data: xAxisData,
-        silent: false,
-        splitLine: {
-          show: false,
-        },
-      },
-      yAxis: {},
-      series: [
-        {
-          name: 'en stock',
-          type: 'bar',
-          data: data1,
-          animationDelay: (idx: number) => idx * 10,
-        },
-        {
-          name: 'vendus',
-          type: 'bar',
-          data: data2,
-          animationDelay: (idx: number) => idx * 10 + 100,
-        },
-      ],
-      animationEasing: 'elasticOut',
-      animationDelayUpdate: (idx: number) => idx * 5,
-    };
+    const products : string[] = [];
+    const productsSold :number[] = [];
+    const productsStock :number[] = [];
+
+
+    for(let i=1; i<13;i++){
+      revenue.push(Math.random());
+    }
+
+    for(let i=1; i<13;i++){
+      profit.push(Math.random());
+    }
+
+    this.updateOptions = {
+      series: [{
+        data1: revenue,
+        data2:profit
+      }]
+
   }
-*/
-
-
-
-
-      this.updateOptions = {
-        series: [{
-          data: this.revenue,
-          data2:this.profit
-        }]
-      };
 
 
     this.options = {
@@ -125,7 +61,7 @@ randomData(){
         }
       },
       legend: {
-        data: ["Chiffre d'affaire", "Bénéfices"]
+        data: ["Chiffres d'affaires", "Bénéfices"]
       },
       grid: {
         left: '3%',
@@ -137,7 +73,7 @@ randomData(){
         {
           type: 'category',
           boundaryGap: false,
-          data: ["Janvier","Fevrier","Mars","Avril","Mai","Juin","Juillet","Aout","Septembre","Octobre","Novembre","Decembre"]
+          data: ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"]
         }
       ],
       yAxis: [
@@ -147,31 +83,56 @@ randomData(){
       ],
       series: [
         {
-          name: "Chiffre d'affaire",
+          name: "Chiffres d'affaires",
           type: 'line',
           stack: 'counts',
           areaStyle: {},
-          data: this.revenue
+          data: revenue
         },
         {
           name: 'Bénéfices',
           type: 'line',
           stack: 'counts',
-            areaStyle: {},
-            data: this.profit
-
-        }
-
+          areaStyle: {},
+          data: profit
+        },
 
       ]
+    };
+
+    this.options2 = {
+      legend: {
+        data: ['Stock', 'Ventes'],
+        align: 'left',
+      },
+      tooltip: {},
+      xAxis: {
+        data: products,
+        silent: false,
+        splitLine: {
+          show: false,
+        },
+      },
+      yAxis: {},
+      series: [
+        {
+          name: 'Stock',
+          type: 'bar',
+          data: productsStock,
+          animationDelay: (idx: number) => idx * 10,
+        },
+        {
+          name: 'Ventes',
+          type: 'bar',
+          data: productsSold,
+          animationDelay: (idx: number) => idx * 10 + 100,
+        },
+      ],
+      animationEasing: 'elasticOut',
+      animationDelayUpdate: (idx: number) => idx * 5,
     };
 
 
   }
 
-
-
-
-
 }
-
