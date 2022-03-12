@@ -1,14 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {ErrorComponent} from "./error.component";
-import {PageNotFoundComponent} from "./page-not-found/page-not-found.component";
+import {HeaderModule} from "../../shared/header/header.module";
 
 
 
 @NgModule({
-  declarations: [ErrorComponent,PageNotFoundComponent],
+  declarations: [ErrorComponent],
   imports: [
-    CommonModule
+    CommonModule,
+    HeaderModule
   ]
 })
 export class ErrorModule { }

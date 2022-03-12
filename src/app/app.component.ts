@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import { Router} from "@angular/router";
+import { NavigationStart, Router} from "@angular/router";
 
 
 @Component({
@@ -12,9 +12,21 @@ export class AppComponent {
 
 
 
-  constructor(public router: Router) {
+  /*constructor(public router: Router) {
+  }*/
+
+  showHead = true;
+
+  constructor(private router: Router) {
+    // on route change to '/login', set the variable showHead to false
+    router.events.forEach((event) => {
+      if (event instanceof NavigationStart) {
+        this.showHead = !(event['url'] == '/login' || event['url'] == '/error');
+      }
+    });
+  }
   }
 
 
 
-}
+

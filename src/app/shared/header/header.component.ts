@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component,OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -10,7 +10,6 @@ export class HeaderComponent implements OnInit {
 active:number=1;
 //TODO: ajouter la méthode getCategory
 categories = ['Poissons', 'Crustacés'];
-
   constructor(private router:Router ) { }
 
   ngOnInit(): void {

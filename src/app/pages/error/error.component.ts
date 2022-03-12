@@ -7,7 +7,7 @@ import {Router, ActivatedRoute} from "@angular/router";
   styleUrls: ['./error.component.css']
 })
 export class ErrorComponent implements OnInit {
-
+status:number = 0;
 
   constructor(private router : Router,private route: ActivatedRoute) {
     this.route.queryParams.subscribe(params => {

@@ -39,10 +39,16 @@ export class GlobalHttpInterceptorService implements HttpInterceptor {
               }
             };
             switch (error.status) {
+
+              case 404:     //not found
+                this.router.navigate(["/error"],extra);
+                console.log(`redirect to login`);
+                handled = true;
+                break;
              case 401:      //login
 
 
-                this.router.navigate(["/error"],extra);
+                this.router.navigate(["/login"]);
                 console.log(`redirect to login`);
                 handled = true;
                 break;
