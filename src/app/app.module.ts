@@ -22,6 +22,7 @@ import { AccueilModule } from './pages/accueil/accueil.module';
 import { JwtModule } from "@auth0/angular-jwt";
 import {GlobalHttpInterceptorService} from "./core/services/global-http-interceptor.service";
 import {GlobalErrorHandlerService} from "./core/services/global-error-handler.service";
+import { ErrorComponent } from './pages/error/error.component';
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");
@@ -34,6 +35,7 @@ export function tokenGetter() {
   declarations: [
     AppComponent,
     HomeComponent,
+    ErrorComponent,
   ],
   imports: [
     BrowserModule,

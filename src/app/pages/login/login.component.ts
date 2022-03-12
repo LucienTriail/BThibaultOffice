@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ApiService} from "../../core/services/api.service";
 import {Users} from "../../core/interface/users";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -13,9 +14,8 @@ user:Users = {
   "password":"",
 };
 
-  constructor(private api:ApiService) { }
+  constructor(private api:ApiService, private router:Router) { }
 
-  //besoin de subscribe?
   authenticate(){
     console.log('in authenticate');
     console.log('in authenticate user: ', this.user);
@@ -24,6 +24,7 @@ user:Users = {
         console.log('data: ',data);
         localStorage.setItem("access_token", data.access);
         localStorage.setItem("refresh_token", data.refresh);
+        this.router.navigate(['/accueil']);
       });
 
   }

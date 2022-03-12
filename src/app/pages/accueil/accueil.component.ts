@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {ApiService} from "../../core/services/api.service";
+import {Users} from "../../core/interface/users";
 
 
 export interface ExampleTab {
@@ -14,8 +16,13 @@ export class AccueilComponent implements OnInit {
   options: any;
   options2 : any;
   updateOptions:any;
+  updateOptions2:any;
 
-  constructor() {}
+
+
+  constructor(private api:ApiService) {
+  }
+
 
   ngOnInit(): void {
     const revenue :number[] = [];

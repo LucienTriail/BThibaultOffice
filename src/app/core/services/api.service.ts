@@ -29,8 +29,8 @@ export class ApiService {
 
   }
 
-  getSingleUser(id: number): Observable<Users> {
-    return this.http.get<Users>(this.BASE_URL + 'users/' + id + '/')
+  getSingleUser(pk: number) : Observable<Users> {
+    return this.http.get<Users>(this.BASE_URL + 'users/' + pk)
       .pipe(
         catchError((err) => {
           return throwError(err);
