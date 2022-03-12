@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Observable, Observer} from 'rxjs';
-import { nodeModuleNameResolver } from 'typescript';
+
 
 export interface ExampleTab {
   graph: object;
@@ -14,75 +13,83 @@ export interface ExampleTab {
 export class AccueilComponent implements OnInit {
   options: any;
   options2 : any;
+  updateOptions:any;
+
   constructor() {}
 
   ngOnInit(): void {
-    const xAxisData = ["Janvier","Fevrier","Mars","Avril","Mai","Juin","Juillet","Aout","Septembre","Octobre","Novembre","Decembre"];
-    const data1 = [100];
-    const data2 = [100];
+    const revenue :number[] = [];
+    const profit :number[] = [];
+
+    for(let i=1; i<13;i++){
+      revenue.push(Math.random());
+    }
+
+    for(let i=1; i<13;i++){
+      profit.push(Math.random());
+    }
+
+    this.updateOptions = {
+      series: [{
+        data1: revenue,
+        data2:profit
+      }]
+
+  }
+
 
     this.options = {
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'cross',
+          label: {
+            backgroundColor: '#6a7985'
+          }
+        }
+      },
       legend: {
-        data: ["chiffre d'affaires", 'benefices'],
-        align: 'left',
+        data: ["Chiffres d'affaires", "Bénéfices"]
       },
-      tooltip: {},
-      xAxis: {
-        data: xAxisData,
-        silent: false,
-        splitLine: {
-          show: false,
-        },
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
       },
-      yAxis: {},
+      xAxis: [
+        {
+          type: 'category',
+          boundaryGap: false,
+          data: ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"]
+        }
+      ],
+      yAxis: [
+        {
+          type: 'value'
+        }
+      ],
       series: [
         {
-          name: "chiffre d'affaires",
-          type: 'bar',
-          data: data1,
-          animationDelay: (idx: number) => idx * 10,
+          name: "Chiffres d'affaires",
+          type: 'line',
+          stack: 'counts',
+          areaStyle: { normal: {} },
+          data: revenue
         },
         {
-          name: 'benefices',
-          type: 'bar',
-          data: data2,
-          animationDelay: (idx: number) => idx * 10 + 100,
+          name: 'Bénéfices',
+          type: 'line',
+          stack: 'counts',
+          areaStyle: { normal: {} },
+          data: profit
         },
-      ],
-      animationEasing: 'elasticOut',
-      animationDelayUpdate: (idx: number) => idx * 5,
+
+      ]
     };
-    this.options2 = {
-      legend: {
-        data: ['en stock', 'vendus'],
-        align: 'left',
-      },
-      tooltip: {},
-      xAxis: {
-        data: xAxisData,
-        silent: false,
-        splitLine: {
-          show: false,
-        },
-      },
-      yAxis: {},
-      series: [
-        {
-          name: 'en stock',
-          type: 'bar',
-          data: data1,
-          animationDelay: (idx: number) => idx * 10,
-        },
-        {
-          name: 'vendus',
-          type: 'bar',
-          data: data2,
-          animationDelay: (idx: number) => idx * 10 + 100,
-        },
-      ],
-      animationEasing: 'elasticOut',
-      animationDelayUpdate: (idx: number) => idx * 5,
-    };
+
+
+
   }
 
 }

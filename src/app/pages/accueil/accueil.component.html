@@ -1,6 +1,6 @@
 <mat-tab-group mat-align-tabs = "center">
 <mat-tab label="Volume des ventes">
-<div echarts [options]="options" class="demo-chart"></div>
+  <div echarts [options]="options" [merge]="updateOptions" theme="macarons" class="demo-chart"></div>
 </mat-tab>
 
 <mat-tab label = "Stock">
