@@ -29,7 +29,8 @@ export class ApiService {
 
   }
 
-  getSingleUser(pk: number) : Observable<Users> {
+  getSingleUser() : Observable<Users> {
+    let pk:string = this.getUserId();
     return this.http.get<Users>(this.BASE_URL + 'users/' + pk)
       .pipe(
         catchError((err) => {
@@ -50,13 +51,9 @@ export class ApiService {
 
 //on gerer les object-level permissions coté django
   editSingleUser(user: Users): Observable<Users> {
-    const helper = new JwtHelperService();
-    let token : any = localStorage.getItem("access_token");
-    let decodedToken = helper.decodeToken(token);
 
-    console.log('decodedToken: ', decodedToken);
 
-    let pk : string = decodedToken.user_id;
+    let pk : string = this.getUserId();
     return this.http.put<Users>(this.BASE_URL + 'users/' + pk, user)
       .pipe(
         catchError((err) => {
@@ -86,5 +83,17 @@ export class ApiService {
         })
       );
 
+  }
+
+  getUserId() : string{
+    const helper = new JwtHelperService();
+    let token : any = localStorage.getItem("access_token");
+    let decodedToken = helper.decodeToken(token);
+
+    console.log('decodedToken: ', decodedToken);
+
+    let pk : string = decodedToken.user_id;
+
+    return pk;
   }
 }
