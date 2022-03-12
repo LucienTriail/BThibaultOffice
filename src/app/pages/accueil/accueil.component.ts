@@ -28,6 +28,11 @@ export class AccueilComponent implements OnInit {
     const revenue :number[] = [];
     const profit :number[] = [];
 
+    const products : string[] = [];
+    const productsSold :number[] = [];
+    const productsStock :number[] = [];
+
+
     for(let i=1; i<13;i++){
       revenue.push(Math.random());
     }
@@ -81,20 +86,51 @@ export class AccueilComponent implements OnInit {
           name: "Chiffres d'affaires",
           type: 'line',
           stack: 'counts',
-          areaStyle: { normal: {} },
+          areaStyle: {},
           data: revenue
         },
         {
           name: 'Bénéfices',
           type: 'line',
           stack: 'counts',
-          areaStyle: { normal: {} },
+          areaStyle: {},
           data: profit
         },
 
       ]
     };
 
+    this.options2 = {
+      legend: {
+        data: ['Stock', 'Ventes'],
+        align: 'left',
+      },
+      tooltip: {},
+      xAxis: {
+        data: products,
+        silent: false,
+        splitLine: {
+          show: false,
+        },
+      },
+      yAxis: {},
+      series: [
+        {
+          name: 'Stock',
+          type: 'bar',
+          data: productsStock,
+          animationDelay: (idx: number) => idx * 10,
+        },
+        {
+          name: 'Ventes',
+          type: 'bar',
+          data: productsSold,
+          animationDelay: (idx: number) => idx * 10 + 100,
+        },
+      ],
+      animationEasing: 'elasticOut',
+      animationDelayUpdate: (idx: number) => idx * 5,
+    };
 
 
   }
