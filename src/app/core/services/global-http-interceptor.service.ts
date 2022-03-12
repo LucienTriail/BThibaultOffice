@@ -1,12 +1,13 @@
 import {Injectable} from "@angular/core";
-import {HttpEvent, HttpHandler, HttpInterceptor,HttpRequest,HttpResponse,HttpErrorResponse} from '@angular/common/http';
+import {HttpEvent, HttpHandler, HttpInterceptor,HttpRequest,HttpErrorResponse} from '@angular/common/http';
 import {Observable, of, throwError} from "rxjs";
-import {catchError, map} from 'rxjs/operators';
-import {Router} from "@angular/router";
+import {catchError} from 'rxjs/operators';
+import {Router,NavigationExtras} from "@angular/router";
 
 @Injectable()
 export class GlobalHttpInterceptorService implements HttpInterceptor {
 
+  //private?
   constructor(public router: Router) {
   }
 
@@ -15,10 +16,13 @@ export class GlobalHttpInterceptorService implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     const token: string = 'invalid token';
-    req = req.clone({ headers: req.headers.set('Authorization', 'Bearer ' + token) });
+    req = req.clone({ headers: req.headers.set('Authorization', token) });
+    //const extra : NavigationExtras = {};
 
-    return next.handle(req).pipe(
-      catchError((error) => {
+    return next.handle(req).pipe
+    (
+      catchError(
+        (error) => {
 
         let handled: boolean = false;
 
@@ -29,22 +33,37 @@ export class GlobalHttpInterceptorService implements HttpInterceptor {
           }
           else {
             console.log(`error status : ${error.status} ${error.statusText}`);
+            const extra : NavigationExtras = {
+              state : {
+                status: error.status
+              }
+            };
             switch (error.status) {
-             /* case 401:      //login
+
+              case 404:     //not found
+                this.router.navigate(["/error"],extra);
+                console.log(`redirect to login`);
+                handled = true;
+                break;
+             case 401:      //login
+
+
                 this.router.navigate(["/login"]);
                 console.log(`redirect to login`);
                 handled = true;
                 break;
+
               case 403:     //forbidden
-                this.router.navigateByUrl(["/login"]);
-                console.log(`redirect to login`);
-                handled = true;
-                break;*/
-              case 404:
-                this.router.navigate(["/login"]);
+                this.router.navigate(["/error"],extra);
                 console.log(`redirect to login`);
                 handled = true;
                 break;
+              case 500:     //server error
+                this.router.navigate(["/error"],extra);
+                console.log(`redirect to login`);
+                handled = true;
+                break;
+
 
             }
           }

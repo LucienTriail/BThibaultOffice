@@ -7,15 +7,19 @@ import {MatButtonModule} from '@angular/material/button';
 import { BasicButtonModule } from 'src/app/shared/buttons/basic-button/basic-button.module';
 import { MatInputModule } from '@angular/material/input';
 import { FooterModule } from 'src/app/shared/footer/footer.module';
+import {FormsModule} from "@angular/forms";
+
 @NgModule({
     declarations: [LoginComponent],
-    imports: [
-      CommonModule,
-      MatFormFieldModule,
-      MatCardModule,
-      MatButtonModule,
-      BasicButtonModule,
-      MatInputModule, FooterModule
-    ]
-  })
+  imports: [
+    CommonModule,
+    MatFormFieldModule,
+    MatCardModule,
+    MatButtonModule,
+    BasicButtonModule,
+    MatInputModule,
+    FooterModule,
+    FormsModule
+  ]
+})
   export class LoginModule { }
