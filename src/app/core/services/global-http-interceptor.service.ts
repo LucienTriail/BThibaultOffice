@@ -2,7 +2,7 @@ import {Injectable} from "@angular/core";
 import {HttpEvent, HttpHandler, HttpInterceptor,HttpRequest,HttpErrorResponse} from '@angular/common/http';
 import {Observable, of, throwError} from "rxjs";
 import {catchError} from 'rxjs/operators';
-import {Router} from "@angular/router";
+import {Router,NavigationExtras} from "@angular/router";
 
 @Injectable()
 export class GlobalHttpInterceptorService implements HttpInterceptor {
@@ -17,6 +17,7 @@ export class GlobalHttpInterceptorService implements HttpInterceptor {
 
     const token: string = 'invalid token';
     req = req.clone({ headers: req.headers.set('Authorization', token) });
+    //const extra : NavigationExtras = {};
 
     return next.handle(req).pipe
     (
@@ -32,23 +33,31 @@ export class GlobalHttpInterceptorService implements HttpInterceptor {
           }
           else {
             console.log(`error status : ${error.status} ${error.statusText}`);
+            const extra : NavigationExtras = {
+              state : {
+                status: error.status
+              }
+            };
             switch (error.status) {
              case 401:      //login
-                this.router.navigate(["/login"]);
+
+
+                this.router.navigate(["/error"],extra);
                 console.log(`redirect to login`);
                 handled = true;
                 break;
 
               case 403:     //forbidden
-                this.router.navigate(["/login"]);
+                this.router.navigate(["/error"],extra);
                 console.log(`redirect to login`);
                 handled = true;
                 break;
-              case 404:
-                this.router.navigate(["/login"]);
+              case 500:     //server error
+                this.router.navigate(["/error"],extra);
                 console.log(`redirect to login`);
                 handled = true;
                 break;
+
 
             }
           }
