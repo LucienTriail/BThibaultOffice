@@ -1,0 +1,15 @@
+table {
+  width: 50%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 50%;
+}
+
+td, th {
+  width: 25%;
+}
+.mat-column-discount {
+  flex: 0 0 10%;
+}

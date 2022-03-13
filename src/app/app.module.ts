@@ -1,11 +1,10 @@
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {ErrorHandler, NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
-import {ProductsService} from "./core/services/products.service";
+import {ApiService} from "./core/services/api.service";
 import {AppRoutingModule} from "./app-routing.module";
 import { HomeComponent } from './pages/home/home.component';
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule} from "@angular/material/icon";
@@ -20,46 +19,66 @@ import {DetailsProductModule} from "./pages/details-product/details-product.modu
 import {FooterModule} from "./shared/footer/footer.module";
 import { LoginModule } from './pages/login/login.module';
 import { AccueilModule } from './pages/accueil/accueil.module';
-import { StockProductComponent } from './pages/stock-product/stock-product.component';
-import {MatFormFieldModule} from "@angular/material/form-field";
-import {MatPaginatorModule} from "@angular/material/paginator";
+import { JwtModule } from "@auth0/angular-jwt";
+import {GlobalHttpInterceptorService} from "./core/services/global-http-interceptor.service";
+import {GlobalErrorHandlerService} from "./core/services/global-error-handler.service";
+import {ErrorModule} from "./pages/error/error.module";
+import {UserDetailModule} from "./pages/user-detail/user-detail.module";
+import {StockProductComponent} from "./pages/stock-product/stock-product.component";
+import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
+import {MatInputModule} from "@angular/material/input";
+
+export function tokenGetter() {
+  return localStorage.getItem("access_token");
+}
 
 
-
+let schemas;
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    StockProductComponent,
+    StockProductComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        HttpClientModule,
-        BrowserAnimationsModule,
-        MatToolbarModule,
-        MatIconModule,
-        MatGridListModule,
-        MatButtonModule,
-        MatTableModule,
-        DialogSingleProductModule,
-        SingleProductCardModule,
-        HeaderModule,
-        BasicButtonModule,
-        DetailsProductModule,
-        FooterModule,
-        LoginModule,
-        AccueilModule,
-        MatFormFieldModule,
-        MatPaginatorModule,
-        FormsModule
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatGridListModule,
+    MatButtonModule,
+    MatTableModule,
+    DialogSingleProductModule,
+    SingleProductCardModule,
+    HeaderModule,
+    BasicButtonModule,
+    DetailsProductModule,
+    FooterModule,
+    LoginModule,
+    AccueilModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        allowedDomains: ["localhost:8000"],
+        disallowedRoutes: [],
+      },
+    }),
+    ErrorModule,
+    UserDetailModule,
+    MatInputModule
+
+  ],
 
   providers: [
-    ProductsService
+    ApiService,
+    { provide: HTTP_INTERCEPTORS, useClass: GlobalHttpInterceptorService, multi: true  },
+    { provide: ErrorHandler, useClass:GlobalErrorHandlerService}
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class AppModule { }
 

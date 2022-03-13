@@ -1,23 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {Products} from "../../core/interface/products";
 import {MatTableDataSource} from "@angular/material/table";
-import {ProductsService} from "../../core/services/products.service";
-import {DialogSingleProductComponent} from "../../shared/dialog-single-product/dialog-single-product.component";
+import {MatPaginator} from "@angular/material/paginator";
+import {MatSort} from "@angular/material/sort";
+import {ApiService} from "../../core/services/api.service";
 
 @Component({
   selector: 'app-stock-product',
   templateUrl: './stock-product.component.html',
   styleUrls: ['./stock-product.component.css']
 })
-export class StockProductComponent implements OnInit {
-
-  // @ts-ignore
-  productsList: Products[] ;
-  displayedColumns: string[] = [ 'name', 'price', 'discount'];
+export class StockProductComponent implements OnInit, AfterViewInit  {
+  productsList: Products[] | undefined ;
+  displayedColumns: string[] = ['name', 'price', 'discount'];
   // @ts-ignore
   dataSource: MatTableDataSource<Products> ;
 
-  constructor(private productService : ProductsService, private dialog: DialogSingleProductComponent) { }
+  @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
+  @ViewChild(MatSort) sort: MatSort | undefined;
+
+  constructor(private productService : ApiService) {}
 
   ngOnInit(): void {
     this.getProducts();
@@ -29,7 +31,23 @@ export class StockProductComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     // @ts-ignore
     this.dataSource.sort = this.sort;
+  }
 
+  getProducts(){
+    this.productService.getProducts().subscribe((response : Products[]) => {
+        //https://angular.io/guide/http pour ameliorer la requete
+
+        this.productsList = response;
+        console.log(this.productsList);
+      },
+      () => {
+        alert('no data');
+      });
+  }
+
+  getProductsByCat( l_category: number){
+    this.getProducts();
+    this.productsList = this.productsList?.filter(x => x.category > l_category);
   }
 
   applyFilter(event: Event) {
@@ -41,26 +59,7 @@ export class StockProductComponent implements OnInit {
     }
   }
 
-  getProducts(){
-    this.productService.getProductsFromJson().subscribe((res : Products[]) => {
-        //https://angular.io/guide/http pour ameliorer la requete
-
-        this.productsList = res
-        // console.log(this.productsList);
-      },
-      (err) => {
-        alert('no data');
-      });
-  }
-
-  getProductsByCat( l_category: number){
-    this.getProducts();
-    this.productsList = this.productsList?.filter(x => x.category > l_category);
-  }
-
 }
-
-
 
 const products: Products[] = [{
   "comments": "",
