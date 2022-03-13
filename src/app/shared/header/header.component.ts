@@ -22,4 +22,8 @@ categories = ['Poissons', 'Crustacés'];
   goToDetails(){
     this.router.navigate(['/details']);
   }
+
+  goToStockManage(){
+    this.router.navigate(['/stock']);
+  }
 }

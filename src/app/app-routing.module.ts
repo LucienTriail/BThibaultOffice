@@ -6,6 +6,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { AccueilComponent } from './pages/accueil/accueil.component';
 import {ErrorComponent} from "./pages/error/error.component";
 import {UserDetailComponent} from "./pages/user-detail/user-detail.component";
+import {StockProductComponent} from "./pages/stock-product/stock-product.component";
 
 
 const routes: Routes = [
@@ -17,9 +18,7 @@ const routes: Routes = [
   {path:'error',component:ErrorComponent},
   {path:'user', component:UserDetailComponent},
   {path:'**', pathMatch:'full',redirectTo:'accueil'},
-
-
-
+  {path:'stock',component:StockProductComponent}
 ];
 
 @NgModule({
