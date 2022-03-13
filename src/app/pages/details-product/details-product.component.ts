@@ -31,7 +31,7 @@ export class DetailsProductComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-     this.getProducts();
+    this.getProducts();
     this.dataSource = new MatTableDataSource(products);
   }
 

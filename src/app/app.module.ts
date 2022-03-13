@@ -24,18 +24,22 @@ import {GlobalHttpInterceptorService} from "./core/services/global-http-intercep
 import {GlobalErrorHandlerService} from "./core/services/global-error-handler.service";
 import {ErrorModule} from "./pages/error/error.module";
 import {UserDetailModule} from "./pages/user-detail/user-detail.module";
+import {StockProductComponent} from "./pages/stock-product/stock-product.component";
+import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
+import {MatInputModule} from "@angular/material/input";
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");
 }
 
 
-
+let schemas;
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
+    StockProductComponent
   ],
   imports: [
     BrowserModule,
@@ -63,7 +67,8 @@ export function tokenGetter() {
       },
     }),
     ErrorModule,
-    UserDetailModule
+    UserDetailModule,
+    MatInputModule
 
   ],
 
@@ -72,7 +77,8 @@ export function tokenGetter() {
     { provide: HTTP_INTERCEPTORS, useClass: GlobalHttpInterceptorService, multi: true  },
     { provide: ErrorHandler, useClass:GlobalErrorHandlerService}
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class AppModule { }
 

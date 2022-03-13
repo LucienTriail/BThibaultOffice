@@ -13,12 +13,12 @@ const routes: Routes = [
   {path:'',pathMatch:'full',redirectTo:'accueil'},
   {path:'home', component:HomeComponent},
   {path:'details', component:DetailsProductComponent},
+  {path:'stock',component:StockProductComponent},
   {path:'login',component:LoginComponent},
   {path:'accueil',component:AccueilComponent},
   {path:'error',component:ErrorComponent},
   {path:'user', component:UserDetailComponent},
-  {path:'**', pathMatch:'full',redirectTo:'accueil'},
-  {path:'stock',component:StockProductComponent}
+  {path:'**', pathMatch:'full',redirectTo:'accueil'}
 ];
 
 @NgModule({
