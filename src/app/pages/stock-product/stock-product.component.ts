@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild, AfterContentInit} from '@angular/core';
 import {Products} from "../../core/interface/products";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
@@ -7,7 +7,7 @@ import {ApiService} from "../../core/services/api.service";
 
 @Component({
   selector: 'app-stock-product',
-  templateUrl: './stock-product.component.html',
+  templateUrl:'./stock-product.component.html',
   styleUrls: ['./stock-product.component.css']
 })
 export class StockProductComponent implements OnInit, AfterViewInit  {

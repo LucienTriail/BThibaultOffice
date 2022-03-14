@@ -6,11 +6,6 @@ import {AppRoutingModule} from "./app-routing.module";
 import { HomeComponent } from './pages/home/home.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatToolbarModule} from "@angular/material/toolbar";
-import {MatIconModule} from "@angular/material/icon";
-import {MatGridListModule} from "@angular/material/grid-list";
-import {MatButtonModule} from "@angular/material/button";
-import {MatTableModule} from "@angular/material/table";
 import {DialogSingleProductModule} from "./shared/dialog-single-product/dialog-single-product.module";
 import {SingleProductCardModule} from "./shared/single-product-card/single-product-card.module";
 import {HeaderModule} from "./shared/header/header.module";
@@ -24,33 +19,26 @@ import {GlobalHttpInterceptorService} from "./core/services/global-http-intercep
 import {GlobalErrorHandlerService} from "./core/services/global-error-handler.service";
 import {ErrorModule} from "./pages/error/error.module";
 import {UserDetailModule} from "./pages/user-detail/user-detail.module";
-import {StockProductComponent} from "./pages/stock-product/stock-product.component";
-import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
-import {MatInputModule} from "@angular/material/input";
+import {MatTableModule} from "@angular/material/table";
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {StockProductModule} from "./pages/stock-product/stock-product.module";
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");
 }
 
 
-let schemas;
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
-    StockProductComponent
+    HomeComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatGridListModule,
-    MatButtonModule,
-    MatTableModule,
     DialogSingleProductModule,
     SingleProductCardModule,
     HeaderModule,
@@ -68,8 +56,7 @@ let schemas;
     }),
     ErrorModule,
     UserDetailModule,
-    MatInputModule
-
+    StockProductModule
   ],
 
   providers: [
@@ -77,8 +64,7 @@ let schemas;
     { provide: HTTP_INTERCEPTORS, useClass: GlobalHttpInterceptorService, multi: true  },
     { provide: ErrorHandler, useClass:GlobalErrorHandlerService}
   ],
-  bootstrap: [AppComponent],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
 
