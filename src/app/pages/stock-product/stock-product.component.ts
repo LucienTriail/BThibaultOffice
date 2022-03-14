@@ -4,6 +4,13 @@ import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {ApiService} from "../../core/services/api.service";
+import {MatSelectChange} from "@angular/material/select";
+
+export interface EmpFilter {
+  name:string;
+  options:string[];
+  defaultValue:string;
+}
 
 @Component({
   selector: 'app-stock-product',
@@ -11,19 +18,38 @@ import {ApiService} from "../../core/services/api.service";
   styleUrls: ['./stock-product.component.css']
 })
 export class StockProductComponent implements OnInit, AfterViewInit  {
+
+
   productsList: Products[] | undefined ;
-  displayedColumns: string[] = ['name', 'price', 'discount'];
+  displayedColumns: string[] = ['name', 'price','category', 'discount'];
   // @ts-ignore
   dataSource: MatTableDataSource<Products> ;
+  empFilters: EmpFilter[]=[];
+  category: string[]=['0','1','2','3'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
   @ViewChild(MatSort) sort: MatSort | undefined;
+  private defaultValu: string | undefined;
 
   constructor(private productService : ApiService) {}
 
   ngOnInit(): void {
     this.getProducts();
     this.dataSource = new MatTableDataSource(products);
+    this.empFilters.push({name:'category',options:this.category,defaultValue:''});
+    this.dataSource.filterPredicate = function (record,filter) {
+
+      var map = new Map(JSON.parse(filter));
+      let isMatch = false;
+
+      for(let [key,value] of map){
+        isMatch = (value=="All") || (record[key as keyof Products] == value);
+        if(!isMatch) return false;
+      }
+
+      return isMatch;
+    }
+
   }
 
   ngAfterViewInit() {
@@ -36,7 +62,6 @@ export class StockProductComponent implements OnInit, AfterViewInit  {
   getProducts(){
     this.productService.getProducts().subscribe((response : Products[]) => {
         //https://angular.io/guide/http pour ameliorer la requete
-
         this.productsList = response;
         console.log(this.productsList);
       },
@@ -50,16 +75,33 @@ export class StockProductComponent implements OnInit, AfterViewInit  {
     this.productsList = this.productsList?.filter(x => x.category > l_category);
   }
 
+  // applyFilter(event: Event) {
+  //   const filterValue = (event.target as HTMLInputElement).value;
+  //   this.dataSource.filter = filterValue.trim().toLowerCase();
+  //
+  //   if (this.dataSource.paginator) {
+  //     this.dataSource.paginator.firstPage();
+  //   }
+  // }
+
+  filterDictionary= new Map<string,string>();
+
+  applyEmpFilter(ob:MatSelectChange,empfilter:EmpFilter) {
+    this.filterDictionary.set(empfilter.name,ob.value);
+    var jsonString = JSON.stringify(Array.from(this.filterDictionary.entries()));
+    this.dataSource.filter = jsonString;
+
+
+  }
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
   }
-
 }
+
+
+
 
 const products: Products[] = [{
   "comments": "",
