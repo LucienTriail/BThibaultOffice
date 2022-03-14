@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ApiService} from "../../core/services/api.service";
 import {Users} from "../../core/interface/users";
+import { Transactions } from 'src/app/core/interface/products';
 
 
 export interface ExampleTab {
@@ -18,13 +19,28 @@ export class AccueilComponent implements OnInit {
   updateOptions:any;
   updateOptions2:any;
 
+  transactionsList: Transactions[] = [];
+
+
+
 
 
   constructor(private api:ApiService) {
   }
+  // @ts-ignore
+  transactionsList:Transactions[];
+  getTransactions(){
+    this.api.getTransactions().subscribe((data) => {
+      this.transactionsList=data
+      console.log(this.transactionsList);
+    });
 
-
+  }
   ngOnInit(): void {
+    this.getTransactions();
+
+
+
     const revenue :number[] = [];
     const profit :number[] = [];
 

@@ -14,3 +14,11 @@ export interface Products {
   "quantity_stock": number,
   "quantity_sold": number
 }
+
+export interface Transactions{
+  "id":number,
+  "date":Date,
+  "amount":number,
+  "productQuantity":number,
+  "idProduct_id":number
+}

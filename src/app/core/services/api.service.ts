@@ -1,10 +1,12 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Products} from "../interface/products";
+import {Products, Transactions} from "../interface/products";
 import {Users} from "../interface/users";
 import {Observable, throwError} from "rxjs";
 import {catchError} from "rxjs/operators";
 import { JwtHelperService } from "@auth0/angular-jwt";
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -73,6 +75,17 @@ export class ApiService {
           return throwError(err);
         })
       )
+  }
+
+  getTransactions(): Observable<Transactions[]> {
+    return this.http.get<Transactions[]>(this.BASE_URL + "transactions/")
+    .pipe(
+      catchError((err) => {
+        console.log('error caught in service')
+        console.error(err);
+        return throwError(err);
+      })
+    )
   }
 
   editSingleProduct(product: Products): Observable<Products> {
