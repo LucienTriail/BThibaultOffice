@@ -83,7 +83,7 @@ export class ApiService {
   }
 
   editSingleProduct(product: Products): Observable<Products> {
-    return this.http.put<Products>(this.BASE_URL + 'products/' + product.id + '/', product)
+    return this.http.put<Products>(this.BASE_URL + 'products/' + product.id, product)
       .pipe(
         catchError((err) => {
           return throwError(err);
@@ -97,7 +97,7 @@ export class ApiService {
     let token: any = localStorage.getItem("access_token");
     let decodedToken = helper.decodeToken(token);
 
-    console.log('decodedToken: ', decodedToken);
+    console.log('decodedToken: ', decodedToken.user_id);
 
     return decodedToken.user_id;
   }

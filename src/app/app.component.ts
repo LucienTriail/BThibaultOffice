@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import { NavigationStart, Router} from "@angular/router";
+import {NavigationStart, Router} from "@angular/router";
 
 
 @Component({
@@ -9,7 +9,6 @@ import { NavigationStart, Router} from "@angular/router";
 })
 export class AppComponent {
   title = 'BateauThibaultBackOfficeCours';
-
 
 
   /*constructor(public router: Router) {
@@ -25,7 +24,8 @@ export class AppComponent {
       }
     });
   }
-  }
+
+}
 
 
 

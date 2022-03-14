@@ -1,5 +1,5 @@
-import {Component,OnInit} from '@angular/core';
-import { Router } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -7,19 +7,21 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-active:number=1;
+  active: number = 1;
 //TODO: ajouter la méthode getCategory
-categories = ['Poissons', 'Crustacés'];
-  constructor(private router:Router ) { }
+  categories = ['Poissons', 'Crustacés'];
+
+  constructor(private router: Router) {
+  }
 
   ngOnInit(): void {
   }
 
-  goToHome(){
-    this.router.navigate((['/home']));
+  goToHome() {
+    this.router.navigate((['/accueil']));
   }
 
-  goToDetails(){
+  goToDetails() {
     this.router.navigate(['/details']);
   }
 }

@@ -3,7 +3,6 @@ import {BrowserModule} from '@angular/platform-browser';
 import {AppComponent} from './app.component';
 import {ApiService} from "./core/services/api.service";
 import {AppRoutingModule} from "./app-routing.module";
-import {HomeComponent} from './pages/home/home.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {DialogSingleProductModule} from "./shared/dialog-single-product/dialog-single-product.module";
@@ -19,6 +18,8 @@ import {GlobalHttpInterceptorService} from "./core/services/global-http-intercep
 import {GlobalErrorHandlerService} from "./core/services/global-error-handler.service";
 import {ErrorModule} from "./pages/error/error.module";
 import {UserDetailModule} from "./pages/user-detail/user-detail.module";
+import {ToastrModule} from 'ngx-toastr';
+
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");
@@ -28,7 +29,6 @@ export function tokenGetter() {
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
   ],
   imports: [
     BrowserModule,
@@ -51,7 +51,8 @@ export function tokenGetter() {
       },
     }),
     ErrorModule,
-    UserDetailModule
+    UserDetailModule,
+    ToastrModule.forRoot()
 
   ],
 
