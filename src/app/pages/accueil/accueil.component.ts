@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ApiService} from "../../core/services/api.service";
 import { Transactions } from 'src/app/core/interface/products';
-
+import {FormGroup, FormControl} from '@angular/forms';
+import {MatDatepickerInputEvent} from '@angular/material/datepicker';
 
 
 @Component({
@@ -10,6 +11,16 @@ import { Transactions } from 'src/app/core/interface/products';
   styleUrls: ['./accueil.component.css']
 })
 export class AccueilComponent implements OnInit {
+
+  range = new FormGroup({
+    start: new FormControl(),
+    end: new FormControl(),
+  });
+  events: string[] = [];
+
+  addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
+    this.events.push(`${type}: ${event.value}`);
+  }
   options: any;
   options2 : any;
   updateOptions:any;
@@ -27,8 +38,9 @@ export class AccueilComponent implements OnInit {
 
 
   constructor(private api:ApiService) {
+
   }
-  // @ts-ignore
+  // @ts-ignore 
   transactionsList:Transactions[];
   getTransactions(){
     this.api.getTransactions().subscribe((data) => {
@@ -37,8 +49,14 @@ export class AccueilComponent implements OnInit {
     });
 
   }
+  dateRangeChange(dateRangeStart: HTMLInputElement, dateRangeEnd: HTMLInputElement) {
+    console.log(dateRangeStart.value);
+    console.log(dateRangeEnd.value);
+  }
+
   ngOnInit(): void {
     this.initTotalSales();
+    this.getTransactions();
 
 
     this.updateOptions = {
