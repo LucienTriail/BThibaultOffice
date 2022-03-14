@@ -1,12 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ApiService} from "../../core/services/api.service";
-import {Users} from "../../core/interface/users";
 import { Transactions } from 'src/app/core/interface/products';
 
 
-export interface ExampleTab {
-  graph: object;
-}
 
 @Component({
   selector: 'app-accueil',
@@ -18,6 +14,11 @@ export class AccueilComponent implements OnInit {
   options2 : any;
   updateOptions:any;
   updateOptions2:any;
+  revenue: number[] = [];
+  profit: number[] = [];
+  products: string[] = [];
+  productsSold: number[] = [];
+  productsStock: number[] = [];
 
   transactionsList: Transactions[] = [];
 
@@ -31,40 +32,70 @@ export class AccueilComponent implements OnInit {
   transactionsList:Transactions[];
   getTransactions(){
     this.api.getTransactions().subscribe((data) => {
-      this.transactionsList=data
+      this.transactionsList=data;
       console.log(this.transactionsList);
     });
 
   }
   ngOnInit(): void {
-    this.getTransactions();
+    this.initTotalSales();
 
-
-
-    const revenue :number[] = [];
-    const profit :number[] = [];
-
-    const products : string[] = [];
-    const productsSold :number[] = [];
-    const productsStock :number[] = [];
-
-
-    for(let i=1; i<13;i++){
-      revenue.push(Math.random());
-    }
-
-    for(let i=1; i<13;i++){
-      profit.push(Math.random());
-    }
 
     this.updateOptions = {
       series: [{
-        data1: revenue,
-        data2:profit
+        data1: this.revenue,
+        data2: this.profit
       }]
+
+    };
+
 
   }
 
+  initStockAndSales() {
+
+    this.options2 = {
+      legend: {
+        data: ['Stock', 'Ventes'],
+        align: 'left',
+      },
+      tooltip: {},
+      xAxis: {
+        data: this.products,
+        silent: false,
+        splitLine: {
+          show: false,
+        },
+      },
+      yAxis: {},
+      series: [
+        {
+          name: 'Stock',
+          type: 'bar',
+          data: this.productsStock,
+          animationDelay: (idx: number) => idx * 10,
+        },
+        {
+          name: 'Ventes',
+          type: 'bar',
+          data: this.productsSold,
+          animationDelay: (idx: number) => idx * 10 + 100,
+        },
+      ],
+      animationEasing: 'elasticOut',
+      animationDelayUpdate: (idx: number) => idx * 5,
+    };
+
+  }
+
+  initTotalSales() {
+    for (let i = 1; i < 13; i++) {
+      this.revenue.push(Math.random());
+    }
+
+    for (let i = 1; i < 13; i++) {
+      this.profit.push(Math.random());
+    }
 
     this.options = {
       tooltip: {
@@ -103,52 +134,18 @@ export class AccueilComponent implements OnInit {
           type: 'line',
           stack: 'counts',
           areaStyle: {},
-          data: revenue
+          data: this.revenue
         },
         {
           name: 'Bénéfices',
           type: 'line',
           stack: 'counts',
           areaStyle: {},
-          data: profit
+          data: this.profit
         },
 
       ]
     };
-
-    this.options2 = {
-      legend: {
-        data: ['Stock', 'Ventes'],
-        align: 'left',
-      },
-      tooltip: {},
-      xAxis: {
-        data: products,
-        silent: false,
-        splitLine: {
-          show: false,
-        },
-      },
-      yAxis: {},
-      series: [
-        {
-          name: 'Stock',
-          type: 'bar',
-          data: productsStock,
-          animationDelay: (idx: number) => idx * 10,
-        },
-        {
-          name: 'Ventes',
-          type: 'bar',
-          data: productsSold,
-          animationDelay: (idx: number) => idx * 10 + 100,
-        },
-      ],
-      animationEasing: 'elasticOut',
-      animationDelayUpdate: (idx: number) => idx * 5,
-    };
-
-
   }
 
 }
