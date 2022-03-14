@@ -21,10 +21,6 @@ export class ApiService {
   constructor(private http: HttpClient) {
   }
 
-  getTransactions(): Observable<any> {
-    return this.http.get<any>(this.BASE_URL + 'transactions/');
-  }
-
   //besoin de gerer la reponse, fait?
   login(user: Users) {
     console.log('in api service, login method');
