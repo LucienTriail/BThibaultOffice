@@ -24,4 +24,8 @@ export class HeaderComponent implements OnInit {
   goToDetails() {
     this.router.navigate(['/details']);
   }
+
+  goToStockManage(){
+    this.router.navigate(['/stock']);
+  }
 }
