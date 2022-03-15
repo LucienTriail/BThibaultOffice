@@ -4,16 +4,23 @@ import {Products} from "../interface/products";
 import {Users} from "../interface/users";
 import {Observable, throwError} from "rxjs";
 import {catchError} from "rxjs/operators";
-import { JwtHelperService } from "@auth0/angular-jwt";
+import {JwtHelperService} from "@auth0/angular-jwt";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
+  //TODO: finaliser la methode recuperant les transactions
+
+
   BASE_URL: string = 'http://localhost:8000/';
 
   constructor(private http: HttpClient) {
+  }
+
+  getTransactions(): Observable<any> {
+    return this.http.get<any>(this.BASE_URL + 'transactions/');
   }
 
   //besoin de gerer la reponse, fait?
@@ -29,8 +36,8 @@ export class ApiService {
 
   }
 
-  getSingleUser() : Observable<Users> {
-    let pk:string = this.getUserId();
+  getSingleUser(): Observable<Users> {
+    let pk: string = this.getUserId();
     return this.http.get<Users>(this.BASE_URL + 'users/' + pk)
       .pipe(
         catchError((err) => {
@@ -53,7 +60,7 @@ export class ApiService {
   editSingleUser(user: Users): Observable<Users> {
 
 
-    let pk : string = this.getUserId();
+    let pk: string = this.getUserId();
     return this.http.put<Users>(this.BASE_URL + 'users/' + pk, user)
       .pipe(
         catchError((err) => {
@@ -76,7 +83,7 @@ export class ApiService {
   }
 
   editSingleProduct(product: Products): Observable<Products> {
-    return this.http.put<Products>(this.BASE_URL + 'products/' + product.id + '/', product)
+    return this.http.put<Products>(this.BASE_URL + 'products/' + product.id, product)
       .pipe(
         catchError((err) => {
           return throwError(err);
@@ -85,15 +92,13 @@ export class ApiService {
 
   }
 
-  getUserId() : string{
+  getUserId(): string {
     const helper = new JwtHelperService();
-    let token : any = localStorage.getItem("access_token");
+    let token: any = localStorage.getItem("access_token");
     let decodedToken = helper.decodeToken(token);
 
-    console.log('decodedToken: ', decodedToken);
+    console.log('decodedToken: ', decodedToken.user_id);
 
-    let pk : string = decodedToken.user_id;
-
-    return pk;
+    return decodedToken.user_id;
   }
 }
