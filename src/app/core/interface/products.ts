@@ -11,6 +11,6 @@ export interface Products {
   "price_on_sale": number,
   "unit": string,
   "sale": boolean,
-  "quantity_stock": number,
-  "quantity_sold": number
+  "stock": number,
+  "sold": number
 }

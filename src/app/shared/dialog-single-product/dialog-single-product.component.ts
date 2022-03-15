@@ -24,8 +24,8 @@ export class DialogSingleProductComponent implements OnInit {
     "price_on_sale": 38,
     "unit": "4 Dz",
     "sale": false,
-    "quantity_stock": 20,
-    "quantity_sold": 100
+    "stock": 20,
+    "sold": 100
   } ;
 
   constructor(public dialog: MatDialog) { }
@@ -38,8 +38,8 @@ export class DialogSingleProductComponent implements OnInit {
     price:product.price,
     price_on_sale:product.price_on_sale,
     discount:product.discount,
-    quantity_stock:product.quantity_stock,
-    quantity_sold:product.quantity_sold,
+    stock:product.stock,
+    sold:product.sold,
     comments:product.comments
 
 

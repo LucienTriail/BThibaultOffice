@@ -21,7 +21,7 @@ export class StockProductComponent implements OnInit, AfterViewInit  {
 
 
   productsList: Products[] | undefined ;
-  displayedColumns: string[] = ['name', 'price','category', 'discount'];
+  displayedColumns: string[] = ['name', 'price','category', 'discount', 'stock'];
   // @ts-ignore
   dataSource: MatTableDataSource<Products> ;
   empFilters: EmpFilter[]=[];
@@ -75,14 +75,14 @@ export class StockProductComponent implements OnInit, AfterViewInit  {
     this.productsList = this.productsList?.filter(x => x.category > l_category);
   }
 
-  // applyFilter(event: Event) {
-  //   const filterValue = (event.target as HTMLInputElement).value;
-  //   this.dataSource.filter = filterValue.trim().toLowerCase();
-  //
-  //   if (this.dataSource.paginator) {
-  //     this.dataSource.paginator.firstPage();
-  //   }
-  // }
+  applyFilterA(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
 
   filterDictionary= new Map<string,string>();
 
@@ -90,7 +90,6 @@ export class StockProductComponent implements OnInit, AfterViewInit  {
     this.filterDictionary.set(empfilter.name,ob.value);
     var jsonString = JSON.stringify(Array.from(this.filterDictionary.entries()));
     this.dataSource.filter = jsonString;
-
 
   }
 
@@ -115,8 +114,8 @@ const products: Products[] = [{
   "owner": "tig",
   "unit": "kg",
   "name": "Moules de pêche",
-  "quantity_stock": 20,
-  "quantity_sold": 50
+  "stock": 20,
+  "sold": 50
 },
   {
     "id": 1,
@@ -130,8 +129,8 @@ const products: Products[] = [{
     "price_on_sale": 7,
     "sale": false,
     "availability": true,
-    "quantity_stock": 60,
-    "quantity_sold": 100
+    "stock": 60,
+    "sold": 100
   },
   {
     "availability": false,
@@ -145,8 +144,8 @@ const products: Products[] = [{
     "unit": "kg",
     "category": 2,
     "sale": false,
-    "quantity_stock": 30,
-    "quantity_sold": 10
+    "stock": 30,
+    "sold": 10
   },
   {
     "name": "Bouquets cuits",
@@ -160,8 +159,8 @@ const products: Products[] = [{
     "owner": "tig",
     "comments": "Hors saison, pêche à l'épuisette",
     "discount": 0,
-    "quantity_stock": 40,
-    "quantity_sold": 60
+    "stock": 40,
+    "sold": 60
   },
   {
     "unit": "Dz",
@@ -175,8 +174,8 @@ const products: Products[] = [{
     "sale": false,
     "owner": "tig",
     "discount": 0,
-    "quantity_stock": 20,
-    "quantity_sold": 80
+    "stock": 20,
+    "sold": 80
   },
   {
     "owner": "tig",
@@ -190,8 +189,8 @@ const products: Products[] = [{
     "price_on_sale": 10,
     "discount": 0,
     "availability": true,
-    "quantity_stock": 10,
-    "quantity_sold": 100
+    "stock": 10,
+    "sold": 100
   },
   {
     "comments": "Pêche à la corde",
@@ -205,8 +204,8 @@ const products: Products[] = [{
     "price": 10,
     "price_on_sale": 10,
     "unit": "kg",
-    "quantity_stock": 20,
-    "quantity_sold": 20
+    "stock": 20,
+    "sold": 20
   },
   {
     "unit": "Dz",
@@ -220,8 +219,8 @@ const products: Products[] = [{
     "comments": "Médaille d'or Salon Agriculture",
     "category": 1,
     "owner": "tig",
-    "quantity_stock": 20,
-    "quantity_sold": 100
+    "stock": 20,
+    "sold": 100
   },
   {
     "name": "Lieu jaune de ligne",
@@ -235,8 +234,8 @@ const products: Products[] = [{
     "id": 4,
     "price": 12,
     "price_on_sale": 12,
-    "quantity_stock": 30,
-    "quantity_sold": 80
+    "stock": 30,
+    "sold": 80
   },
   {
     "availability": false,
@@ -250,8 +249,8 @@ const products: Products[] = [{
     "name": "Filet Julienne",
     "sale": false,
     "comments": "Pêche à la corde",
-    "quantity_stock": 10,
-    "quantity_sold": 70
+    "stock": 10,
+    "sold": 70
   },
   {
     "sale": false,
@@ -265,8 +264,8 @@ const products: Products[] = [{
     "owner": "tig",
     "availability": true,
     "comments": "",
-    "quantity_stock": 20,
-    "quantity_sold": 100
+    "stock": 20,
+    "sold": 100
   },
   {
     "owner": "tig",
@@ -280,8 +279,8 @@ const products: Products[] = [{
     "price": 24,
     "price_on_sale": 24,
     "name": "Huîtres N°2 OR St Vaast",
-    "quantity_stock": 20,
-    "quantity_sold": 100
+    "stock": 20,
+    "sold": 100
   },
   {
     "discount": 0,
@@ -295,8 +294,8 @@ const products: Products[] = [{
     "unit": "kg",
     "price": 30,
     "price_on_sale": 30,
-    "quantity_stock": 10,
-    "quantity_sold": 100
+    "stock": 10,
+    "sold": 100
   },
   {
     "discount": 0,
@@ -310,8 +309,8 @@ const products: Products[] = [{
     "price_on_sale": 38,
     "unit": "4 Dz",
     "sale": false,
-    "quantity_stock": 20,
-    "quantity_sold": 100
+    "stock": 20,
+    "sold": 100
   },
   {
     "discount": 0,
@@ -325,6 +324,6 @@ const products: Products[] = [{
     "price_on_sale": 48,
     "owner": "tig",
     "id": 15,
-    "quantity_stock": 20,
-    "quantity_sold": 100
+    "stock": 20,
+    "sold": 100
   }];

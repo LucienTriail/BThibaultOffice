@@ -42,7 +42,7 @@
     <mat-grid-tile colspan="1">
     <mat-form-field  appearance="fill">
       <mat-label>Quantité</mat-label>
-      <input [(ngModel)]="data.quantity_stock" matInput type="number" [formControl]="quantityFormControl" [errorStateMatcher]="matcher">
+      <input [(ngModel)]="data.stock" matInput type="number" [formControl]="quantityFormControl" [errorStateMatcher]="matcher">
       <mat-error *ngIf="quantityFormControl.hasError('pattern')">
         Entrez uniquement des chiffres
       </mat-error>
@@ -54,7 +54,7 @@
 <mat-grid-tile colspan="1">
     <mat-form-field  appearance="fill">
       <mat-label>Quantité vendue</mat-label>
-      <input [(ngModel)]="data.quantity_sold" matInput disabled>
+      <input [(ngModel)]="data.sold" matInput disabled>
     </mat-form-field>
 </mat-grid-tile>
 
