@@ -18,6 +18,32 @@ export class ApiService {
   }
 
 
+  deleteAndOrSetTokens(key: string, key1: string, accessToken?: any, refreshToken?: any): void {
+    localStorage.removeItem(key);
+    localStorage.removeItem(key1);
+    if (typeof accessToken != 'undefined' && typeof refreshToken != 'undefined') {
+      localStorage.setItem(key, accessToken);
+      localStorage.setItem(key1, refreshToken);
+
+    }
+
+
+  }
+
+  getAcessToken(): string | null {
+    return localStorage.getItem("access");
+  }
+
+  getRefreshToken(): string | HttpErrorResponse {
+
+    let refreshToken: any = localStorage.getItem("refresh");
+
+    if (refreshToken) {
+      return refreshToken;
+    }
+    return new HttpErrorResponse({status: 404});
+  }
+
   refreshAccessToken(): Observable<any> {
     let refreshToken = this.getRefreshToken();
     const body = {"refresh": refreshToken};
@@ -121,13 +147,5 @@ export class ApiService {
     return decodedToken.user_id;
   }
 
-  getRefreshToken(): string | HttpErrorResponse {
 
-    let refreshToken: any = localStorage.getItem("refresh");
-
-    if (refreshToken) {
-      return refreshToken;
-    }
-    return new HttpErrorResponse({status: 404});
-  }
 }

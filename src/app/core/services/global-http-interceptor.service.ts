@@ -13,14 +13,14 @@ export class GlobalHttpInterceptorService implements HttpInterceptor {
   constructor(public router: Router, private api: ApiService) {
   }
 
-  tokenGetter(): string | null {
+  /*tokenGetter(): string | null {
     return localStorage.getItem("access");
-  }
+  }*/
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
 
-    let accessToken: string | null = this.tokenGetter();
+    let accessToken: string | null = this.api.getAcessToken();
     if (accessToken) {
       console.log('TOKEN', accessToken);
       const helper = new JwtHelperService();
@@ -29,10 +29,11 @@ export class GlobalHttpInterceptorService implements HttpInterceptor {
       console.log('DECODED POLOLO : ', decodedToken);
       if (isExpired) {
         this.api.refreshAccessToken().subscribe((data: any) => {
-          localStorage.removeItem("access");
+          this.api.deleteAndOrSetTokens("access", "refresh", data.access, data.refresh);
+          /*localStorage.removeItem("access");
           localStorage.removeItem("refresh");
           localStorage.setItem("access", data.access);
-          localStorage.setItem("refresh", data.refresh);
+          localStorage.setItem("refresh", data.refresh);*/
           accessToken = data.access;
         });
       }
