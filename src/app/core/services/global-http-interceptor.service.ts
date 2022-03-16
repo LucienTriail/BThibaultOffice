@@ -5,12 +5,13 @@ import {Observable, of, throwError} from "rxjs";
 import {catchError} from "rxjs/operators";
 import {JwtHelperService} from "@auth0/angular-jwt";
 import {ApiService} from "./api.service";
+import {ToastService} from "./toast.service";
 
 @Injectable()
 export class GlobalHttpInterceptorService implements HttpInterceptor {
 
   //private?
-  constructor(public router: Router, private api: ApiService) {
+  constructor(public router: Router, private api: ApiService, private toast: ToastService) {
   }
 
   /*tokenGetter(): string | null {
@@ -20,7 +21,7 @@ export class GlobalHttpInterceptorService implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
 
-    let accessToken: string | null = this.api.getAcessToken();
+    let accessToken: string | null = this.api.getAccessToken();
     if (accessToken) {
       console.log('TOKEN', accessToken);
       const helper = new JwtHelperService();
@@ -30,10 +31,6 @@ export class GlobalHttpInterceptorService implements HttpInterceptor {
       if (isExpired) {
         this.api.refreshAccessToken().subscribe((data: any) => {
           this.api.deleteAndOrSetTokens("access", "refresh", data.access, data.refresh);
-          /*localStorage.removeItem("access");
-          localStorage.removeItem("refresh");
-          localStorage.setItem("access", data.access);
-          localStorage.setItem("refresh", data.refresh);*/
           accessToken = data.access;
         });
       }
@@ -62,12 +59,12 @@ export class GlobalHttpInterceptorService implements HttpInterceptor {
 
                 case 404:     //not found
                   this.router.navigate(["/error"], extra);
-                  console.log(`redirect to login`);
+                  console.log(`redirect to error`);
                   handled = true;
                   break;
                 case 401:      //login
 
-
+                  this.toast.showError('Mauvais identifiant ou mot de passe');
                   this.router.navigate(["/login"]);
                   console.log(`redirect to login`);
                   handled = true;

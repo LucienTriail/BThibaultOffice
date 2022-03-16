@@ -5,6 +5,7 @@ import {Users} from "../interface/users";
 import {Observable, throwError} from "rxjs";
 import {catchError} from "rxjs/operators";
 import {JwtHelperService} from "@auth0/angular-jwt";
+import {Token} from "../interface/token";
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +31,7 @@ export class ApiService {
 
   }
 
-  getAcessToken(): string | null {
+  getAccessToken(): string | null {
     return localStorage.getItem("access");
   }
 
@@ -44,10 +45,10 @@ export class ApiService {
     return new HttpErrorResponse({status: 404});
   }
 
-  refreshAccessToken(): Observable<any> {
+  refreshAccessToken(): Observable<Token> {
     let refreshToken = this.getRefreshToken();
     const body = {"refresh": refreshToken};
-    return this.http.post<any>(this.BASE_URL + 'api/token/refresh', body)
+    return this.http.post<Token>(this.BASE_URL + 'api/token/refresh', body)
       .pipe(
         catchError((err) => {
           return throwError(err);
@@ -67,11 +68,11 @@ export class ApiService {
   }
 
   //besoin de gerer la reponse, fait?
-  login(user: Users) {
+  login(user: Users): Observable<Token> {
     console.log('in api service, login method');
     console.log('in api service, login method. USER: ', user.username);
     console.log('in api service, login method. USER: ', user.password);
-    return this.http.post<any>(this.BASE_URL + 'api/token/', user)
+    return this.http.post<Token>(this.BASE_URL + 'api/token/', user)
       .pipe(
         catchError((err) => {
           console.log('login error: ', err);
