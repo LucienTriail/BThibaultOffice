@@ -63,7 +63,6 @@ export class AccueilComponent implements OnInit {
       return date >= startDate && date <= endDate;
     });
 
-
  }
   dateRangeChange(dateRangeStart: HTMLInputElement, dateRangeEnd: HTMLInputElement) {
     console.log('type daterangechange',typeof dateRangeStart.value);
@@ -75,24 +74,32 @@ export class AccueilComponent implements OnInit {
     this.filterDate(dateRangeStart.value,dateRangeEnd.value);
    // this.updateTotalSales(dateRangeStart.value , dateRangeEnd.value);
    let datetri=this.filterDate(dateRangeStart.value,dateRangeEnd.value);
-   console.log("tableau"+ datetri);
+   this.sortByDate(datetri);
+   for(let i=0;i<datetri.length;i++)console.log(datetri[i]);
+
+   //console.log("tableau"+ datetri);
 
   }
+
+sortByDate(array: Transactions[]){
+  array.sort(function compare(a,b){
+    if(a.date < b.date){
+      return -1;
+    }
+    if(a.date>b.date){
+      return 1;
+    }
+    return 0;
+  });
+
+}
 
   updateRevenueAndProfit(){
     console.log("production"+this.transactionsList.length);
     for(let i=0;i<this.transactionsList.length;i++){
       console.log(this.transactionsList[i].amount);
     }
-    this.transactionsList.sort(function compare(a,b){
-      if(a.date < b.date){
-        return -1;
-      }
-      if(a.date>b.date){
-        return 1;
-      }
-      return 0;
-    });
+   
     //console.log(this.transactionsList);
 
     for(let i=0;i<this.transactionsList.length;i++){
