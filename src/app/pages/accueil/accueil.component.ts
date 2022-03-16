@@ -2,10 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {ApiService} from "../../core/services/api.service";
 
 
-export interface ExampleTab {
-  graph: object;
-}
-
 @Component({
   selector: 'app-accueil',
   templateUrl: './accueil.component.html',
@@ -32,6 +28,7 @@ export class AccueilComponent implements OnInit {
 
   ngOnInit(): void {
     this.initTotalSales();
+    this.initStockAndSales();
 
 
     this.updateOptions = {
@@ -46,6 +43,18 @@ export class AccueilComponent implements OnInit {
   }
 
   initStockAndSales() {
+
+    for (let i = 1; i < 13; i++) {
+      this.productsStock.push(Math.random());
+    }
+
+    for (let i = 1; i < 13; i++) {
+      this.productsSold.push(Math.random());
+    }
+
+    for (let i = 1; i < 13; i++) {
+      this.products.push("Produit " + i);
+    }
 
     this.options2 = {
       legend: {
