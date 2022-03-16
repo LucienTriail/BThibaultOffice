@@ -5,6 +5,9 @@ import {Users} from "../interface/users";
 import {Observable, throwError} from "rxjs";
 import {catchError} from "rxjs/operators";
 import {JwtHelperService} from "@auth0/angular-jwt";
+import { Transactions } from '../interface/transaction';
+
+
 import {Token} from "../interface/token";
 
 @Injectable({
@@ -17,7 +20,6 @@ export class ApiService {
 
   constructor(private http: HttpClient) {
   }
-
 
   deleteAndOrSetTokens(key: string, key1: string, accessToken?: any, refreshToken?: any): void {
     localStorage.removeItem(key);
@@ -126,6 +128,17 @@ export class ApiService {
           return throwError(err);
         })
       )
+  }
+
+  getTransactions(): Observable<Transactions[]> {
+    return this.http.get<Transactions[]>(this.BASE_URL + "transactions/")
+    .pipe(
+      catchError((err) => {
+        console.log('error caught in service')
+        console.error(err);
+        return throwError(err);
+      })
+    )
   }
 
   editSingleProduct(product: Products): Observable<Products> {

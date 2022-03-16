@@ -13,3 +13,5 @@ export interface Products {
   "stock": number,
   "sold": number
 }
+
+

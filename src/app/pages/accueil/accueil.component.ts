@@ -1,5 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ApiService} from "../../core/services/api.service";
+import { Transactions } from 'src/app/core/interface/transaction';
+import {FormGroup, FormControl} from '@angular/forms';
+import {MatDatepickerInputEvent} from '@angular/material/datepicker';
+import { end } from '@popperjs/core';
 
 
 @Component({
@@ -8,37 +12,143 @@ import {ApiService} from "../../core/services/api.service";
   styleUrls: ['./accueil.component.css']
 })
 export class AccueilComponent implements OnInit {
+
+  range = new FormGroup({
+    start: new FormControl(),
+    end: new FormControl(),
+  });
+  events: string[] = [];
+
+  addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
+    this.events.push(`${type}: ${event.value}`);
+  }
   options: any;
-  options2: any;
-  updateOptions: any;
-  updateOptions2: any;
+  options2 : any;
+  updateOptions:any;
+  updateOptions2:any;
   revenue: number[] = [];
   profit: number[] = [];
   products: string[] = [];
   productsSold: number[] = [];
   productsStock: number[] = [];
 
-  //TODO: creer la méthode de filtrage du tableau contenant la table des transactions
-  //TODO: insérer un DatePicker et ecouter ses changements. Call la méthode de filtrage avec les nouvelles dates
-  // a chaque changement
+  transactionsList: Transactions[] = [];
 
-  constructor(private api: ApiService) {
+  calendar : string[]=[];
+
+
+
+
+
+  constructor(private api:ApiService) {
+
+  }
+  // @ts-ignore 
+  transactionsList:Transactions[];
+  getTransactions(){
+    this.api.getTransactions().subscribe((data) => {
+      this.transactionsList=data;
+      console.log(this.transactionsList);
+      this.initTotalSales();
+    });
+
   }
 
 
-  ngOnInit(): void {
-    this.initTotalSales();
-    this.initStockAndSales();
+  filterDate(dateStart : string ,dateEnd : string){
+    var startDate = new Date(dateStart);
+    var endDate = new Date(dateEnd);
 
+    return this.transactionsList.filter(item => {
+      let date = new Date(item.date);
+      return date >= startDate && date <= endDate;
+    });
+
+
+ }
+  dateRangeChange(dateRangeStart: HTMLInputElement, dateRangeEnd: HTMLInputElement) {
+    console.log('type daterangechange',typeof dateRangeStart.value);
+    console.log('type daterangechange',typeof dateRangeEnd.value);
+    let dateStart :Date=new Date(dateRangeStart.value);
+    let dateEnd : Date=new Date(dateRangeEnd.value);
+    console.log('type daterangechange',typeof dateStart);
+    console.log('type daterangechange',typeof dateEnd);
+    this.filterDate(dateRangeStart.value,dateRangeEnd.value);
+   // this.updateTotalSales(dateRangeStart.value , dateRangeEnd.value);
+   let datetri=this.filterDate(dateRangeStart.value,dateRangeEnd.value);
+   console.log("tableau"+ datetri);
+
+  updateRevenueAndProfit(){
+    console.log("production"+this.transactionsList.length);
+    for(let i=0;i<this.transactionsList.length;i++){
+      console.log(this.transactionsList[i].amount);
+    }
+    this.transactionsList.sort(function compare(a,b){
+      if(a.date < b.date){
+        return -1;
+      }
+      if(a.date>b.date){
+        return 1;
+      }
+      return 0;
+    });
+    //console.log(this.transactionsList);
+
+    for(let i=0;i<this.transactionsList.length;i++){
+      this.revenue[i]=this.transactionsList[i].amount;
+    }
+    for(let i =0;i<this.revenue.length;i++){
+      let temp=(this.revenue[i]*0.3);
+      this.profit[i]=this.revenue[i]-temp;
+      console.log("profit"+this.profit[i]);
+    }
+  }
+  updateDate(){
+    for(let i=0;i<this.transactionsList.length;i++){
+      let date :Date=new Date(this.transactionsList[i].date);
+      console.log('date',typeof date);
+
+      let day:number=date.getDate();
+      let mois:number=date.getUTCMonth()+1;
+      let year:number=date.getUTCFullYear();
+      
+      
+      this.calendar[i]=day+"-"+mois+"-"+year;
+    }
+  }
+  
+
+  updateTotalSales(d1:any,d2 : any){
+    const result = this.transactionsList.filter(t => t.date>d1 && t.date<d2);
+    console.log('update',result);
+    //this.profit=
+    this.updateRevenueAndProfit();
+    this.updateDate();
 
     this.updateOptions = {
+      xAxis: [
+        {
+          type: 'category',
+          boundaryGap: false,
+          data: this.calendar
+        }
+      ],
       series: [{
         data1: this.revenue,
         data2: this.profit
       }]
 
     };
+    return result;
 
+  }
+
+
+
+
+
+  ngOnInit(): void {
+    this.getTransactions();
 
   }
 
@@ -90,14 +200,9 @@ export class AccueilComponent implements OnInit {
 
   }
 
-  initTotalSales() {
-    for (let i = 1; i < 13; i++) {
-      this.revenue.push(Math.random());
-    }
+  
 
-    for (let i = 1; i < 13; i++) {
-      this.profit.push(Math.random());
-    }
+  initTotalSales() {
 
     this.options = {
       tooltip: {
@@ -122,7 +227,7 @@ export class AccueilComponent implements OnInit {
         {
           type: 'category',
           boundaryGap: false,
-          data: ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"]
+          data: this.calendar
         }
       ],
       yAxis: [
