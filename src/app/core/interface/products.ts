@@ -3,14 +3,15 @@ export interface Products {
   "discount": number,
   "name": string,
   "id": number,
-  "owner": string,
   "comments": string,
   "availability": boolean,
   "category": number,
   "price": number,
-  "price_on_sale": number,
+  "discounted_price": number,
   "unit": string,
   "sale": boolean,
-  "quantity_stock": number,
-  "quantity_sold": number
+  "stock": number,
+  "sold": number
 }
+
+

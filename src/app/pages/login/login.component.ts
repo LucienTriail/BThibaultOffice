@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ApiService} from "../../core/services/api.service";
 import {Users} from "../../core/interface/users";
 import {Router} from "@angular/router";
@@ -9,21 +9,22 @@ import {Router} from "@angular/router";
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-user:Users = {
-  "username": "",
-  "password":"",
-};
+  user: Users = {
+    "username": "",
+    "password": "",
+  };
 
-  constructor(private api:ApiService, private router:Router) { }
+  constructor(private api: ApiService, private router: Router) {
+  }
 
-  authenticate(){
+  authenticate() {
     console.log('in authenticate');
     console.log('in authenticate user: ', this.user);
     this.api.login(this.user).subscribe(
       (data) => {
-        console.log('data: ',data);
-        localStorage.setItem("access_token", data.access);
-        localStorage.setItem("refresh_token", data.refresh);
+        console.log('data: ', data);
+        localStorage.setItem("access", data.access);
+        localStorage.setItem("refresh", data.refresh);
         this.router.navigate(['/accueil']);
       });
 

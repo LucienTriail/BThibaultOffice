@@ -1,28 +1,29 @@
-<mat-toolbar color="primary" >
+<mat-toolbar color="primary">
 
-  <button mat-button (click)="goToHome()"><mat-icon>home</mat-icon></button>
+  <button (click)="goToHome()" mat-button>
+    <mat-icon>home</mat-icon>
+  </button>
   <div class="categories">
     <div class="children right-children">
       <div class="child">
-        <button mat-button [matMenuTriggerFor]="menu">Détails</button>
+        <button [matMenuTriggerFor]="menu" mat-button>Détails</button>
         <mat-menu #menu="matMenu">
           <div class="child">
-          <button mat-menu-item  *ngFor="let item of categories" (click)="goToDetails()">{{item}}</button>
+            <button (click)="goToDetails()" *ngFor="let item of categories" mat-menu-item>{{item}}</button>
           </div>
         </mat-menu>
       </div>
       <div class="child">
-        <app-basic-button  role="Gestion des stocks"></app-basic-button>
-      </div>
-      <div class="child">
-        <app-basic-button  role="Comptabilité"></app-basic-button>
+        <app-basic-button role="Gestion des stocks"></app-basic-button>
       </div>
     </div>
-      <span class="example-spacer"></span>
-      <button mat-button> <mat-icon>logout</mat-icon> </button>
-    </div>
+    <span class="example-spacer"></span>
+    <button (click)="logout()" mat-button>
+      <mat-icon>logout</mat-icon>
+    </button>
+  </div>
 
-  </mat-toolbar>
+</mat-toolbar>
 
 
 
