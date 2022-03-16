@@ -54,6 +54,7 @@ export class AccueilComponent implements OnInit {
 
   }
 
+
   filterDate(dateStart : string ,dateEnd : string){
     var startDate = new Date(dateStart);
     var endDate = new Date(dateEnd);
@@ -76,8 +77,6 @@ export class AccueilComponent implements OnInit {
    // this.updateTotalSales(dateRangeStart.value , dateRangeEnd.value);
    let datetri=this.filterDate(dateRangeStart.value,dateRangeEnd.value);
    console.log("tableau"+ datetri);
-
-  }
 
   updateRevenueAndProfit(){
     console.log("production"+this.transactionsList.length);
@@ -154,6 +153,18 @@ export class AccueilComponent implements OnInit {
   }
 
   initStockAndSales() {
+
+    for (let i = 1; i < 13; i++) {
+      this.productsStock.push(Math.random());
+    }
+
+    for (let i = 1; i < 13; i++) {
+      this.productsSold.push(Math.random());
+    }
+
+    for (let i = 1; i < 13; i++) {
+      this.products.push("Produit " + i);
+    }
 
     this.options2 = {
       legend: {
