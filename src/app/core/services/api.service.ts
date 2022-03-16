@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Products, Transactions} from "../interface/products";
+import {Products} from "../interface/products";
 import {Users} from "../interface/users";
 import {Observable, throwError} from "rxjs";
 import {catchError} from "rxjs/operators";
 import {JwtHelperService} from "@auth0/angular-jwt";
+import { Transactions } from '../interface/transaction';
 
 
 
