@@ -4,3 +4,12 @@
 .demo-chart2{
     margin-top: 100px;
 }
+
+.picker{
+    position: relative;
+    left: 40%;
+}
+
+mat-form-field{
+    visibility: hidden;
+}
