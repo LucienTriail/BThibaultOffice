@@ -54,6 +54,7 @@ export class AccueilComponent implements OnInit {
 
   }
 
+
   filterDate(dateStart : string ,dateEnd : string){
     var startDate = new Date(dateStart);
     var endDate = new Date(dateEnd);
@@ -161,6 +162,18 @@ sortByDate(array: Transactions[]){
   }
 
   initStockAndSales() {
+
+    for (let i = 1; i < 13; i++) {
+      this.productsStock.push(Math.random());
+    }
+
+    for (let i = 1; i < 13; i++) {
+      this.productsSold.push(Math.random());
+    }
+
+    for (let i = 1; i < 13; i++) {
+      this.products.push("Produit " + i);
+    }
 
     this.options2 = {
       legend: {
