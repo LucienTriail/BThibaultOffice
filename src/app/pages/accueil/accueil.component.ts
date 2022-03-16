@@ -17,39 +17,43 @@ export class AccueilComponent implements OnInit {
     start: new FormControl(),
     end: new FormControl(),
   });
-  events: string[] = [];
+  // events: string[] = [];
 
-  addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
-    this.events.push(`${type}: ${event.value}`);
-  }
+  // addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
+  //   this.events.push(`${type}: ${event.value}`);
+  // }
   options: any;
   options2 : any;
-  updateOptions:any;
-  updateOptions2:any;
   revenue: number[] = [];
   profit: number[] = [];
   products: string[] = [];
   productsSold: number[] = [];
   productsStock: number[] = [];
-
   transactionsList: Transactions[] = [];
-
-  calendar : string[]=[];
-
-
-
+ calendar:string[]=[];
 
 
   constructor(private api:ApiService) {
 
   }
+
+  ngOnInit(): void {
+    this.getTransactions();
+
+
+  }
+  
   // @ts-ignore 
   transactionsList:Transactions[];
   getTransactions(){
     this.api.getTransactions().subscribe((data) => {
       this.transactionsList=data;
-      console.log(this.transactionsList);
-      this.initTotalSales();
+      for(let i=0;i<this.transactionsList.length;i++)console.log('in get transactions',this.transactionsList[i].amount);
+      this.updateRevenueAndProfit(this.transactionsList);
+      this.sortByDate(this.transactionsList);
+      this.calendar=this.updateDate(this.transactionsList);
+      console.log("initialisation",this.profit);
+      this.setOptions(this.calendar,this.revenue,this.profit);
     });
 
   }
@@ -65,20 +69,71 @@ export class AccueilComponent implements OnInit {
     });
 
  }
+
+ setOptions(calendar:string[],revenue:number[],profit:number[]){
+   console.log("setoption",profit);
+
+  this.options = {
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'cross',
+        label: {
+          backgroundColor: '#6a7985'
+        }
+      }
+    },
+    legend: {
+      data: ["Chiffres d'affaires", "Bénéfices"]
+    },
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: '3%',
+      containLabel: true
+    },
+    xAxis: [
+      {
+        type: 'category',
+        boundaryGap: false,
+        data:calendar
+      }
+    ],
+    yAxis: [
+      {
+        type: 'value'
+      }
+    ],
+    series: [
+      {
+        name: "Chiffres d'affaires",
+        type: 'line',
+        areaStyle: {},
+        data: revenue
+      },
+      {
+        name: 'Bénéfices',
+        type: 'line',
+        areaStyle: {},
+        data: profit
+      },
+
+    ]
+  };
+
+
+ }
+ 
   dateRangeChange(dateRangeStart: HTMLInputElement, dateRangeEnd: HTMLInputElement) {
     console.log('type daterangechange',typeof dateRangeStart.value);
     console.log('type daterangechange',typeof dateRangeEnd.value);
-    let dateStart :Date=new Date(dateRangeStart.value);
-    let dateEnd : Date=new Date(dateRangeEnd.value);
-    console.log('type daterangechange',typeof dateStart);
-    console.log('type daterangechange',typeof dateEnd);
-    this.filterDate(dateRangeStart.value,dateRangeEnd.value);
-   // this.updateTotalSales(dateRangeStart.value , dateRangeEnd.value);
-   let datetri=this.filterDate(dateRangeStart.value,dateRangeEnd.value);
-   this.sortByDate(datetri);
-   for(let i=0;i<datetri.length;i++)console.log(datetri[i]);
-
-   //console.log("tableau"+ datetri);
+   let filteredDate = this.filterDate(dateRangeStart.value,dateRangeEnd.value);
+    this.sortByDate(filteredDate);
+   for(let i=0;i<filteredDate.length;i++)console.log('in date change',filteredDate[i]);
+     this.updateRevenueAndProfit(filteredDate);
+     this.calendar=[];
+     this.calendar=this.updateDate(filteredDate);
+    this.setOptions(this.calendar,this.revenue,this.profit);
 
   }
 
@@ -95,173 +150,44 @@ sortByDate(array: Transactions[]){
 
 }
 
-  updateRevenueAndProfit(){
-    console.log("production"+this.transactionsList.length);
-    for(let i=0;i<this.transactionsList.length;i++){
-      console.log(this.transactionsList[i].amount);
-    }
+updateRevenueAndProfit(array: Transactions[]){
    
-    //console.log(this.transactionsList);
-
-    for(let i=0;i<this.transactionsList.length;i++){
-      this.revenue[i]=this.transactionsList[i].amount;
+this.revenue=[];
+    for(let i=0;i<array.length;i++){
+      this.revenue[i]=array[i].amount;
+      console.log('revenue ',this.revenue[i]);
     }
-    for(let i =0;i<this.revenue.length;i++){
+console.log('revenue in updaterevenye ',this.revenue)
+this.profit=[];
+
+    for(let i =0;i<array.length;i++){
       let temp=(this.revenue[i]*0.3);
       this.profit[i]=this.revenue[i]-temp;
-      console.log("profit"+this.profit[i]);
+      console.log("profit "+this.profit[i]);
     }
+  
   }
-  updateDate(){
-    for(let i=0;i<this.transactionsList.length;i++){
-      let date :Date=new Date(this.transactionsList[i].date);
+
+  updateDate(array:Transactions[]): string[]{
+    let calendar:string[]=[];
+
+    for(let i=0;i<array.length;i++){
+      let date :Date=new Date(array[i].date);
       console.log('date',typeof date);
 
       let day:number=date.getDate();
       let mois:number=date.getUTCMonth()+1;
       let year:number=date.getUTCFullYear();
-      
-      
-      this.calendar[i]=day+"-"+mois+"-"+year;
+      calendar[i]=day+"-"+mois+"-"+year;
     }
+    return calendar;
   }
   
 
-  updateTotalSales(d1:any,d2 : any){
-    const result = this.transactionsList.filter(t => t.date>d1 && t.date<d2);
-    console.log('update',result);
-    //this.profit=
-    this.updateRevenueAndProfit();
-    this.updateDate();
-
-    this.updateOptions = {
-      xAxis: [
-        {
-          type: 'category',
-          boundaryGap: false,
-          data: this.calendar
-        }
-      ],
-      series: [{
-        data1: this.revenue,
-        data2: this.profit
-      }]
-
-    };
-    return result;
-
-  }
-
-
-
-
-
-  ngOnInit(): void {
-    this.getTransactions();
-
-  }
-
-  initStockAndSales() {
-
-    for (let i = 1; i < 13; i++) {
-      this.productsStock.push(Math.random());
-    }
-
-    for (let i = 1; i < 13; i++) {
-      this.productsSold.push(Math.random());
-    }
-
-    for (let i = 1; i < 13; i++) {
-      this.products.push("Produit " + i);
-    }
-
-    this.options2 = {
-      legend: {
-        data: ['Stock', 'Ventes'],
-        align: 'left',
-      },
-      tooltip: {},
-      xAxis: {
-        data: this.products,
-        silent: false,
-        splitLine: {
-          show: false,
-        },
-      },
-      yAxis: {},
-      series: [
-        {
-          name: 'Stock',
-          type: 'bar',
-          data: this.productsStock,
-          animationDelay: (idx: number) => idx * 10,
-        },
-        {
-          name: 'Ventes',
-          type: 'bar',
-          data: this.productsSold,
-          animationDelay: (idx: number) => idx * 10 + 100,
-        },
-      ],
-      animationEasing: 'elasticOut',
-      animationDelayUpdate: (idx: number) => idx * 5,
-    };
-
-  }
+ 
 
   
 
-  initTotalSales() {
-
-    this.options = {
-      tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-          type: 'cross',
-          label: {
-            backgroundColor: '#6a7985'
-          }
-        }
-      },
-      legend: {
-        data: ["Chiffres d'affaires", "Bénéfices"]
-      },
-      grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '3%',
-        containLabel: true
-      },
-      xAxis: [
-        {
-          type: 'category',
-          boundaryGap: false,
-          data: this.calendar
-        }
-      ],
-      yAxis: [
-        {
-          type: 'value'
-        }
-      ],
-      series: [
-        {
-          name: "Chiffres d'affaires",
-          type: 'line',
-          stack: 'counts',
-          areaStyle: {},
-          data: this.revenue
-        },
-        {
-          name: 'Bénéfices',
-          type: 'line',
-          stack: 'counts',
-          areaStyle: {},
-          data: this.profit
-        },
-
-      ]
-    };
-  }
+ 
 
 }
