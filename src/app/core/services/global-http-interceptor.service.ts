@@ -1,42 +1,53 @@
 import {Injectable} from "@angular/core";
-import {NavigationExtras, Router} from "@angular/router";
-import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
-import {Observable, of, throwError} from "rxjs";
-import {catchError} from "rxjs/operators";
-import {JwtHelperService} from "@auth0/angular-jwt";
+import {Router} from "@angular/router";
+import {HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
 import {ApiService} from "./api.service";
 import {ToastService} from "./toast.service";
 
 @Injectable()
 export class GlobalHttpInterceptorService implements HttpInterceptor {
 
-  //private?
+
   constructor(public router: Router, private api: ApiService, private toast: ToastService) {
   }
 
-  /*tokenGetter(): string | null {
-    return localStorage.getItem("access");
-  }*/
-
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  /*intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
 
-    let accessToken: string | null = this.api.getAccessToken();
-    if (accessToken) {
-      console.log('TOKEN', accessToken);
-      const helper = new JwtHelperService();
-      const decodedToken = helper.decodeToken(accessToken);
-      const isExpired = helper.isTokenExpired(accessToken);
-      console.log('DECODED POLOLO : ', decodedToken);
-      if (isExpired) {
-        this.api.refreshAccessToken().subscribe((data: any) => {
-          this.api.deleteAndOrSetTokens("access", "refresh", data.access, data.refresh);
-          accessToken = data.access;
-        });
-      }
+    let accessToken: string | null = this.tokenService.getAccessToken();
 
-      req = req.clone({withCredentials: true, headers: req.headers.set('Authorization', "Bearer " + accessToken)});
+
+    console.log('TOKEN', accessToken);
+    const helper = new JwtHelperService();
+    // @ts-ignore
+    const decodedToken = helper.decodeToken(accessToken);
+    // @ts-ignore
+    const expirationDate = helper.getTokenExpirationDate(accessToken);
+    // @ts-ignore
+    const isExpired = helper.isTokenExpired(accessToken);
+    console.log('expirationdate: ', expirationDate);
+    console.log('expiration in ms ', expirationDate?.getTime())
+    console.log('datenow ', Date.now());
+    // @ts-ignore
+    console.log('datenow ', Date.now() - expirationDate?.getTime());
+
+    // @ts-ignore
+
+    if (expirationDate.getTime() - Date.now() <= 10000) {
+      console.log('in if');
+      this.tokenService1.getRefreshToken().subscribe((data: Token) => {
+        localStorage.setItem("access", data.access);
+        localStorage.setItem("refresh", data.refresh);
+
+
+        accessToken = data.access;
+      });
+    } else {
+      console.log('else');
     }
+    req = req.clone({withCredentials: true, headers: req.headers.set('Authorization', "Bearer " + accessToken)});
+
+
     return next.handle(req).pipe
     (
       catchError(
@@ -63,6 +74,7 @@ export class GlobalHttpInterceptorService implements HttpInterceptor {
                   handled = true;
                   break;
                 case 401:      //login
+
 
                   this.toast.showError('Mauvais identifiant ou mot de passe');
                   this.router.navigate(["/login"]);
@@ -97,5 +109,19 @@ export class GlobalHttpInterceptorService implements HttpInterceptor {
         })
     )
 
+  }*/
+  intercept(request: HttpRequest<any>, next: HttpHandler) {
+
+    request = request.clone({withCredentials: true, headers: request.headers.set('Content-Type', 'application/json')});
+    let token: string | null = localStorage.getItem("access");
+    if (token) {
+      console.log('token in intercept: ', token);
+      request = request.clone({
+        withCredentials: true,
+        headers: request.headers.set('Authorization', 'Bearer ' + token)
+      });
+    }
+    return next.handle(request);
   }
+
 }
