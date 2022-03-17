@@ -3,5 +3,6 @@ export interface Transactions{
     "date":Date,
     "amount":number,
     "productQuantity":number,
-    "idProduct_id":number
+    "product_id":number,
+    "category":string
   }
