@@ -1,15 +1,17 @@
-.demo-chart{
-    margin-top: 100px;
-}
-.demo-chart2{
-    margin-top: 100px;
+.demo-chart {
+  margin-top: 100px;
 }
 
-.picker{
-    position: relative;
-    left: 40%;
+.demo-chart2 {
+  margin-top: 100px;
 }
 
-mat-form-field{
-    visibility: hidden;
+.picker {
+  position: relative;
+  left: 40%;
+}
+
+mat-form-field {
+  visibility: hidden;
+  width: 1px;
 }
