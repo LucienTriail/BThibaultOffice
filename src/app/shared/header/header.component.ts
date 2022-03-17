@@ -28,9 +28,8 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     this.api.logout().subscribe(() => {
-      this.api.deleteAndOrSetTokens("access", "refresh");
-      /* localStorage.removeItem("access");
-       localStorage.removeItem("refresh");*/
+      localStorage.removeItem("access");
+      localStorage.removeItem("refresh");
       this.router.navigate(['/login']);
 
     })
