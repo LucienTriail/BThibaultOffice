@@ -40,9 +40,8 @@ export class ApiService {
 
 
   logout() {
-    // let refreshToken = this.token.getRefreshToken();
-    // const body = {"refresh": refreshToken};
-    const body = 'plop';
+    let refreshToken = localStorage.getItem("refresh");
+    const body = {"refresh": refreshToken};
     return this.http.post(this.BASE_URL + 'logout/', body)
       .pipe(
         catchError((err) => {
