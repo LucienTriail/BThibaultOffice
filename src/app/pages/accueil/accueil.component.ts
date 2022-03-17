@@ -21,10 +21,10 @@ export class AccueilComponent implements OnInit {
   profit: number[] = [];
   products: string[] = [];
   productsSold: number[] = [];
-  productsStock: number[] = [];
   transactionsList: Transactions[] = [];
   calendar: string[] = [];
   filteredDate: Transactions[] = [];
+  filteredByCategory: Transactions[] = [];
 
   categories: string[] = ['poissons', 'crustacés']
 
@@ -33,11 +33,15 @@ export class AccueilComponent implements OnInit {
   }
 
   selectMe(event: any) {
+    this.filteredByCategory = [];
     console.log('event ', event);
     console.log('filteredate in cat: ', this.filteredDate)
-    this.filteredDate = this.filterByCategory(event);
-    console.log('filter by cat: ', this.filteredDate);
-    this.updateRevenueAndProfit(this.filteredDate);
+    // this.filteredDate = this.filterByCategory(event);
+    this.filteredByCategory = [...this.filteredDate];
+    console.log('spreaded filterCAT: ', this.filteredByCategory);
+    this.filteredByCategory = this.filterByCategory(event);
+    console.log('filter by cat: ', this.filteredByCategory);
+    this.updateRevenueAndProfit(this.filteredByCategory);
     this.setOptions(this.calendar, this.revenue, this.profit);
   }
 

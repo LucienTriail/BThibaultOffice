@@ -1,5 +1,4 @@
 <mat-form-field appearance="fill" class="picker">
-  <mat-label>Enter a date range</mat-label>
   <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
     <input #dateRangeStart formControlName="start" matStartDate
            placeholder="Start date">
@@ -20,8 +19,9 @@
 
 <div [options]="options" class="demo-chart" echarts theme="macarons"></div>
 
-<mat-chip-list aria-label="Fish selection">
-  <mat-chip (click)="selectMe(category)" *ngFor="let category of categories">
+<mat-chip-list>
+  <mat-chip (click)="selectMe(category)" *ngFor="let category of categories"
+            color="primary" selected>
     {{category}}
   </mat-chip>
 </mat-chip-list>
