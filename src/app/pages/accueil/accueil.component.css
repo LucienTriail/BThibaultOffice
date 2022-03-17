@@ -2,9 +2,10 @@
   margin-top: 100px;
 }
 
-.demo-chart2 {
-  margin-top: 100px;
+:host ::ng-deep mat-date-range-picker {
+  color: blue;
 }
+
 
 .picker {
   position: relative;
