@@ -10,11 +10,11 @@ import {TokenService} from "./core/services/token.service";
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', redirectTo: 'accueil'},
-  {path: 'details', component: DetailsProductComponent},
+  {path: 'details', component: DetailsProductComponent, canActivate: [TokenService]},
   {path: 'login', component: LoginComponent},
   {path: 'accueil', component: AccueilComponent, canActivate: [TokenService]},
-  {path: 'error', component: ErrorComponent},
-  {path: 'user', component: UserDetailComponent},
+  {path: 'error', component: ErrorComponent, canActivate: [TokenService]},
+  {path: 'user', component: UserDetailComponent, canActivate: [TokenService]},
   {path: '**', pathMatch: 'full', redirectTo: 'accueil'},
 
 
