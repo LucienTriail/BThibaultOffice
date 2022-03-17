@@ -26,7 +26,7 @@ export class AccueilComponent implements OnInit {
   filteredDate: Transactions[] = [];
   filteredByCategory: Transactions[] = [];
 
-  categories: string[] = ['poissons', 'crustacés']
+  categories: string[] = ['poissons', 'crustacés'];
 
   constructor(private api: ApiService) {
 

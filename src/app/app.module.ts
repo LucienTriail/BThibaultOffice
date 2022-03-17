@@ -18,6 +18,7 @@ import {UserDetailModule} from "./pages/user-detail/user-detail.module";
 import {ToastrModule} from 'ngx-toastr';
 import {GlobalHttpInterceptorService} from "./core/services/global-http-interceptor.service";
 import {GlobalErrorHandlerService} from "./core/services/global-error-handler.service";
+import {TokenService} from "./core/services/token.service";
 
 
 @NgModule({
@@ -45,6 +46,7 @@ import {GlobalErrorHandlerService} from "./core/services/global-error-handler.se
 
   providers: [
     ApiService,
+    TokenService,
     {provide: HTTP_INTERCEPTORS, useClass: GlobalHttpInterceptorService, multi: true},
     {provide: ErrorHandler, useClass: GlobalErrorHandlerService}
 
