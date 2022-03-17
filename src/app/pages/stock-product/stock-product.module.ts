@@ -7,7 +7,8 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
 import {MatOptionModule} from "@angular/material/core";
 import {MatSelectModule} from "@angular/material/select";
-
+import {FormsModule} from "@angular/forms";
+import {ReactiveFormsModule} from "@angular/forms";
 @NgModule({
   declarations: [StockProductComponent],
   imports: [
@@ -16,7 +17,9 @@ import {MatSelectModule} from "@angular/material/select";
     MatTableModule,
     MatPaginatorModule,
     MatOptionModule,
-    MatSelectModule
+    MatSelectModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })

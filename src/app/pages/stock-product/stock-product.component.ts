@@ -5,11 +5,24 @@ import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {ApiService} from "../../core/services/api.service";
 import {MatSelectChange} from "@angular/material/select";
+import {clear} from "echarts/types/src/util/throttle";
+import {MatOptionSelectionChange} from "@angular/material/core";
+import {MyErrorStateMatcher} from "../../shared/single-product-card/single-product-card.component";
+import {FormControl, Validators} from "@angular/forms";
+import {BehaviorSubject, from} from "rxjs";
+import {DataSource} from "@angular/cdk/collections";
 
 export interface EmpFilter {
   name:string;
   options:string[];
   defaultValue:string;
+}
+
+export interface StockTransac {
+  product : Products,
+  category : number,
+  stockBis : number,
+  operation?: string
 }
 
 @Component({
@@ -21,21 +34,35 @@ export class StockProductComponent implements OnInit, AfterViewInit  {
 
 
   productsList: Products[] | undefined ;
-  displayedColumns: string[] = ['name', 'price','category', 'discount', 'stock'];
+  lstStockTransac: StockTransac[] =[];
+  displayedColumns: string[] = ['product.name', 'product.price','category', 'product.discount', 'product.stock', 'operation'];
   // @ts-ignore
-  dataSource: MatTableDataSource<Products> ;
+  dataSource: MatTableDataSource<StockTransac> ;
   empFilters: EmpFilter[]=[];
   category: string[]=['0','1','2','3'];
+  operations = [
+    {value: ''},
+    {value: 'Achat'},
+    {value: 'Vente'},
+    {value: 'Mis au rebut'}
+  ];
 
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
   @ViewChild(MatSort) sort: MatSort | undefined;
   private defaultValu: string | undefined;
 
+
+
   constructor(private productService : ApiService) {}
 
+  //Match error of Mat Input field
+  matcher = new MyErrorStateMatcher();
+  percentageDiscountFormControl = new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]);
+  quantityFormControl = new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]);
+
   ngOnInit(): void {
-    this.getProducts();
-    this.dataSource = new MatTableDataSource(products);
+    this.loadData(products);
+    // this.getProducts();
     this.empFilters.push({name:'category',options:this.category,defaultValue:''});
     this.dataSource.filterPredicate = function (record,filter) {
 
@@ -43,13 +70,12 @@ export class StockProductComponent implements OnInit, AfterViewInit  {
       let isMatch = false;
 
       for(let [key,value] of map){
-        isMatch = (value=="All") || (record[key as keyof Products] == value);
+        isMatch = (value=="All") || (record[key as keyof StockTransac] == value);
         if(!isMatch) return false;
       }
 
       return isMatch;
     }
-
   }
 
   ngAfterViewInit() {
@@ -57,6 +83,7 @@ export class StockProductComponent implements OnInit, AfterViewInit  {
     this.dataSource.paginator = this.paginator;
     // @ts-ignore
     this.dataSource.sort = this.sort;
+    this.dataSource._updateChangeSubscription();
   }
 
   getProducts(){
@@ -75,28 +102,49 @@ export class StockProductComponent implements OnInit, AfterViewInit  {
     this.productsList = this.productsList?.filter(x => x.category > l_category);
   }
 
-  applyFilterA(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
 
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
-  }
 
-  filterDictionary= new Map<string,string>();
+  filterDictionary= new Map<string,StockTransac>();
 
   applyEmpFilter(ob:MatSelectChange,empfilter:EmpFilter) {
     this.filterDictionary.set(empfilter.name,ob.value);
     var jsonString = JSON.stringify(Array.from(this.filterDictionary.entries()));
     this.dataSource.filter = jsonString;
-
   }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
+
+  loadData(products: Products[]){
+    for (let product of products) {
+      let stockTrans = {} as  StockTransac ;
+      stockTrans.product = product;
+      stockTrans.category = product.category;
+      this.lstStockTransac.push(stockTrans);
+    }
+    this.dataSource = new MatTableDataSource(this.lstStockTransac);
+  }
+
+
+  ChangeData(trans: StockTransac, value: string) {
+     this.dataSource._updateChangeSubscription();
+
+     if (typeof trans.stockBis == "number" && trans.stockBis > 0){
+       switch (trans.operation){
+         case'Achat': trans.product.stock += trans.stockBis;
+         break;
+         default: trans.product.stock -= trans.stockBis;
+       }
+     }
+     console.log(trans.operation)
+  }
+
+  save() {
+    console.log(this.dataSource.data)
+  }
+
 }
 
 
@@ -283,7 +331,7 @@ const products: Products[] = [{
     "sold": 100
   },
   {
-    "discount": 0,
+    "discount": 20,
     "availability": true,
     "owner": "tig",
     "name": "Bar de ligne",
@@ -313,7 +361,7 @@ const products: Products[] = [{
     "sold": 100
   },
   {
-    "discount": 0,
+    "discount": 12,
     "name": "Huîtres N°2 OR St Vaast",
     "sale": false,
     "category": 1,
@@ -327,3 +375,5 @@ const products: Products[] = [{
     "stock": 20,
     "sold": 100
   }];
+
+

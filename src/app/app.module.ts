@@ -22,6 +22,7 @@ import {UserDetailModule} from "./pages/user-detail/user-detail.module";
 import {MatTableModule} from "@angular/material/table";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {StockProductModule} from "./pages/stock-product/stock-product.module";
+import {FormsModule} from "@angular/forms";
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");
@@ -56,7 +57,8 @@ export function tokenGetter() {
     }),
     ErrorModule,
     UserDetailModule,
-    StockProductModule
+    StockProductModule,
+    FormsModule,
   ],
 
   providers: [
