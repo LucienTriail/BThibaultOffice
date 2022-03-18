@@ -29,3 +29,8 @@ mat-chip {
   justify-content: center;
   
 }
+.pickerIcon{
+  position: absolute;
+  top:15%;
+  left:40%;
+}
