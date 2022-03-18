@@ -1,13 +1,11 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {Products} from "../interface/products";
 import {Users} from "../interface/users";
 import {Observable, throwError} from "rxjs";
 import {catchError} from "rxjs/operators";
 import {JwtHelperService} from "@auth0/angular-jwt";
-import { Transactions } from '../interface/transaction';
-
-
+import {Transactions} from '../interface/transaction';
 import {Token} from "../interface/token";
 
 @Injectable({
@@ -18,49 +16,33 @@ export class ApiService {
 
   BASE_URL: string = 'http://localhost:8000/';
 
+
   constructor(private http: HttpClient) {
   }
 
-  deleteAndOrSetTokens(key: string, key1: string, accessToken?: any, refreshToken?: any): void {
-    localStorage.removeItem(key);
-    localStorage.removeItem(key1);
-    if (typeof accessToken != 'undefined' && typeof refreshToken != 'undefined') {
-      localStorage.setItem(key, accessToken);
-      localStorage.setItem(key1, refreshToken);
+  async deleteAndOrSetTokens(token: Token) {
+    /* localStorage.removeItem(key);
+     localStorage.removeItem(key1);
+     if (typeof accessToken != 'undefined' && typeof refreshToken != 'undefined') {
+       localStorage.setItem(key, accessToken);
+       localStorage.setItem(key1, refreshToken);
 
-    }
+       key: string, key1: string, accessToken?: any, refreshToken?: any
 
+     }*/
+
+    await localStorage.removeItem("access");
+    await localStorage.removeItem("refresh");
+    await localStorage.setItem("access", token.access);
+    await localStorage.setItem("refresh", token.refresh);
 
   }
 
-  getAccessToken(): string | null {
-    return localStorage.getItem("access");
-  }
-
-  getRefreshToken(): string | HttpErrorResponse {
-
-    let refreshToken: any = localStorage.getItem("refresh");
-
-    if (refreshToken) {
-      return refreshToken;
-    }
-    return new HttpErrorResponse({status: 404});
-  }
-
-  refreshAccessToken(): Observable<Token> {
-    let refreshToken = this.getRefreshToken();
-    const body = {"refresh": refreshToken};
-    return this.http.post<Token>(this.BASE_URL + 'api/token/refresh', body)
-      .pipe(
-        catchError((err) => {
-          return throwError(err);
-        })
-      );
-  }
 
   logout() {
-    let refreshToken = this.getRefreshToken();
-    const body = {"refresh": refreshToken};
+    // let refreshToken = this.token.getRefreshToken();
+    // const body = {"refresh": refreshToken};
+    const body = 'plop';
     return this.http.post(this.BASE_URL + 'logout/', body)
       .pipe(
         catchError((err) => {
@@ -132,13 +114,13 @@ export class ApiService {
 
   getTransactions(): Observable<Transactions[]> {
     return this.http.get<Transactions[]>(this.BASE_URL + "transactions/")
-    .pipe(
-      catchError((err) => {
-        console.log('error caught in service')
-        console.error(err);
-        return throwError(err);
-      })
-    )
+      .pipe(
+        catchError((err) => {
+          console.log('error caught in service')
+          console.error(err);
+          return throwError(err);
+        })
+      )
   }
 
   editSingleProduct(product: Products): Observable<Products> {
