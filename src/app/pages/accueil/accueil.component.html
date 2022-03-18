@@ -9,18 +9,20 @@
 </mat-form-field>
 
 <div class="pickerIcon">
-  <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
+  <mat-datepicker-toggle [for]="picker" matSuffix>
+  </mat-datepicker-toggle>
 </div>
 
-<mat-date-range-picker #picker></mat-date-range-picker>
+<mat-date-range-picker #picker touchUi></mat-date-range-picker>
 
 <mat-error *ngIf="range.controls['start'].hasError('matStartDateInvalid')">Invalid start date</mat-error>
 <mat-error *ngIf="range.controls['end'].hasError('matEndDateInvalid')">Invalid end date</mat-error>
 
-<div [options]="options" class="demo-chart" echarts theme="macarons"></div>
+<div [options]="options" class="chart" echarts theme="macarons"></div>
 
-<mat-chip-list class="mat-chip-list-stacked" >
-  <mat-chip (click)="selectMe(category)" *ngFor="let category of categories" color="primary" selected>
+<mat-chip-list *ngIf="isDateSelected" class="mat-chip-list-stacked">
+  <mat-chip (click)="selectMe(category)" *ngFor="let category of categories" color="primary"
+            selected>
     {{category}}
   </mat-chip>
 </mat-chip-list>

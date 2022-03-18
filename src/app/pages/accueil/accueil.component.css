@@ -1,36 +1,28 @@
-.demo-chart {
+.chart {
   margin-top: 100px;
 }
 
-:host ::ng-deep mat-date-range-picker {
-  color: blue;
-}
-
-
-.picker {
-  position: relative;
-  left: 40%;
-}
 
 mat-form-field {
   visibility: hidden;
   width: 1px;
 }
 
-.mat-chip-list-stacked{
+.mat-chip-list-stacked {
   position: absolute;
-  top:15%;
-  left:48%;
+  top: 15%;
+  left: 48%;
 }
 
 mat-chip {
   max-width: 100px;
   padding-right: 15px;
   justify-content: center;
-  
+
 }
-.pickerIcon{
+
+.pickerIcon {
   position: absolute;
-  top:15%;
-  left:40%;
+  top: 20%;
+  left: 45%;
 }

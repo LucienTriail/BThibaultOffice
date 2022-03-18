@@ -11,6 +11,7 @@ import {FormControl, FormGroup} from '@angular/forms';
 })
 export class AccueilComponent implements OnInit {
 
+
   range = new FormGroup({
     start: new FormControl(),
     end: new FormControl(),
@@ -23,36 +24,30 @@ export class AccueilComponent implements OnInit {
   calendar: string[] = [];
   filteredDate: Transactions[] = [];
   filteredByCategory: Transactions[] = [];
-
   categories: string[] = ['poissons', 'crustacés'];
+  isDateSelected: boolean = false;
+
 
   constructor(private api: ApiService) {
-
-  }
-
-  selectMe(event: any) {
-    this.filteredByCategory = [];
-    console.log('event ', event);
-    console.log('filteredate in cat: ', this.filteredDate)
-    // this.filteredDate = this.filterByCategory(event);
-    this.filteredByCategory = [...this.filteredDate];
-    console.log('spreaded filterCAT: ', this.filteredByCategory);
-    this.filteredByCategory = this.filterByCategory(event);
-    console.log('filter by cat: ', this.filteredByCategory);
-    this.updateRevenueAndProfit(this.filteredByCategory);
-    this.setOptions(this.calendar, this.revenue, this.profit);
   }
 
   ngOnInit(): void {
     this.getTransactions();
   }
 
-  filterByCategory(cat: string): Transactions[] {
 
-    return this.filteredDate.filter(item => {
-      console.log('item cat: ', item);
-      return item.category == cat;
-    });
+  dateRangeChange(dateRangeStart: HTMLInputElement, dateRangeEnd: HTMLInputElement) {
+    this.isDateSelected = true;
+    console.log('type daterangechange', typeof dateRangeStart.value);
+    console.log('type daterangechange', typeof dateRangeEnd.value);
+    this.filteredDate = this.filterDate(dateRangeStart.value, dateRangeEnd.value);
+    this.sortByDate(this.filteredDate);
+    for (let i = 0; i < this.filteredDate.length; i++) console.log('in date change', this.filteredDate[i]);
+    this.updateRevenueAndProfit(this.filteredDate);
+    this.calendar = [];
+    this.calendar = this.updateDate(this.filteredDate);
+    this.setOptions(this.calendar, this.revenue, this.profit);
+
   }
 
   getTransactions() {
@@ -68,6 +63,27 @@ export class AccueilComponent implements OnInit {
 
   }
 
+  selectMe(event: any) {
+    this.filteredByCategory = [];
+    console.log('event ', event);
+    console.log('filteredate in cat: ', this.filteredDate)
+    this.filteredByCategory = [...this.filteredDate];
+    console.log('spreaded filterCAT: ', this.filteredByCategory);
+    this.filteredByCategory = this.filterByCategory(event);
+    console.log('filter by cat: ', this.filteredByCategory);
+    this.updateRevenueAndProfit(this.filteredByCategory);
+    this.setOptions(this.calendar, this.revenue, this.profit);
+  }
+
+
+  filterByCategory(cat: string): Transactions[] {
+
+    return this.filteredDate.filter(item => {
+      console.log('item cat: ', item);
+      return item.category == cat;
+    });
+  }
+
 
   filterDate(dateStart: string, dateEnd: string) {
     let startDate = new Date(dateStart);
@@ -78,6 +94,53 @@ export class AccueilComponent implements OnInit {
       return date >= startDate && date <= endDate;
     });
 
+  }
+
+  sortByDate(array: Transactions[]) {
+    array.sort(function compare(a, b) {
+      if (a.date < b.date) {
+        return -1;
+      }
+      if (a.date > b.date) {
+        return 1;
+      }
+      return 0;
+    });
+
+  }
+
+
+  updateRevenueAndProfit(array: Transactions[]) {
+
+    this.revenue = [];
+    for (let i = 0; i < array.length; i++) {
+      this.revenue[i] = array[i].amount;
+      console.log('revenue ', this.revenue[i]);
+    }
+    console.log('revenue in updaterevenye ', this.revenue)
+    this.profit = [];
+
+    for (let i = 0; i < array.length; i++) {
+      let temp = (this.revenue[i] * 0.3);
+      this.profit[i] = this.revenue[i] - temp;
+      console.log("profit " + this.profit[i]);
+    }
+
+  }
+
+  updateDate(array: Transactions[]): string[] {
+    let calendar: string[] = [];
+
+    for (let i = 0; i < array.length; i++) {
+      let date: Date = new Date(array[i].date);
+      console.log('date', typeof date);
+
+      let day: number = date.getDate();
+      let mois: number = date.getUTCMonth() + 1;
+      let year: number = date.getUTCFullYear();
+      calendar[i] = day + "-" + mois + "-" + year;
+    }
+    return calendar;
   }
 
   setOptions(calendar: string[], revenue: number[], profit: number[]) {
@@ -132,68 +195,6 @@ export class AccueilComponent implements OnInit {
     };
 
 
-  }
-
-  dateRangeChange(dateRangeStart: HTMLInputElement, dateRangeEnd: HTMLInputElement) {
-    console.log('type daterangechange', typeof dateRangeStart.value);
-    console.log('type daterangechange', typeof dateRangeEnd.value);
-    // this.filteredDate=[];
-    this.filteredDate = this.filterDate(dateRangeStart.value, dateRangeEnd.value);
-
-    // let filteredDate = this.filterDate(dateRangeStart.value, dateRangeEnd.value);
-    this.sortByDate(this.filteredDate);
-    for (let i = 0; i < this.filteredDate.length; i++) console.log('in date change', this.filteredDate[i]);
-    this.updateRevenueAndProfit(this.filteredDate);
-    this.calendar = [];
-    this.calendar = this.updateDate(this.filteredDate);
-    this.setOptions(this.calendar, this.revenue, this.profit);
-
-  }
-
-  sortByDate(array: Transactions[]) {
-    array.sort(function compare(a, b) {
-      if (a.date < b.date) {
-        return -1;
-      }
-      if (a.date > b.date) {
-        return 1;
-      }
-      return 0;
-    });
-
-  }
-
-  updateRevenueAndProfit(array: Transactions[]) {
-
-    this.revenue = [];
-    for (let i = 0; i < array.length; i++) {
-      this.revenue[i] = array[i].amount;
-      console.log('revenue ', this.revenue[i]);
-    }
-    console.log('revenue in updaterevenye ', this.revenue)
-    this.profit = [];
-
-    for (let i = 0; i < array.length; i++) {
-      let temp = (this.revenue[i] * 0.3);
-      this.profit[i] = this.revenue[i] - temp;
-      console.log("profit " + this.profit[i]);
-    }
-
-  }
-
-  updateDate(array: Transactions[]): string[] {
-    let calendar: string[] = [];
-
-    for (let i = 0; i < array.length; i++) {
-      let date: Date = new Date(array[i].date);
-      console.log('date', typeof date);
-
-      let day: number = date.getDate();
-      let mois: number = date.getUTCMonth() + 1;
-      let year: number = date.getUTCFullYear();
-      calendar[i] = day + "-" + mois + "-" + year;
-    }
-    return calendar;
   }
 
 

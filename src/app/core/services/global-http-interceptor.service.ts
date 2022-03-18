@@ -36,6 +36,7 @@ export class GlobalHttpInterceptorService implements HttpInterceptor {
         headers: request.headers.set('Authorization', 'Bearer ' + token)
       });
     }
+
     return next.handle(request);
   }
 
