@@ -19,9 +19,8 @@
 
 <div [options]="options" class="demo-chart" echarts theme="macarons"></div>
 
-<mat-chip-list>
-  <mat-chip (click)="selectMe(category)" *ngFor="let category of categories"
-            color="primary" selected>
+<mat-chip-list class="mat-chip-list-stacked" >
+  <mat-chip (click)="selectMe(category)" *ngFor="let category of categories" color="primary" selected>
     {{category}}
   </mat-chip>
 </mat-chip-list>

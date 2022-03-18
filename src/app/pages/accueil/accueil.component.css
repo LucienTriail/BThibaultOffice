@@ -16,3 +16,21 @@ mat-form-field {
   visibility: hidden;
   width: 1px;
 }
+
+.mat-chip-list-stacked{
+  position: absolute;
+  top:15%;
+  left:48%;
+}
+
+mat-chip {
+  max-width: 100px;
+  padding-right: 15px;
+  justify-content: center;
+  
+}
+.pickerIcon{
+  position: absolute;
+  top:15%;
+  left:40%;
+}
