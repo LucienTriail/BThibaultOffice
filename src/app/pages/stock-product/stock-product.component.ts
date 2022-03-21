@@ -11,6 +11,7 @@ import {MyErrorStateMatcher} from "../../shared/single-product-card/single-produ
 import {FormControl, Validators} from "@angular/forms";
 import {BehaviorSubject, from} from "rxjs";
 import {DataSource} from "@angular/cdk/collections";
+import {Transaction} from "../../core/interface/transaction";
 
 export interface EmpFilter {
   name:string;
@@ -128,21 +129,43 @@ export class StockProductComponent implements OnInit, AfterViewInit  {
   }
 
 
-  ChangeData(trans: StockTransac, value: string) {
-     this.dataSource._updateChangeSubscription();
-
-     if (typeof trans.stockBis == "number" && trans.stockBis > 0){
-       switch (trans.operation){
-         case'Achat': trans.product.stock += trans.stockBis;
-         break;
-         default: trans.product.stock -= trans.stockBis;
-       }
-     }
-     console.log(trans.operation)
-  }
-
   save() {
-    console.log(this.dataSource.data)
+    let lstStockManage  = this.dataSource.data;
+    let lstProducts : Products[] = [];
+    let lstTransactions : Transaction[] = [];
+    let changeProd = false;
+
+    for (let trans of lstStockManage) {
+      if (typeof trans.stockBis == "number" && trans.stockBis > 0){
+          switch (trans.operation){
+            case'Achat': trans.product.stock += trans.stockBis;
+                          changeProd = true;
+            break;
+            case'Vente': trans.product.stock -= trans.stockBis;
+                         changeProd = true;
+              break;
+            case'Mis au rebut': trans.product.stock -= trans.stockBis;
+                                changeProd = true;
+              break;
+          }
+      }
+
+      if (changeProd = true && trans.operation != null){
+        let newTransac = {} as Transaction ;
+        newTransac.id_prod = trans.product.id;
+        newTransac.date =new Date();
+        newTransac.quantity = trans.stockBis;
+        newTransac.operation = <string>trans.operation;
+        newTransac.Amount = trans.product.price * trans.stockBis;;
+
+        lstTransactions.push(newTransac);
+      }
+        lstProducts.push(trans.product);
+
+    }
+     console.log("Les nouvelles transactions : ", lstTransactions);
+    console.log("Les Produits :  : ", lstProducts);
+
   }
 
 }

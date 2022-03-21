@@ -59,8 +59,8 @@
       <th mat-header-cell *matHeaderCellDef> Opération </th>
       <td mat-cell *matCellDef="let trans">
         <mat-form-field>
-          <mat-select placeholder="" [(value)]="trans.operation"  [ngModel]="trans.operation" >
-            <mat-option *ngFor="let op of operations" [value]="op.value" (onSelectionChange)="ChangeData(trans, op.value)" >
+          <mat-select placeholder="" [(value)]="trans.operation"  >
+            <mat-option *ngFor="let op of operations" [value]="op.value" >
               {{op.value}}
             </mat-option>
           </mat-select>
