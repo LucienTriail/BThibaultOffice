@@ -1,4 +1,5 @@
 
+
 export interface Transactions {
   "id": number,
   "date": Date,
@@ -7,4 +8,5 @@ export interface Transactions {
   "product_id": number,
   "category": string
 }
+
 

@@ -9,27 +9,38 @@ import {Products} from "../../core/interface/products";
   templateUrl: './dialog-single-product.component.html',
   styleUrls: ['./dialog-single-product.component.css']
 })
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class DialogSingleProductComponent implements OnInit {
 
+  ptest: Products ={
+    "discount": 0,
+    "name": "Huitres N°2 St Vaast",
+    "id": 8,
+    "owner": "tig",
+    "comments": "",
+    "availability": true,
+    "category": 1,
+    "price": 38,
+    "price_on_sale": 38,
+    "unit": "4 Dz",
+    "sale": false,
+    "stock": 20,
+    "sold": 100
+  } ;
 
-  constructor(public dialog: MatDialog) {
-  }
+  constructor(public dialog: MatDialog) { }
 
-  openDialog(product: Products) {
+  openDialog(product:Products){
     this.dialog.open(
-      SingleProductCardComponent, {
-        data: {
-          name: product.name,
-          price: product.price,
-          discounted_price: product.discounted_price,
-          discount: product.discount,
-          stock: product.stock,
-          sold: product.sold,
-          comments: product.comments,
-          id: product.id,
-          unit: product.unit,
-          category: product.category
+      SingleProductCardComponent,{
+  data: {
+    name:product.name,
+    price:product.price,
+    price_on_sale:product.price_on_sale,
+    discount:product.discount,
+    stock:product.stock,
+    sold:product.sold,
+    comments:product.comments
 
 
         },
@@ -38,9 +49,12 @@ export class DialogSingleProductComponent implements OnInit {
   }
 
 
+
   ngOnInit(): void {
   }
 
 }
+/*
 
 
+ */

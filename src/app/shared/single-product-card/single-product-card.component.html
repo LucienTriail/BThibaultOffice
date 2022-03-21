@@ -1,74 +1,70 @@
 <mat-dialog-content>
   <h2>{{data.name}}</h2>
-  <mat-grid-list cols="2" gutterSize="20px" rowHeight="2:1">
+  <mat-grid-list cols="2" rowHeight="2:1" gutterSize="20px">
     <mat-grid-tile colspan="1">
-      <mat-form-field appearance="fill">
-        <mat-label>Prix</mat-label>
-        <input [(ngModel)]="data.price" [errorStateMatcher]="matcher" [formControl]="priceFormControl" matInput
-               type="text">
-        <button (click)="value=''" *ngIf="data.price" aria-label="Clear" mat-icon-button matSuffix>
-          <mat-icon>close</mat-icon>
-        </button>
-        <mat-error *ngIf="priceFormControl.hasError('pattern')">
-          Entrez uniquement des chiffres positifs
-        </mat-error>
-      </mat-form-field>
+    <mat-form-field  appearance="fill">
+      <mat-label>Prix</mat-label>
+      <input  [(ngModel)]="data.price"  matInput  type="text" [formControl]="priceFormControl" [errorStateMatcher]="matcher" >
+      <button *ngIf="data.price" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+        <mat-icon>close</mat-icon>
+      </button>
+      <mat-error *ngIf="priceFormControl.hasError('pattern')">
+        Entrez uniquement des chiffres positifs
+      </mat-error>
+    </mat-form-field>
     </mat-grid-tile>
 
-    <!--    <mat-divider></mat-divider>-->
+<!--    <mat-divider></mat-divider>-->
 
 
-    <mat-grid-tile colspan="1">
-      <mat-form-field *ngIf="promotion" appearance="fill">
-        <mat-label>Prix en promotion</mat-label>
-        <input [(ngModel)]="data.discounted_price" disabled matInput>
-      </mat-form-field>
+    <mat-grid-tile colspan="1" >
+    <mat-form-field *ngIf="promotion"  appearance="fill">
+      <mat-label>Prix en promotion</mat-label>
+      <input  [(ngModel)]="data.price_on_sale" matInput disabled>
+    </mat-form-field>
     </mat-grid-tile>
 
-    <!--    <mat-divider></mat-divider>-->
+<!--    <mat-divider></mat-divider>-->
     <mat-grid-tile colspan="1">
 
-      <mat-form-field appearance="fill">
-        <mat-label>Pourcentage de promotion</mat-label>
-        <input [(ngModel)]="data.discount" [errorStateMatcher]="matcher" [formControl]="percentageDiscountFormControl"
-               matInput>
-        <mat-error *ngIf="percentageDiscountFormControl.hasError('pattern')">
-          Entrez uniquement des chiffres
-        </mat-error>
-      </mat-form-field>
+    <mat-form-field  appearance="fill">
+      <mat-label>Pourcentage de promotion</mat-label>
+      <input  [(ngModel)]="data.discount" matInput [formControl]="percentageDiscountFormControl" [errorStateMatcher]="matcher">
+      <mat-error *ngIf="percentageDiscountFormControl.hasError('pattern')">
+        Entrez uniquement des chiffres
+      </mat-error>
+    </mat-form-field>
     </mat-grid-tile>
-    <!--    <mat-divider></mat-divider>-->
+<!--    <mat-divider></mat-divider>-->
 
     <mat-grid-tile colspan="1">
-      <mat-form-field appearance="fill">
-        <mat-label>Quantité</mat-label>
-        <input [(ngModel)]="data.stock" [errorStateMatcher]="matcher" [formControl]="quantityFormControl"
-               matInput type="number">
-        <mat-error *ngIf="quantityFormControl.hasError('pattern')">
-          Entrez uniquement des chiffres
-        </mat-error>
-        <!--      TODO: mettre un validateur de range, pas de chiffres negatifs-->
-      </mat-form-field>
+    <mat-form-field  appearance="fill">
+      <mat-label>Quantité</mat-label>
+      <input [(ngModel)]="data.stock" matInput type="number" [formControl]="quantityFormControl" [errorStateMatcher]="matcher">
+      <mat-error *ngIf="quantityFormControl.hasError('pattern')">
+        Entrez uniquement des chiffres
+      </mat-error>
+      <!--      TODO: mettre un validateur de range, pas de chiffres negatifs-->
+    </mat-form-field>
     </mat-grid-tile>
 
-    <!--    <mat-divider></mat-divider>-->
-    <mat-grid-tile colspan="1">
-      <mat-form-field appearance="fill">
-        <mat-label>Quantité vendue</mat-label>
-        <input [(ngModel)]="data.sold" disabled matInput>
-      </mat-form-field>
-    </mat-grid-tile>
+<!--    <mat-divider></mat-divider>-->
+<mat-grid-tile colspan="1">
+    <mat-form-field  appearance="fill">
+      <mat-label>Quantité vendue</mat-label>
+      <input [(ngModel)]="data.sold" matInput disabled>
+    </mat-form-field>
+</mat-grid-tile>
 
-    <!--    <mat-divider></mat-divider>-->
-    <mat-grid-tile colspan="1">
-      <mat-form-field appearance="fill">
-        <mat-label>Commentaires</mat-label>
-        <textarea [(ngModel)]="data.comments" [errorStateMatcher]="matcher" [formControl]="lengthFormControl"
-                  matInput></textarea>
-        <mat-error *ngIf="lengthFormControl.hasError('maxLength')">
-          Limite de caractères atteinte
-        </mat-error>
-      </mat-form-field>
+<!--    <mat-divider></mat-divider>-->
+<mat-grid-tile colspan="1">
+    <mat-form-field  appearance="fill">
+      <mat-label>Commentaires</mat-label>
+      <textarea [(ngModel)]="data.comments" matInput [formControl]="lengthFormControl" [errorStateMatcher]="matcher"></textarea>
+      <mat-error *ngIf="lengthFormControl.hasError('maxLength')">
+        Limite de caractères atteinte
+      </mat-error>
+    </mat-form-field>
     </mat-grid-tile>
 
   </mat-grid-list>
