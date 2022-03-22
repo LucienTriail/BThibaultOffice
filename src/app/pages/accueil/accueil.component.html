@@ -12,7 +12,6 @@
   <mat-datepicker-toggle [for]="picker" matSuffix>
   </mat-datepicker-toggle>
 </div>
-
 <mat-date-range-picker #picker touchUi></mat-date-range-picker>
 
 <mat-error *ngIf="range.controls['start'].hasError('matStartDateInvalid')">Invalid start date</mat-error>

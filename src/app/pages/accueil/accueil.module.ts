@@ -9,6 +9,7 @@ import {MatNativeDateModule} from '@angular/material/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatIconModule} from "@angular/material/icon";
+import {MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule} from '@angular/material/snack-bar';
 
 
 @NgModule({
@@ -24,7 +25,12 @@ import {MatIconModule} from "@angular/material/icon";
     MatNativeDateModule,
     ReactiveFormsModule,
     MatChipsModule,
-    MatIconModule
+    MatIconModule,
+    MatSnackBarModule
+
+  ],
+  providers: [
+    {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 2500}}
 
   ]
 })

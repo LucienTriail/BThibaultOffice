@@ -10,3 +10,21 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+
+.snackbarSuccess {
+  background-color: green;
+  color: white;
+}
+
+.snackbarSuccess .mat-simple-snackbar-action {
+  color: white;
+}
+
+.snackbarNotGood {
+  background-color: red;
+}
+
+.snackbarNotGood .mat-simple-snackbar-action {
+  color: white;
+}

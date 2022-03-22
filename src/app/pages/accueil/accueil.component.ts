@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ApiService} from "../../core/services/api.service";
 import {Transactions} from 'src/app/core/interface/transaction';
 import {FormControl, FormGroup} from '@angular/forms';
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 
 @Component({
@@ -11,7 +12,6 @@ import {FormControl, FormGroup} from '@angular/forms';
 })
 export class AccueilComponent implements OnInit {
 
-//TODO: filtrer les transactions initiales pour l'année en cours
   range = new FormGroup({
     start: new FormControl(),
     end: new FormControl(),
@@ -29,14 +29,27 @@ export class AccueilComponent implements OnInit {
   currentYear: string = new Date().getUTCFullYear().toString();
   initialStartDate: string = "1/1/" + this.currentYear;
   initialEndDate: string = "12/31/" + this.currentYear;
+  yearlyProfit: number = 0;
+  previousYearTransactions: Transactions[] = [];
 
-  constructor(private api: ApiService) {
+
+  constructor(private api: ApiService, private snack: MatSnackBar) {
   }
 
   ngOnInit(): void {
     this.getTransactions();
   }
 
+
+  openSnackBar() {
+
+    let numb = this.updatePreviousYearProfit();
+    if (this.yearlyProfit > numb) {
+      this.snack.open('Bravo, vos bénéfices sont exceptionnels!', 'Fermer', {panelClass: 'snackbarSuccess'});
+    } else {
+      this.snack.open("Faites attentions, profits dans le rouge!", 'Close', {panelClass: 'snackBarNotGood'})
+    }
+  }
 
   dateRangeChange(dateRangeStart: HTMLInputElement, dateRangeEnd: HTMLInputElement) {
     this.isDateSelected = true;
@@ -55,15 +68,23 @@ export class AccueilComponent implements OnInit {
   getTransactions() {
     this.api.getTransactions().subscribe((data) => {
       this.transactionsList = data;
-      // for (let i = 0; i < this.transactionsList.length; i++) console.log('in get transactions', this.transactionsList[i].amount);
-      //  this.updateRevenueAndProfit(this.transactionsList);
-      console.log('before filter date, transactionlist ', this.transactionsList)
+      this.previousYearTransactions = [...this.transactionsList]
+      this.updateRevenueAndProfit(this.transactionsList);
+      this.previousYearTransactions = this.filterDateParam(this.previousYearTransactions);
+      console.log('PARRAMMM ', this.previousYearTransactions);
+
+      // console.log('before filter date, transactionlist ', this.transactionsList)
+
       this.transactionsList = this.filterDate(this.initialStartDate, this.initialEndDate);
+
       // console.log('after filter date, transactionlist ', this.transactionsList)
+
       this.sortByDate(this.transactionsList);
       this.calendar = this.updateDate(this.transactionsList);
       console.log("initialisation", this.profit);
       this.setOptions(this.calendar, this.revenue, this.profit);
+      this.openSnackBar();
+
     });
 
   }
@@ -101,6 +122,22 @@ export class AccueilComponent implements OnInit {
 
   }
 
+  filterDateParam(array: Transactions[]) {
+    let previousYear = new Date().getUTCFullYear() - 1;
+    let startDateString = "1/1/" + previousYear.toString();
+    let endDateString = "12/31/" + previousYear.toString();
+    let startDate = new Date(startDateString);
+    let endDate = new Date(endDateString);
+
+
+    return array.filter(item => {
+      let date = new Date(item.date);
+
+      return date >= startDate && date <= endDate;
+    });
+
+  }
+
   sortByDate(array: Transactions[]) {
     array.sort(function compare(a, b) {
       if (a.date < b.date) {
@@ -120,18 +157,32 @@ export class AccueilComponent implements OnInit {
     this.revenue = [];
     for (let i = 0; i < array.length; i++) {
       this.revenue[i] = array[i].amount;
-      // console.log('revenue ', this.revenue[i]);
+      //  console.log('revenue ', this.revenue[i]);
     }
-    console.log('revenue in updaterevenye ', this.revenue)
+    //console.log('revenue in updaterevenye ', this.revenue)
     this.profit = [];
 
     for (let i = 0; i < array.length; i++) {
       let temp = (this.revenue[i] * 0.3);
       this.profit[i] = this.revenue[i] - temp;
-      // console.log("profit " + this.profit[i]);
+      this.yearlyProfit += this.profit[i];
+      // console.log("yearly profit " + this.yearlyProfit);
+
     }
 
   }
+
+  updatePreviousYearProfit(): number {
+    let previousYearProfit: number = 0;
+
+    for (let i = 0; i < this.previousYearTransactions.length; i++) {
+      previousYearProfit += this.previousYearTransactions[i].amount;
+      console.log('PREVVIOUS MONIIEEEE', previousYearProfit);
+    }
+
+    return previousYearProfit;
+  }
+
 
   updateDate(array: Transactions[]): string[] {
     let calendar: string[] = [];

@@ -46,7 +46,7 @@ import {TokenService} from "./core/services/token.service";
     ApiService,
     TokenService,
     {provide: HTTP_INTERCEPTORS, useClass: GlobalHttpInterceptorService, multi: true},
-    {provide: ErrorHandler, useClass: GlobalErrorHandlerService}
+    {provide: ErrorHandler, useClass: GlobalErrorHandlerService},
 
   ],
   bootstrap: [AppComponent]
