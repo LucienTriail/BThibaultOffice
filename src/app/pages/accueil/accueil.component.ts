@@ -19,8 +19,6 @@ export class AccueilComponent implements OnInit {
   options: any;
   revenue: number[] = [];
   profit: number[] = [];
-  products: string[] = [];
-  productsSold: number[] = [];
   transactionsList: Transactions[] = [];
   calendar: string[] = [];
   filteredDate: Transactions[] = [];
