@@ -11,7 +11,7 @@ import {FormControl, FormGroup} from '@angular/forms';
 })
 export class AccueilComponent implements OnInit {
 
-
+//TODO: filtrer les transactions initiales pour l'année en cours
   range = new FormGroup({
     start: new FormControl(),
     end: new FormControl(),
@@ -26,7 +26,9 @@ export class AccueilComponent implements OnInit {
   filteredByCategory: Transactions[] = [];
   categories: string[] = ['poissons', 'crustacés'];
   isDateSelected: boolean = false;
-
+  currentYear: string = new Date().getUTCFullYear().toString();
+  initialStartDate: string = "1/1/" + this.currentYear;
+  initialEndDate: string = "12/31/" + this.currentYear;
 
   constructor(private api: ApiService) {
   }
@@ -38,11 +40,11 @@ export class AccueilComponent implements OnInit {
 
   dateRangeChange(dateRangeStart: HTMLInputElement, dateRangeEnd: HTMLInputElement) {
     this.isDateSelected = true;
-    console.log('type daterangechange', typeof dateRangeStart.value);
+    console.log(' daterangechange', dateRangeStart.value);
     console.log('type daterangechange', typeof dateRangeEnd.value);
     this.filteredDate = this.filterDate(dateRangeStart.value, dateRangeEnd.value);
     this.sortByDate(this.filteredDate);
-    for (let i = 0; i < this.filteredDate.length; i++) console.log('in date change', this.filteredDate[i]);
+    // for (let i = 0; i < this.filteredDate.length; i++) console.log('in date change', this.filteredDate[i]);
     this.updateRevenueAndProfit(this.filteredDate);
     this.calendar = [];
     this.calendar = this.updateDate(this.filteredDate);
@@ -53,8 +55,11 @@ export class AccueilComponent implements OnInit {
   getTransactions() {
     this.api.getTransactions().subscribe((data) => {
       this.transactionsList = data;
-      for (let i = 0; i < this.transactionsList.length; i++) console.log('in get transactions', this.transactionsList[i].amount);
-      this.updateRevenueAndProfit(this.transactionsList);
+      // for (let i = 0; i < this.transactionsList.length; i++) console.log('in get transactions', this.transactionsList[i].amount);
+      //  this.updateRevenueAndProfit(this.transactionsList);
+      console.log('before filter date, transactionlist ', this.transactionsList)
+      this.transactionsList = this.filterDate(this.initialStartDate, this.initialEndDate);
+      // console.log('after filter date, transactionlist ', this.transactionsList)
       this.sortByDate(this.transactionsList);
       this.calendar = this.updateDate(this.transactionsList);
       console.log("initialisation", this.profit);
@@ -115,7 +120,7 @@ export class AccueilComponent implements OnInit {
     this.revenue = [];
     for (let i = 0; i < array.length; i++) {
       this.revenue[i] = array[i].amount;
-      console.log('revenue ', this.revenue[i]);
+      // console.log('revenue ', this.revenue[i]);
     }
     console.log('revenue in updaterevenye ', this.revenue)
     this.profit = [];
@@ -123,7 +128,7 @@ export class AccueilComponent implements OnInit {
     for (let i = 0; i < array.length; i++) {
       let temp = (this.revenue[i] * 0.3);
       this.profit[i] = this.revenue[i] - temp;
-      console.log("profit " + this.profit[i]);
+      // console.log("profit " + this.profit[i]);
     }
 
   }
