@@ -71,7 +71,8 @@ export class AccueilComponent implements OnInit {
       this.previousYearTransactions = [...this.transactionsList]
       this.updateRevenueAndProfit(this.transactionsList);
       this.previousYearTransactions = this.filterDateParam(this.previousYearTransactions);
-      console.log('PARRAMMM ', this.previousYearTransactions);
+      // console.log('PARRAMMM ', this.previousYearTransactions[0]);
+      // console.log('PARAMMMM STRIIINIGYYYY, ', JSON.stringify(this.previousYearTransactions[0]));
 
       // console.log('before filter date, transactionlist ', this.transactionsList)
 
@@ -177,7 +178,7 @@ export class AccueilComponent implements OnInit {
 
     for (let i = 0; i < this.previousYearTransactions.length; i++) {
       previousYearProfit += this.previousYearTransactions[i].amount;
-      console.log('PREVVIOUS MONIIEEEE', previousYearProfit);
+      // console.log('PREVVIOUS MONIIEEEE', previousYearProfit);
     }
 
     return previousYearProfit;

@@ -20,24 +20,6 @@ export class ApiService {
   constructor(private http: HttpClient) {
   }
 
-  async deleteAndOrSetTokens(token: Token) {
-    /* localStorage.removeItem(key);
-     localStorage.removeItem(key1);
-     if (typeof accessToken != 'undefined' && typeof refreshToken != 'undefined') {
-       localStorage.setItem(key, accessToken);
-       localStorage.setItem(key1, refreshToken);
-
-       key: string, key1: string, accessToken?: any, refreshToken?: any
-
-     }*/
-
-    await localStorage.removeItem("access");
-    await localStorage.removeItem("refresh");
-    await localStorage.setItem("access", token.access);
-    await localStorage.setItem("refresh", token.refresh);
-
-  }
-
 
   logout() {
     let refreshToken = localStorage.getItem("refresh");
@@ -85,7 +67,6 @@ export class ApiService {
 
   }
 
-//on gerer les object-level permissions coté django
   editSingleUser(user: Users): Observable<Users> {
 
 
@@ -113,6 +94,17 @@ export class ApiService {
 
   getTransactions(): Observable<Transactions[]> {
     return this.http.get<Transactions[]>(this.BASE_URL + "transactions/")
+      .pipe(
+        catchError((err) => {
+          console.log('error caught in service')
+          console.error(err);
+          return throwError(err);
+        })
+      )
+  }
+
+  editTransactionsList(body: Transactions[]): Observable<Transactions[]> {
+    return this.http.post<Transactions[]>(this.BASE_URL + "transactions/", body)
       .pipe(
         catchError((err) => {
           console.log('error caught in service')

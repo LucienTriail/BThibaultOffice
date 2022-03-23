@@ -53,7 +53,7 @@ export class StockProductComponent implements OnInit, AfterViewInit {
   filterDictionary = new Map<string, StockTransac>();
   private defaultValu: string | undefined;
 
-  constructor(private productService: ApiService) {
+  constructor(private api: ApiService) {
   }
 
   ngOnInit(): void {
@@ -83,7 +83,7 @@ export class StockProductComponent implements OnInit, AfterViewInit {
   }
 
   getProducts() {
-    this.productService.getProducts().subscribe((response: Products[]) => {
+    this.api.getProducts().subscribe((response: Products[]) => {
         //https://angular.io/guide/http pour ameliorer la requete
         this.productsList = response;
         console.log(this.productsList);
@@ -145,14 +145,23 @@ export class StockProductComponent implements OnInit, AfterViewInit {
       }
 
       if (changeProd = true && trans.operation != null) {
-        let newTransac = {} as Transactions;
-        newTransac.product_id = trans.product.id;
-        newTransac.date = new Date();
+        let newTransac: Transactions = {
+          date: "",
+          productQuantity: 0,
+          operation: "",
+          amount: 0,
+          category: "",
+          product: 0,
+
+        }; //as Transactions;
+        newTransac.product = trans.product.id;
+        newTransac.date = new Date().toISOString();
         newTransac.productQuantity = trans.stockBis;
         newTransac.operation = <string>trans.operation;
         newTransac.amount = trans.product.price * trans.stockBis;
-        ;
+        newTransac.category = trans.product.category.toString();
 
+        console.log('STRINGIFIED ', JSON.stringify(newTransac));
         lstTransactions.push(newTransac);
       }
       lstProducts.push(trans.product);
@@ -160,6 +169,9 @@ export class StockProductComponent implements OnInit, AfterViewInit {
     }
     console.log("Les nouvelles transactions : ", lstTransactions);
     console.log("Les Produits :  : ", lstProducts);
+    this.api.editTransactionsList(lstTransactions).subscribe((data) => {
+      console.log('APRES VALIDATION ', data);
+    })
 
   }
 
