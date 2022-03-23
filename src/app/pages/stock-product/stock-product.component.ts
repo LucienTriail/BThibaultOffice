@@ -1,46 +1,42 @@
-import {AfterViewInit, Component, OnInit, ViewChild, AfterContentInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {Products} from "../../core/interface/products";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {ApiService} from "../../core/services/api.service";
 import {MatSelectChange} from "@angular/material/select";
-import {clear} from "echarts/types/src/util/throttle";
-import {MatOptionSelectionChange} from "@angular/material/core";
 import {MyErrorStateMatcher} from "../../shared/single-product-card/single-product-card.component";
 import {FormControl, Validators} from "@angular/forms";
-import {BehaviorSubject, from} from "rxjs";
-import {DataSource} from "@angular/cdk/collections";
-import {Transaction} from "../../core/interface/transaction";
+import {Transactions} from "../../core/interface/transaction";
 
 export interface EmpFilter {
-  name:string;
-  options:string[];
-  defaultValue:string;
+  name: string;
+  options: string[];
+  defaultValue: string;
 }
 
 export interface StockTransac {
-  product : Products,
-  category : number,
-  stockBis : number,
+  product: Products,
+  category: number,
+  stockBis: number,
   operation?: string
 }
 
 @Component({
   selector: 'app-stock-product',
-  templateUrl:'./stock-product.component.html',
+  templateUrl: './stock-product.component.html',
   styleUrls: ['./stock-product.component.css']
 })
-export class StockProductComponent implements OnInit, AfterViewInit  {
+export class StockProductComponent implements OnInit, AfterViewInit {
 
 
-  productsList: Products[] | undefined ;
-  lstStockTransac: StockTransac[] =[];
-  displayedColumns: string[] = ['product.name', 'product.price','category', 'product.discount', 'product.stock', 'operation'];
+  productsList: Products[] | undefined;
+  lstStockTransac: StockTransac[] = [];
+  displayedColumns: string[] = ['product.name', 'product.price', 'category', 'product.discount', 'product.stock', 'operation'];
   // @ts-ignore
-  dataSource: MatTableDataSource<StockTransac> ;
-  empFilters: EmpFilter[]=[];
-  category: string[]=['0','1','2','3'];
+  dataSource: MatTableDataSource<StockTransac>;
+  empFilters: EmpFilter[] = [];
+  category: string[] = ['0', '1', '2', '3'];
   operations = [
     {value: ''},
     {value: 'Achat'},
@@ -50,29 +46,28 @@ export class StockProductComponent implements OnInit, AfterViewInit  {
 
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
   @ViewChild(MatSort) sort: MatSort | undefined;
-  private defaultValu: string | undefined;
-
-
-
-  constructor(private productService : ApiService) {}
-
   //Match error of Mat Input field
   matcher = new MyErrorStateMatcher();
   percentageDiscountFormControl = new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]);
   quantityFormControl = new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]);
+  filterDictionary = new Map<string, StockTransac>();
+  private defaultValu: string | undefined;
+
+  constructor(private productService: ApiService) {
+  }
 
   ngOnInit(): void {
     this.loadData(products);
     // this.getProducts();
-    this.empFilters.push({name:'category',options:this.category,defaultValue:''});
-    this.dataSource.filterPredicate = function (record,filter) {
+    this.empFilters.push({name: 'category', options: this.category, defaultValue: ''});
+    this.dataSource.filterPredicate = function (record, filter) {
 
       var map = new Map(JSON.parse(filter));
       let isMatch = false;
 
-      for(let [key,value] of map){
-        isMatch = (value=="All") || (record[key as keyof StockTransac] == value);
-        if(!isMatch) return false;
+      for (let [key, value] of map) {
+        isMatch = (value == "All") || (record[key as keyof StockTransac] == value);
+        if (!isMatch) return false;
       }
 
       return isMatch;
@@ -87,8 +82,8 @@ export class StockProductComponent implements OnInit, AfterViewInit  {
     this.dataSource._updateChangeSubscription();
   }
 
-  getProducts(){
-    this.productService.getProducts().subscribe((response : Products[]) => {
+  getProducts() {
+    this.productService.getProducts().subscribe((response: Products[]) => {
         //https://angular.io/guide/http pour ameliorer la requete
         this.productsList = response;
         console.log(this.productsList);
@@ -98,17 +93,13 @@ export class StockProductComponent implements OnInit, AfterViewInit  {
       });
   }
 
-  getProductsByCat( l_category: number){
+  getProductsByCat(l_category: number) {
     this.getProducts();
     this.productsList = this.productsList?.filter(x => x.category > l_category);
   }
 
-
-
-  filterDictionary= new Map<string,StockTransac>();
-
-  applyEmpFilter(ob:MatSelectChange,empfilter:EmpFilter) {
-    this.filterDictionary.set(empfilter.name,ob.value);
+  applyEmpFilter(ob: MatSelectChange, empfilter: EmpFilter) {
+    this.filterDictionary.set(empfilter.name, ob.value);
     var jsonString = JSON.stringify(Array.from(this.filterDictionary.entries()));
     this.dataSource.filter = jsonString;
   }
@@ -118,9 +109,9 @@ export class StockProductComponent implements OnInit, AfterViewInit  {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  loadData(products: Products[]){
+  loadData(products: Products[]) {
     for (let product of products) {
-      let stockTrans = {} as  StockTransac ;
+      let stockTrans = {} as StockTransac;
       stockTrans.product = product;
       stockTrans.category = product.category;
       this.lstStockTransac.push(stockTrans);
@@ -130,47 +121,49 @@ export class StockProductComponent implements OnInit, AfterViewInit  {
 
 
   save() {
-    let lstStockManage  = this.dataSource.data;
-    let lstProducts : Products[] = [];
-    let lstTransactions : Transaction[] = [];
+    let lstStockManage = this.dataSource.data;
+    let lstProducts: Products[] = [];
+    let lstTransactions: Transactions[] = [];
     let changeProd = false;
 
     for (let trans of lstStockManage) {
-      if (typeof trans.stockBis == "number" && trans.stockBis > 0){
-          switch (trans.operation){
-            case'Achat': trans.product.stock += trans.stockBis;
-                          changeProd = true;
+      if (typeof trans.stockBis == "number" && trans.stockBis > 0) {
+        switch (trans.operation) {
+          case'Achat':
+            trans.product.stock += trans.stockBis;
+            changeProd = true;
             break;
-            case'Vente': trans.product.stock -= trans.stockBis;
-                         changeProd = true;
-              break;
-            case'Mis au rebut': trans.product.stock -= trans.stockBis;
-                                changeProd = true;
-              break;
-          }
+          case'Vente':
+            trans.product.stock -= trans.stockBis;
+            changeProd = true;
+            break;
+          case'Mis au rebut':
+            trans.product.stock -= trans.stockBis;
+            changeProd = true;
+            break;
+        }
       }
 
-      if (changeProd = true && trans.operation != null){
-        let newTransac = {} as Transaction ;
-        newTransac.id_prod = trans.product.id;
-        newTransac.date =new Date();
-        newTransac.quantity = trans.stockBis;
+      if (changeProd = true && trans.operation != null) {
+        let newTransac = {} as Transactions;
+        newTransac.product_id = trans.product.id;
+        newTransac.date = new Date();
+        newTransac.productQuantity = trans.stockBis;
         newTransac.operation = <string>trans.operation;
-        newTransac.Amount = trans.product.price * trans.stockBis;;
+        newTransac.amount = trans.product.price * trans.stockBis;
+        ;
 
         lstTransactions.push(newTransac);
       }
-        lstProducts.push(trans.product);
+      lstProducts.push(trans.product);
 
     }
-     console.log("Les nouvelles transactions : ", lstTransactions);
+    console.log("Les nouvelles transactions : ", lstTransactions);
     console.log("Les Produits :  : ", lstProducts);
 
   }
 
 }
-
-
 
 
 const products: Products[] = [{
@@ -179,10 +172,9 @@ const products: Products[] = [{
   "availability": true,
   "id": 6,
   "price": 7,
-  "price_on_sale": 6,
+  "discounted_price": 6,
   "discount": 5,
   "sale": true,
-  "owner": "tig",
   "unit": "kg",
   "name": "Moules de pêche",
   "stock": 20,
@@ -195,9 +187,8 @@ const products: Products[] = [{
     "name": "Filet Bar de ligne",
     "discount": 0,
     "comments": "environ 300g",
-    "owner": "tig",
     "price": 7,
-    "price_on_sale": 7,
+    "discounted_price": 7,
     "sale": false,
     "availability": true,
     "stock": 60,
@@ -206,12 +197,11 @@ const products: Products[] = [{
   {
     "availability": false,
     "price": 7,
-    "price_on_sale": 7,
+    "discounted_price": 7,
     "discount": 0,
     "name": "Araignées",
     "comments": "Hors saison, pêche aux casiers",
     "id": 9,
-    "owner": "tig",
     "unit": "kg",
     "category": 2,
     "sale": false,
@@ -224,10 +214,9 @@ const products: Products[] = [{
     "id": 10,
     "category": 1,
     "price": 8,
-    "price_on_sale": 8,
+    "discounted_price": 8,
     "availability": false,
     "unit": "100g",
-    "owner": "tig",
     "comments": "Hors saison, pêche à l'épuisette",
     "discount": 0,
     "stock": 40,
@@ -241,15 +230,13 @@ const products: Products[] = [{
     "id": 7,
     "name": "Huitres N°2 St Vaast",
     "price": 9.5,
-    "price_on_sale": 9.5,
+    "discounted_price": 9.5,
     "sale": false,
-    "owner": "tig",
     "discount": 0,
     "stock": 20,
     "sold": 80
   },
   {
-    "owner": "tig",
     "id": 2,
     "name": "Bar de ligne portion",
     "category": 0,
@@ -257,7 +244,7 @@ const products: Products[] = [{
     "comments": "Environ 550-700g la pièce",
     "sale": false,
     "price": 10,
-    "price_on_sale": 10,
+    "discounted_price": 10,
     "discount": 0,
     "availability": true,
     "stock": 10,
@@ -271,9 +258,8 @@ const products: Products[] = [{
     "name": "Aile de raie",
     "sale": false,
     "availability": true,
-    "owner": "tig",
     "price": 10,
-    "price_on_sale": 10,
+    "discounted_price": 10,
     "unit": "kg",
     "stock": 20,
     "sold": 20
@@ -282,14 +268,13 @@ const products: Products[] = [{
     "unit": "Dz",
     "sale": false,
     "price": 12,
-    "price_on_sale": 12,
+    "discounted_price": 12,
     "availability": true,
     "id": 13,
     "name": "Huîtres N°2 OR St Vaast",
     "discount": 0,
     "comments": "Médaille d'or Salon Agriculture",
     "category": 1,
-    "owner": "tig",
     "stock": 20,
     "sold": 100
   },
@@ -299,12 +284,11 @@ const products: Products[] = [{
     "unit": "kg",
     "sale": false,
     "category": 0,
-    "owner": "tig",
     "discount": 0,
     "comments": "Environ 550-700g la portion",
     "id": 4,
     "price": 12,
-    "price_on_sale": 12,
+    "discounted_price": 12,
     "stock": 30,
     "sold": 80
   },
@@ -312,10 +296,9 @@ const products: Products[] = [{
     "availability": false,
     "id": 5,
     "unit": "kg",
-    "owner": "tig",
     "discount": 0,
     "price": 19,
-    "price_on_sale": 19,
+    "discounted_price": 19,
     "category": 0,
     "name": "Filet Julienne",
     "sale": false,
@@ -327,19 +310,17 @@ const products: Products[] = [{
     "sale": false,
     "category": 1,
     "price": 19,
-    "price_on_sale": 19,
+    "discounted_price": 19,
     "id": 16,
     "unit": "2 Dz",
     "discount": 0,
     "name": "Huîtres N°2 St Vaast",
-    "owner": "tig",
     "availability": true,
     "comments": "",
     "stock": 20,
     "sold": 100
   },
   {
-    "owner": "tig",
     "sale": false,
     "availability": true,
     "category": 1,
@@ -348,7 +329,7 @@ const products: Products[] = [{
     "id": 14,
     "comments": "Médaille d'or salon agriculture",
     "price": 24,
-    "price_on_sale": 24,
+    "discounted_price": 24,
     "name": "Huîtres N°2 OR St Vaast",
     "stock": 20,
     "sold": 100
@@ -356,7 +337,6 @@ const products: Products[] = [{
   {
     "discount": 20,
     "availability": true,
-    "owner": "tig",
     "name": "Bar de ligne",
     "category": 0,
     "sale": false,
@@ -364,7 +344,7 @@ const products: Products[] = [{
     "id": 3,
     "unit": "kg",
     "price": 30,
-    "price_on_sale": 30,
+    "discounted_price": 30,
     "stock": 10,
     "sold": 100
   },
@@ -372,12 +352,11 @@ const products: Products[] = [{
     "discount": 0,
     "name": "Huitres N°2 St Vaast",
     "id": 8,
-    "owner": "tig",
     "comments": "",
     "availability": true,
     "category": 1,
     "price": 38,
-    "price_on_sale": 38,
+    "discounted_price": 38,
     "unit": "4 Dz",
     "sale": false,
     "stock": 20,
@@ -392,8 +371,7 @@ const products: Products[] = [{
     "unit": "4 Dz",
     "comments": "Médaille d'or salon agriculture",
     "price": 48,
-    "price_on_sale": 48,
-    "owner": "tig",
+    "discounted_price": 48,
     "id": 15,
     "stock": 20,
     "sold": 100
