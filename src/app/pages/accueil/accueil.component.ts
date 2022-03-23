@@ -68,6 +68,7 @@ export class AccueilComponent implements OnInit {
   getTransactions() {
     this.api.getTransactions().subscribe((data) => {
       this.transactionsList = data;
+      console.log('putin ', data)
       this.previousYearTransactions = [...this.transactionsList]
       this.updateRevenueAndProfit(this.transactionsList);
       this.previousYearTransactions = this.filterDateParam(this.previousYearTransactions);
