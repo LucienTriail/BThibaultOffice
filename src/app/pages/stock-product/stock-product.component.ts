@@ -51,7 +51,6 @@ export class StockProductComponent implements OnInit, AfterViewInit {
   percentageDiscountFormControl = new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]);
   quantityFormControl = new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]);
   filterDictionary = new Map<string, StockTransac>();
-  private defaultValu: string | undefined;
 
   constructor(private api: ApiService) {
   }
@@ -82,15 +81,9 @@ export class StockProductComponent implements OnInit, AfterViewInit {
   }
 
 
-  getProductsByCat(l_category: number) {
-    //this.getProducts();
-    this.productsList = this.productsList?.filter(x => x.category > l_category);
-  }
-
   applyEmpFilter(ob: MatSelectChange, empfilter: EmpFilter) {
     this.filterDictionary.set(empfilter.name, ob.value);
-    var jsonString = JSON.stringify(Array.from(this.filterDictionary.entries()));
-    this.dataSource.filter = jsonString;
+    this.dataSource.filter = JSON.stringify(Array.from(this.filterDictionary.entries()));
   }
 
   applyFilter(event: Event) {
@@ -130,7 +123,7 @@ export class StockProductComponent implements OnInit, AfterViewInit {
     let changeProd = false;
 
     for (let trans of lstStockManage) {
-      if (typeof trans.stockBis == "number" && trans.stockBis > 0) {
+      if (trans.stockBis > 0) {
         switch (trans.operation) {
           case'Achat':
             trans.product.stock += trans.stockBis;
