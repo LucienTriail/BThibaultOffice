@@ -8,19 +8,8 @@ import {MatSelectChange} from "@angular/material/select";
 import {MyErrorStateMatcher} from "../../shared/single-product-card/single-product-card.component";
 import {FormControl, Validators} from "@angular/forms";
 import {Transactions} from "../../core/interface/transaction";
-
-export interface EmpFilter {
-  name: string;
-  options: string[];
-  defaultValue: string;
-}
-
-export interface StockTransac {
-  product: Products,
-  category: string,
-  stockBis: number,
-  operation?: string
-}
+import {EmpFilter} from "../../core/interface/emp-filter";
+import {StockTransac} from "../../core/interface/stock-transac";
 
 @Component({
   selector: 'app-stock-product',
