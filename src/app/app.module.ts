@@ -20,10 +20,6 @@ import {GlobalErrorHandlerService} from "./core/services/global-error-handler.se
 import {StockProductModule} from "./pages/stock-product/stock-product.module";
 import {TokenService} from "./core/services/token.service";
 
-export function tokenGetter() {
-  return localStorage.getItem("access_token");
-}
-
 
 @NgModule({
   declarations: [
@@ -53,6 +49,7 @@ export function tokenGetter() {
     TokenService,
     {provide: HTTP_INTERCEPTORS, useClass: GlobalHttpInterceptorService, multi: true},
     {provide: ErrorHandler, useClass: GlobalErrorHandlerService}
+
   ],
   bootstrap: [AppComponent]
 })

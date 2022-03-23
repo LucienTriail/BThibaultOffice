@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ApiService} from "../../core/services/api.service";
 import {Transactions} from 'src/app/core/interface/transaction';
 import {FormControl, FormGroup} from '@angular/forms';
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 
 @Component({
@@ -19,16 +20,72 @@ export class AccueilComponent implements OnInit {
   options: any;
   revenue: number[] = [];
   profit: number[] = [];
-  products: string[] = [];
-  productsSold: number[] = [];
   transactionsList: Transactions[] = [];
   calendar: string[] = [];
   filteredDate: Transactions[] = [];
   filteredByCategory: Transactions[] = [];
-
   categories: string[] = ['poissons', 'crustacés'];
+  isDateSelected: boolean = false;
+  currentYear: string = new Date().getUTCFullYear().toString();
+  initialStartDate: string = "1/1/" + this.currentYear;
+  initialEndDate: string = "12/31/" + this.currentYear;
+  yearlyProfit: number = 0;
+  previousYearTransactions: Transactions[] = [];
 
-  constructor(private api: ApiService) {
+
+  constructor(private api: ApiService, private snack: MatSnackBar) {
+  }
+
+  ngOnInit(): void {
+    this.getTransactions();
+  }
+
+
+  openSnackBar() {
+
+    let numb = this.updatePreviousYearProfit();
+    if (this.yearlyProfit > numb) {
+      this.snack.open('Bravo, vos bénéfices sont exceptionnels!', 'Fermer', {panelClass: 'snackbarSuccess'});
+    } else {
+      this.snack.open("Faites attentions, profits dans le rouge!", 'Close', {panelClass: 'snackBarNotGood'})
+    }
+  }
+
+  dateRangeChange(dateRangeStart: HTMLInputElement, dateRangeEnd: HTMLInputElement) {
+    this.isDateSelected = true;
+    console.log(' daterangechange', dateRangeStart.value);
+    console.log('type daterangechange', typeof dateRangeEnd.value);
+    this.filteredDate = this.filterDate(dateRangeStart.value, dateRangeEnd.value);
+    this.sortByDate(this.filteredDate);
+    // for (let i = 0; i < this.filteredDate.length; i++) console.log('in date change', this.filteredDate[i]);
+    this.updateRevenueAndProfit(this.filteredDate);
+    this.calendar = [];
+    this.calendar = this.updateDate(this.filteredDate);
+    this.setOptions(this.calendar, this.revenue, this.profit);
+
+  }
+
+  getTransactions() {
+    this.api.getTransactions().subscribe((data) => {
+      this.transactionsList = data;
+      this.previousYearTransactions = [...this.transactionsList]
+      this.updateRevenueAndProfit(this.transactionsList);
+      this.previousYearTransactions = this.filterDateParam(this.previousYearTransactions);
+      console.log('PARRAMMM ', this.previousYearTransactions);
+
+      // console.log('before filter date, transactionlist ', this.transactionsList)
+
+      this.transactionsList = this.filterDate(this.initialStartDate, this.initialEndDate);
+
+      // console.log('after filter date, transactionlist ', this.transactionsList)
+
+      this.sortByDate(this.transactionsList);
+      this.calendar = this.updateDate(this.transactionsList);
+      console.log("initialisation", this.profit);
+      this.setOptions(this.calendar, this.revenue, this.profit);
+      this.openSnackBar();
+
+    });
 
   }
 
@@ -36,7 +93,6 @@ export class AccueilComponent implements OnInit {
     this.filteredByCategory = [];
     console.log('event ', event);
     console.log('filteredate in cat: ', this.filteredDate)
-    // this.filteredDate = this.filterByCategory(event);
     this.filteredByCategory = [...this.filteredDate];
     console.log('spreaded filterCAT: ', this.filteredByCategory);
     this.filteredByCategory = this.filterByCategory(event);
@@ -45,9 +101,6 @@ export class AccueilComponent implements OnInit {
     this.setOptions(this.calendar, this.revenue, this.profit);
   }
 
-  ngOnInit(): void {
-    this.getTransactions();
-  }
 
   filterByCategory(cat: string): Transactions[] {
 
@@ -55,19 +108,6 @@ export class AccueilComponent implements OnInit {
       console.log('item cat: ', item);
       return item.category == cat;
     });
-  }
-
-  getTransactions() {
-    this.api.getTransactions().subscribe((data) => {
-      this.transactionsList = data;
-      for (let i = 0; i < this.transactionsList.length; i++) console.log('in get transactions', this.transactionsList[i].amount);
-      this.updateRevenueAndProfit(this.transactionsList);
-      this.sortByDate(this.transactionsList);
-      this.calendar = this.updateDate(this.transactionsList);
-      console.log("initialisation", this.profit);
-      this.setOptions(this.calendar, this.revenue, this.profit);
-    });
-
   }
 
 
@@ -80,6 +120,83 @@ export class AccueilComponent implements OnInit {
       return date >= startDate && date <= endDate;
     });
 
+  }
+
+  filterDateParam(array: Transactions[]) {
+    let previousYear = new Date().getUTCFullYear() - 1;
+    let startDateString = "1/1/" + previousYear.toString();
+    let endDateString = "12/31/" + previousYear.toString();
+    let startDate = new Date(startDateString);
+    let endDate = new Date(endDateString);
+
+
+    return array.filter(item => {
+      let date = new Date(item.date);
+
+      return date >= startDate && date <= endDate;
+    });
+
+  }
+
+  sortByDate(array: Transactions[]) {
+    array.sort(function compare(a, b) {
+      if (a.date < b.date) {
+        return -1;
+      }
+      if (a.date > b.date) {
+        return 1;
+      }
+      return 0;
+    });
+
+  }
+
+
+  updateRevenueAndProfit(array: Transactions[]) {
+
+    this.revenue = [];
+    for (let i = 0; i < array.length; i++) {
+      this.revenue[i] = array[i].amount;
+      //  console.log('revenue ', this.revenue[i]);
+    }
+    //console.log('revenue in updaterevenye ', this.revenue)
+    this.profit = [];
+
+    for (let i = 0; i < array.length; i++) {
+      let temp = (this.revenue[i] * 0.3);
+      this.profit[i] = this.revenue[i] - temp;
+      this.yearlyProfit += this.profit[i];
+      // console.log("yearly profit " + this.yearlyProfit);
+
+    }
+
+  }
+
+  updatePreviousYearProfit(): number {
+    let previousYearProfit: number = 0;
+
+    for (let i = 0; i < this.previousYearTransactions.length; i++) {
+      previousYearProfit += this.previousYearTransactions[i].amount;
+      console.log('PREVVIOUS MONIIEEEE', previousYearProfit);
+    }
+
+    return previousYearProfit;
+  }
+
+
+  updateDate(array: Transactions[]): string[] {
+    let calendar: string[] = [];
+
+    for (let i = 0; i < array.length; i++) {
+      let date: Date = new Date(array[i].date);
+      console.log('date', typeof date);
+
+      let day: number = date.getDate();
+      let mois: number = date.getUTCMonth() + 1;
+      let year: number = date.getUTCFullYear();
+      calendar[i] = day + "-" + mois + "-" + year;
+    }
+    return calendar;
   }
 
   setOptions(calendar: string[], revenue: number[], profit: number[]) {
@@ -134,68 +251,6 @@ export class AccueilComponent implements OnInit {
     };
 
 
-  }
-
-  dateRangeChange(dateRangeStart: HTMLInputElement, dateRangeEnd: HTMLInputElement) {
-    console.log('type daterangechange', typeof dateRangeStart.value);
-    console.log('type daterangechange', typeof dateRangeEnd.value);
-    // this.filteredDate=[];
-    this.filteredDate = this.filterDate(dateRangeStart.value, dateRangeEnd.value);
-
-    // let filteredDate = this.filterDate(dateRangeStart.value, dateRangeEnd.value);
-    this.sortByDate(this.filteredDate);
-    for (let i = 0; i < this.filteredDate.length; i++) console.log('in date change', this.filteredDate[i]);
-    this.updateRevenueAndProfit(this.filteredDate);
-    this.calendar = [];
-    this.calendar = this.updateDate(this.filteredDate);
-    this.setOptions(this.calendar, this.revenue, this.profit);
-
-  }
-
-  sortByDate(array: Transactions[]) {
-    array.sort(function compare(a, b) {
-      if (a.date < b.date) {
-        return -1;
-      }
-      if (a.date > b.date) {
-        return 1;
-      }
-      return 0;
-    });
-
-  }
-
-  updateRevenueAndProfit(array: Transactions[]) {
-
-    this.revenue = [];
-    for (let i = 0; i < array.length; i++) {
-      this.revenue[i] = array[i].amount;
-      console.log('revenue ', this.revenue[i]);
-    }
-    console.log('revenue in updaterevenye ', this.revenue)
-    this.profit = [];
-
-    for (let i = 0; i < array.length; i++) {
-      let temp = (this.revenue[i] * 0.3);
-      this.profit[i] = this.revenue[i] - temp;
-      console.log("profit " + this.profit[i]);
-    }
-
-  }
-
-  updateDate(array: Transactions[]): string[] {
-    let calendar: string[] = [];
-
-    for (let i = 0; i < array.length; i++) {
-      let date: Date = new Date(array[i].date);
-      console.log('date', typeof date);
-
-      let day: number = date.getDate();
-      let mois: number = date.getUTCMonth() + 1;
-      let year: number = date.getUTCFullYear();
-      calendar[i] = day + "-" + mois + "-" + year;
-    }
-    return calendar;
   }
 
 

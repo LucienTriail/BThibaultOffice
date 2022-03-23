@@ -16,13 +16,13 @@ export class TokenService implements CanActivate {
   }
 
   async canActivate() {
-    const token = localStorage.getItem("access");
+    const token: string | null = localStorage.getItem("access");
 
     if (token && !this.jwtHelper.isTokenExpired(token)) {
       return true;
     }
 
-    const isRefreshSuccess = await this.refreshingTokens(token);
+    const isRefreshSuccess: boolean = await this.refreshingTokens(token);
     if (!isRefreshSuccess) {
       this.router.navigate(["/login"]);
     }
