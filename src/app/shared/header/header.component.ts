@@ -26,6 +26,11 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/details']);
   }
 
+  goToStock() {
+    this.router.navigate(['/stock']);
+
+  }
+
   logout() {
     this.api.logout().subscribe(() => {
       localStorage.removeItem("access");

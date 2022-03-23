@@ -12,20 +12,6 @@ import {Products} from "../../core/interface/products";
 @Injectable({providedIn: 'root'})
 export class DialogSingleProductComponent implements OnInit {
 
-  ptest: Products = {
-    "discount": 0,
-    "name": "Huitres N°2 St Vaast",
-    "id": 8,
-    "comments": "",
-    "availability": true,
-    "category": 1,
-    "price": 38,
-    "discounted_price": 38,
-    "unit": "4 Dz",
-    "sale": false,
-    "stock": 20,
-    "sold": 100
-  };
 
   constructor(public dialog: MatDialog) {
   }

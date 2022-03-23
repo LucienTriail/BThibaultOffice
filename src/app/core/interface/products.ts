@@ -5,7 +5,7 @@ export interface Products {
   "id": number,
   "comments": string,
   "availability": boolean,
-  "category": number,
+  "category": string,
   "price": number,
   "discounted_price": number,
   "unit": string,

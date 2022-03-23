@@ -17,7 +17,7 @@ export interface EmpFilter {
 
 export interface StockTransac {
   product: Products,
-  category: number,
+  category: string,
   stockBis: number,
   operation?: string
 }
@@ -36,7 +36,7 @@ export class StockProductComponent implements OnInit, AfterViewInit {
   // @ts-ignore
   dataSource: MatTableDataSource<StockTransac>;
   empFilters: EmpFilter[] = [];
-  category: string[] = ['0', '1', '2', '3'];
+  category: string[] = ['Poissons', 'Crustacés'];
   operations = [
     {value: ''},
     {value: 'Achat'},
@@ -92,13 +92,6 @@ export class StockProductComponent implements OnInit, AfterViewInit {
   }
 
   loadData() {
-    /*  for (let product of products) {
-        let stockTrans = {} as StockTransac;
-        stockTrans.product = product;
-        stockTrans.category = product.category;
-        this.lstStockTransac.push(stockTrans);
-      }
-      this.dataSource = new MatTableDataSource(this.lstStockTransac);*/
 
 
     this.api.getProducts().subscribe((data) => {
