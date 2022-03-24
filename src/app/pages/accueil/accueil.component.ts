@@ -165,11 +165,12 @@ export class AccueilComponent implements OnInit {
     this.profit = [];
 
     for (let i = 0; i < array.length; i++) {
-      let temp = (this.revenue[i] * 0.3);
-      this.profit[i] = this.revenue[i] - temp;
-      this.yearlyProfit += this.profit[i];
-      // console.log("yearly profit " + this.yearlyProfit);
-
+      if (array[i].operation == 'Vente') {
+        let temp = (this.revenue[i] * 0.3);
+        this.profit[i] = this.revenue[i] - temp;
+        this.yearlyProfit += this.profit[i];
+        // console.log("yearly profit " + this.yearlyProfit);
+      }
     }
 
   }
