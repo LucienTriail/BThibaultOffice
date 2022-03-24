@@ -1,4 +1,6 @@
 <!--<h1>Détails</h1>-->
+<div layout="column" layout-fill>
+  <div layout="row">
 <mat-form-field appearance="standard">
   <mat-label>Filtrer</mat-label>
   <input matInput (keyup)="applyFilter($event)" placeholder="Ex. filet de bar" #input>
@@ -20,6 +22,7 @@
       <td class="mat-cell" colspan="1">No data matching the filter "{{input.value}}"</td>
     </tr>
   </table>
-
   <mat-paginator [pageSizeOptions]="[3, 10, 25, 100]" aria-label="Select page"></mat-paginator>
+</div>
+  </div>
 </div>

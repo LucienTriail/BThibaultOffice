@@ -1,0 +1,45 @@
+.mat-elevation-z8 {
+  font-size: 14px;
+  width: 90%;
+  padding: 8px 8px 8px 0;
+
+}
+
+td, th {
+  width: 70%;
+  padding: 8px 8px 8px 0;
+}
+
+.mat-column {
+  white-space: unset !important;
+  flex: 0 0 28% !important;
+  width: 28% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.mat-column-category {
+  padding: 8px 100px 8px 0;
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 8% !important;
+  width: 10% !important;
+}
+
+input.placeholder {
+  text-align: center;
+}
+
+.buttonDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+

@@ -17,6 +17,7 @@ import {UserDetailModule} from "./pages/user-detail/user-detail.module";
 import {ToastrModule} from 'ngx-toastr';
 import {GlobalHttpInterceptorService} from "./core/services/global-http-interceptor.service";
 import {GlobalErrorHandlerService} from "./core/services/global-error-handler.service";
+import {StockProductModule} from "./pages/stock-product/stock-product.module";
 import {TokenService} from "./core/services/token.service";
 
 
@@ -38,15 +39,16 @@ import {TokenService} from "./core/services/token.service";
     LoginModule,
     AccueilModule,
     UserDetailModule,
-    ToastrModule.forRoot()
-
+    ToastrModule.forRoot(),
+    UserDetailModule,
+    StockProductModule,
   ],
 
   providers: [
     ApiService,
     TokenService,
     {provide: HTTP_INTERCEPTORS, useClass: GlobalHttpInterceptorService, multi: true},
-    {provide: ErrorHandler, useClass: GlobalErrorHandlerService},
+    {provide: ErrorHandler, useClass: GlobalErrorHandlerService}
 
   ],
   bootstrap: [AppComponent]
