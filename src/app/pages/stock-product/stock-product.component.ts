@@ -149,7 +149,7 @@ export class StockProductComponent implements OnInit, AfterViewInit {
     console.log("Les Produits :  : ", lstProducts);
     this.api.editTransactionsList(lstTransactions).subscribe((data) => {
       console.log('APRES VALIDATION ', data);
-    })
+    });
 
   }
 

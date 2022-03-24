@@ -14,7 +14,7 @@ import {Token} from "../interface/token";
 export class ApiService {
 
 
-  BASE_URL: string = 'http://localhost:8000/';
+  BASE_URL: string = 'https://dhkde4i7d3.execute-api.eu-west-3.amazonaws.com/dev/';
 
 
   constructor(private http: HttpClient) {
