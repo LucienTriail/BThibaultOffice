@@ -1,9 +1,28 @@
-<mat-tab-group mat-align-tabs = "center">
-<mat-tab label="Volume des ventes">
-  <div echarts [options]="options" [merge]="updateOptions" theme="macarons" class="demo-chart"></div>
-</mat-tab>
+<mat-form-field appearance="fill" class="picker">
+  <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+    <input #dateRangeStart formControlName="start" matStartDate
+           placeholder="Start date">
+    <input #dateRangeEnd (dateChange)="dateRangeChange(dateRangeStart, dateRangeEnd)" formControlName="end"
+           matEndDate
+           placeholder="End date">
+  </mat-date-range-input>
+</mat-form-field>
 
-<mat-tab label = "Stock">
-  <div echarts [options]="options2" [merge]="updateOptions2" class="demo-chart"></div>
-</mat-tab>
-</mat-tab-group>
+<div class="pickerIcon">
+  <mat-datepicker-toggle [for]="picker" matSuffix>
+  </mat-datepicker-toggle>
+</div>
+<mat-date-range-picker #picker touchUi></mat-date-range-picker>
+
+<mat-error *ngIf="range.controls['start'].hasError('matStartDateInvalid')">Invalid start date</mat-error>
+<mat-error *ngIf="range.controls['end'].hasError('matEndDateInvalid')">Invalid end date</mat-error>
+
+<div [options]="options" class="chart" echarts theme="macarons"></div>
+
+<mat-chip-list *ngIf="isDateSelected" class="mat-chip-list-stacked">
+  <mat-chip (click)="selectMe(category)" *ngFor="let category of categories" color="primary"
+            selected>
+    {{category}}
+  </mat-chip>
+</mat-chip-list>
+

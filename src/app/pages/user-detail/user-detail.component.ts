@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ApiService} from "../../core/services/api.service";
 import {Users} from "../../core/interface/users";
-import {ToastrService} from 'ngx-toastr';
+import {ToastService} from "../../core/services/toast.service";
 
 
 @Component({
@@ -18,7 +18,7 @@ export class UserDetailComponent implements OnInit {
     "password": ""
   };
 
-  constructor(private api: ApiService, private toastr: ToastrService) {
+  constructor(private api: ApiService, private toast: ToastService) {
   }
 
   ngOnInit(): void {
@@ -30,7 +30,7 @@ export class UserDetailComponent implements OnInit {
   }
 
   showSuccess() {
-    this.toastr.success('Modification enregistrée');
+    this.toast.showSuccess('Modification enregistrée');
   }
 
   changeField() {

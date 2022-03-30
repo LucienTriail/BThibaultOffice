@@ -4,7 +4,7 @@ import {Products} from "../../core/interface/products";
 import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 import {ApiService} from "../../core/services/api.service";
-import {ToastrService} from 'ngx-toastr';
+import {ToastService} from "../../core/services/toast.service";
 
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -30,7 +30,7 @@ export class SingleProductCardComponent implements OnInit {
   lengthFormControl = new FormControl('', Validators.maxLength(255));
   matcher = new MyErrorStateMatcher();
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: Products, private api: ApiService, private toastr: ToastrService) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: Products, private api: ApiService, private toast: ToastService) {
   }
 
   ngOnInit(): void {
@@ -39,7 +39,7 @@ export class SingleProductCardComponent implements OnInit {
   }
 
   showSuccess() {
-    this.toastr.success('Modifications enregistrées');
+    this.toast.showSuccess('Modifications enregistrées');
   }
 
   editProduct() {

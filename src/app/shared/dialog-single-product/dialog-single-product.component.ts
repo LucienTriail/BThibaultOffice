@@ -26,10 +26,7 @@ export class DialogSingleProductComponent implements OnInit {
           discount: product.discount,
           stock: product.stock,
           sold: product.sold,
-          comments: product.comments,
-          id: product.id,
-          unit: product.unit,
-          category: product.category
+          comments: product.comments
 
 
         },
@@ -43,4 +40,7 @@ export class DialogSingleProductComponent implements OnInit {
 
 }
 
+/*
 
+
+ */

@@ -13,17 +13,12 @@ import {DetailsProductModule} from "./pages/details-product/details-product.modu
 import {FooterModule} from "./shared/footer/footer.module";
 import {LoginModule} from './pages/login/login.module';
 import {AccueilModule} from './pages/accueil/accueil.module';
-import {JwtModule} from "@auth0/angular-jwt";
-import {GlobalHttpInterceptorService} from "./core/services/global-http-interceptor.service";
-import {GlobalErrorHandlerService} from "./core/services/global-error-handler.service";
-import {ErrorModule} from "./pages/error/error.module";
 import {UserDetailModule} from "./pages/user-detail/user-detail.module";
 import {ToastrModule} from 'ngx-toastr';
-
-
-export function tokenGetter() {
-  return localStorage.getItem("access_token");
-}
+import {GlobalHttpInterceptorService} from "./core/services/global-http-interceptor.service";
+import {GlobalErrorHandlerService} from "./core/services/global-error-handler.service";
+import {StockProductModule} from "./pages/stock-product/stock-product.module";
+import {TokenService} from "./core/services/token.service";
 
 
 @NgModule({
@@ -43,23 +38,18 @@ export function tokenGetter() {
     FooterModule,
     LoginModule,
     AccueilModule,
-    JwtModule.forRoot({
-      config: {
-        tokenGetter: tokenGetter,
-        allowedDomains: ["localhost:8000"],
-        disallowedRoutes: [],
-      },
-    }),
-    ErrorModule,
     UserDetailModule,
-    ToastrModule.forRoot()
-
+    ToastrModule.forRoot(),
+    UserDetailModule,
+    StockProductModule,
   ],
 
   providers: [
     ApiService,
+    TokenService,
     {provide: HTTP_INTERCEPTORS, useClass: GlobalHttpInterceptorService, multi: true},
     {provide: ErrorHandler, useClass: GlobalErrorHandlerService}
+
   ],
   bootstrap: [AppComponent]
 })

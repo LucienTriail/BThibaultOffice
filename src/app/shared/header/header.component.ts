@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
+import {ApiService} from "../../core/services/api.service";
 
 @Component({
   selector: 'app-header',
@@ -11,7 +12,7 @@ export class HeaderComponent implements OnInit {
 //TODO: ajouter la méthode getCategory
   categories = ['Poissons', 'Crustacés'];
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private api: ApiService) {
   }
 
   ngOnInit(): void {
@@ -25,7 +26,17 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/details']);
   }
 
-  goToStockManage(){
+  goToStock() {
     this.router.navigate(['/stock']);
+
+  }
+
+  logout() {
+    this.api.logout().subscribe(() => {
+      localStorage.removeItem("access");
+      localStorage.removeItem("refresh");
+      this.router.navigate(['/login']);
+
+    })
   }
 }

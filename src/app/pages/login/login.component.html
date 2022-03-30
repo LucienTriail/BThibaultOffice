@@ -1,38 +1,38 @@
-<div class="divimage">
-
-<mat-card class="card">
-<mat-card-content>
-    <table class="table">
-        <tr>
-            <td>
-    <mat-form-field appearance="fill">
-    <mat-label>Username</mat-label>
-    <input [(ngModel)]="user.username" matInput type="email">
-  </mat-form-field>
-</td>
-</tr>
-  <tr>
-      <td>
-
-
-  <mat-form-field appearance="fill">
-    <mat-label>Mot de passe</mat-label>
-    <input [(ngModel)]="user.password" type="password" matInput>
-  </mat-form-field>
-</td>
-</tr>
-</table>
-
-
-<div class="bouton">
-  <app-basic-button (click)="authenticate()" role="Envoyer">
-  </app-basic-button>
+<div class="title">
+  <h1>Gestion back-office</h1>
 </div>
-</mat-card-content>
+<mat-card class="card">
+  <mat-card-content>
+    <table class="table">
+      <tr>
+        <td>
+          <mat-form-field appearance="fill">
+            <mat-label>Username</mat-label>
+            <input [(ngModel)]="user.username" matInput type="email">
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td>
+
+
+          <mat-form-field appearance="fill">
+            <mat-label>Mot de passe</mat-label>
+            <input [(ngModel)]="user.password" matInput type="password">
+          </mat-form-field>
+        </td>
+      </tr>
+    </table>
+
+
+    <div class="bouton">
+      <app-basic-button (click)="authenticate()" role="Envoyer">
+      </app-basic-button>
+    </div>
+  </mat-card-content>
 </mat-card>
 
 
-</div>
 
 
 

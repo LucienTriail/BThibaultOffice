@@ -14,11 +14,11 @@
         </mat-menu>
       </div>
       <div class="child">
-        <app-basic-button  role="Gestion des stocks" (click)="goToStockManage()"></app-basic-button>
+        <app-basic-button (click)="goToStock()" role="Gestion des stocks"></app-basic-button>
       </div>
     </div>
     <span class="example-spacer"></span>
-    <button mat-button>
+    <button (click)="logout()" mat-button>
       <mat-icon>logout</mat-icon>
     </button>
   </div>

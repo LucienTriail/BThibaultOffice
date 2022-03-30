@@ -40,7 +40,6 @@ export class DetailsProductComponent implements OnInit, AfterViewInit {
     this.dataSource.paginator = this.paginator;
     // @ts-ignore
     this.dataSource.sort = this.sort;
-
   }
 
   applyFilter(event: Event) {
@@ -54,9 +53,10 @@ export class DetailsProductComponent implements OnInit, AfterViewInit {
 
   getProducts() {
     this.productService.getProducts().subscribe((response: Products[]) => {
+        //https://angular.io/guide/http pour ameliorer la requete
 
         this.productsList = response;
-        this.dataSource = new MatTableDataSource(this.productsList);
+        this.dataSource = new MatTableDataSource(response);
 
         console.log(this.productsList);
       },
@@ -65,12 +65,10 @@ export class DetailsProductComponent implements OnInit, AfterViewInit {
       });
   }
 
-  getProductsByCat(l_category: number) {
+  getProductsByCat(l_category: string) {
     this.getProducts();
     this.productsList = this.productsList?.filter(x => x.category > l_category);
   }
 }
-
-
 
 

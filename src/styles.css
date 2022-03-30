@@ -1,6 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import '~ngx-toastr/toastr';
+@import "../node_modules/@angular/material/prebuilt-themes/indigo-pink.css";
+
 
 html, body {
   height: 100%;
@@ -9,4 +11,22 @@ html, body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+
+.snackbarSuccess {
+  background-color: green;
+  color: white;
+}
+
+.snackbarSuccess .mat-simple-snackbar-action {
+  color: white;
+}
+
+.snackbarNotGood {
+  background-color: red;
+}
+
+.snackbarNotGood .mat-simple-snackbar-action {
+  color: white;
 }
