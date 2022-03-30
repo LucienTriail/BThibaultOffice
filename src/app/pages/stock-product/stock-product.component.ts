@@ -139,16 +139,13 @@ export class StockProductComponent implements OnInit, AfterViewInit {
         newTransac.amount = trans.product.price * trans.stockBis;
         newTransac.category = trans.product.category.toString();
 
-        console.log('STRINGIFIED ', JSON.stringify(newTransac));
         lstTransactions.push(newTransac);
       }
       lstProducts.push(trans.product);
 
     }
-    console.log("Les nouvelles transactions : ", lstTransactions);
-    console.log("Les Produits :  : ", lstProducts);
+
     this.api.editTransactionsList(lstTransactions).subscribe((data) => {
-      console.log('APRES VALIDATION ', data);
     });
 
   }

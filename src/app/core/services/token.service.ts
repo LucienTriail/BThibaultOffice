@@ -8,7 +8,8 @@ import {JwtHelperService} from "@auth0/angular-jwt";
   providedIn: 'root'
 })
 export class TokenService implements CanActivate {
-  BASE_URL: string = 'http://localhost:8000/';
+  BASE_URL: string = 'https://dhkde4i7d3.execute-api.eu-west-3.amazonaws.com/dev/';
+
 
   jwtHelper: JwtHelperService = new JwtHelperService();
 
