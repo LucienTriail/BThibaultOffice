@@ -125,7 +125,7 @@ export class ApiService {
   }
 
   editProductList(product: Products[]): Observable<Products[]> {
-    return this.http.put<Products[]>(this.BASE_URL + 'products/', product)
+    return this.http.put<Products[]>(this.BASE_URL + 'products_list/', product)
       .pipe(
         catchError((err) => {
           return throwError(err);
