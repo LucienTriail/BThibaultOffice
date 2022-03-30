@@ -25,7 +25,7 @@ export class StockProductComponent implements OnInit, AfterViewInit {
   // @ts-ignore
   dataSource: MatTableDataSource<StockTransac>;
   empFilters: EmpFilter[] = [];
-  category: string[] = ['Poissons', 'Crustacés'];
+  category: string[] = ['poissons', 'crustacés'];
   operations = [
     {value: ''},
     {value: 'Achat'},
@@ -42,6 +42,7 @@ export class StockProductComponent implements OnInit, AfterViewInit {
   filterDictionary = new Map<string, StockTransac>();
 
   constructor(private api: ApiService) {
+
   }
 
   ngOnInit(): void {
@@ -50,6 +51,7 @@ export class StockProductComponent implements OnInit, AfterViewInit {
     this.dataSource.filterPredicate = function (record, filter) {
 
       var map = new Map(JSON.parse(filter));
+      console.log('MAP', map);
       let isMatch = false;
 
       for (let [key, value] of map) {
@@ -59,6 +61,7 @@ export class StockProductComponent implements OnInit, AfterViewInit {
 
       return isMatch;
     }
+
   }
 
   ngAfterViewInit() {
@@ -67,11 +70,15 @@ export class StockProductComponent implements OnInit, AfterViewInit {
     // @ts-ignore
     this.dataSource.sort = this.sort;
     this.dataSource._updateChangeSubscription();
+
+
   }
 
 
   applyEmpFilter(ob: MatSelectChange, empfilter: EmpFilter) {
     this.filterDictionary.set(empfilter.name, ob.value);
+    console.log('NAME', empfilter.name);
+    console.log('Obj VALUE', ob.value);
     this.dataSource.filter = JSON.stringify(Array.from(this.filterDictionary.entries()));
   }
 

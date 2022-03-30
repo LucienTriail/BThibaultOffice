@@ -20,7 +20,8 @@ import {MatButtonModule} from "@angular/material/button";
     MatSelectModule,
     FormsModule,
     ReactiveFormsModule,
-    MatButtonModule
+    MatButtonModule,
+
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
