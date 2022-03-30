@@ -18,8 +18,6 @@ export class LoginComponent implements OnInit {
   }
 
   authenticate() {
-    console.log('in authenticate');
-    console.log('in authenticate user: ', this.user);
     this.api.login(this.user).subscribe(
       (data) => {
         console.log('data: ', data);

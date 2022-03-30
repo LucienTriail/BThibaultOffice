@@ -144,8 +144,11 @@ export class StockProductComponent implements OnInit, AfterViewInit {
       lstProducts.push(trans.product);
 
     }
-
+    this.api.editProductList(lstProducts).subscribe((data) => {
+      console.log('APRES VALIDATION ', data);
+    });
     this.api.editTransactionsList(lstTransactions).subscribe((data) => {
+      console.log('APRES VALIDATION ', data);
     });
 
   }

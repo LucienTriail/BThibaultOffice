@@ -124,6 +124,16 @@ export class ApiService {
 
   }
 
+  editProductList(product: Products[]): Observable<Products[]> {
+    return this.http.put<Products[]>(this.BASE_URL + 'products/', product)
+      .pipe(
+        catchError((err) => {
+          return throwError(err);
+        })
+      );
+
+  }
+
   getUserId(): string {
     const helper = new JwtHelperService();
     let token: any = localStorage.getItem("access");

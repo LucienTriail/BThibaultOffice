@@ -203,7 +203,6 @@ export class AccueilComponent implements OnInit {
   }
 
   setOptions(calendar: string[], revenue: number[], profit: number[]) {
-    console.log("setoption", profit);
 
     this.options = {
       tooltip: {
