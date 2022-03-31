@@ -24,10 +24,10 @@ export class StockProductComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['product.name', 'product.price', 'category', 'product.discount', 'stockBis', 'operation'];
   // @ts-ignore
 
-  dataSource: MatTableDataSource<StockTransac> ;
-  empFilters: EmpFilter[]=[];
-  bool:boolean = false;
-  category: string[]=['All','poissons','crustacés'];
+  dataSource: MatTableDataSource<StockTransac>;
+  empFilters: EmpFilter[] = [];
+  bool: boolean = false;
+  category: string[] = ['All', 'poissons', 'crustacés'];
   defaultValue = '';
   operations = [
     {value: ''},
@@ -42,25 +42,23 @@ export class StockProductComponent implements OnInit, AfterViewInit {
   matcher = new MyErrorStateMatcher();
   percentageDiscountFormControl = new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]);
   quantityFormControl = new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]);
+  filterDictionary = new Map<string, string>();
 
+  constructor(private api: ApiService) {
+  }
 
-  
-
-
-  constructor(private api: ApiService) {}
   ngOnInit(): void {
     this.lData();
     //this.loadData();
-    console.log("c'est onInit" ,this.dataSource.data);
-    this.empFilters.push({name:'category',options:this.category,defaultValue: ''});
-    this.dataSource.filterPredicate = function (record,filter) {
+    console.log("c'est onInit", this.dataSource.data);
+    this.empFilters.push({name: 'category', options: this.category, defaultValue: ''});
+    this.dataSource.filterPredicate = function (record, filter) {
       var map = new Map(JSON.parse(filter));
-      console.log('MAP', map);
       let isMatch = false;
 
-      for(let [key,value] of map){
-        isMatch = (value=="All") || (record[key as keyof StockTransac] == value);
-        if(!isMatch) return false;
+      for (let [key, value] of map) {
+        isMatch = (value == "All") || (record[key as keyof StockTransac] == value);
+        if (!isMatch) return false;
       }
 
       return isMatch;
@@ -76,11 +74,8 @@ export class StockProductComponent implements OnInit, AfterViewInit {
 
   }
 
-
-  filterDictionary= new Map<string,string>();
-
-  applyEmpFilter(ob:MatSelectChange , empfilter : EmpFilter) {
-    this.filterDictionary.set(empfilter.name,ob.value);
+  applyEmpFilter(ob: MatSelectChange, empfilter: EmpFilter) {
+    this.filterDictionary.set(empfilter.name, ob.value);
     var jsonString = JSON.stringify(Array.from(this.filterDictionary.entries()));
     this.dataSource.filter = jsonString;
     this.bool = true;
@@ -88,8 +83,6 @@ export class StockProductComponent implements OnInit, AfterViewInit {
 
   }
 
-
- 
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -100,9 +93,9 @@ export class StockProductComponent implements OnInit, AfterViewInit {
     }
   }
 
-   lData() {
-    let lstT : StockTransac[] = [];
-      this.api.getProducts().subscribe((data) => {
+  lData() {
+    let lstT: StockTransac[] = [];
+    this.api.getProducts().subscribe((data) => {
       for (let product of data) {
         let stockTrans = {} as StockTransac;
         stockTrans.product = product;
@@ -111,13 +104,14 @@ export class StockProductComponent implements OnInit, AfterViewInit {
       }
 
     });
-     this.dataSource = new MatTableDataSource(lstT);
+    this.dataSource = new MatTableDataSource(lstT);
     //return lstT;
   }
 
 
   save() {
     let lstStockManage = this.dataSource.data;
+    console.log('putin de merde ', lstStockManage)
     let lstProducts: Products[] = [];
     let lstTransactions: Transactions[] = [];
     let changeProd = false;
@@ -126,6 +120,9 @@ export class StockProductComponent implements OnInit, AfterViewInit {
       if (trans.stockBis > 0) {
         switch (trans.operation) {
           case'Achat':
+            console.log('stock', trans.product.stock)
+            console.log('stock', trans.stockBis)
+
             trans.product.stock += trans.stockBis;
             changeProd = true;
             break;
@@ -150,6 +147,7 @@ export class StockProductComponent implements OnInit, AfterViewInit {
           product: 0,
 
         }; //as Transactions;
+        console.log('newtransac', newTransac)
         newTransac.product = trans.product.id;
         newTransac.date = new Date().toISOString();
         newTransac.productQuantity = trans.stockBis;
@@ -160,19 +158,20 @@ export class StockProductComponent implements OnInit, AfterViewInit {
         lstTransactions.push(newTransac);
       }
       lstProducts.push(trans.product);
-
     }
+    console.log('lssssst', lstTransactions)
+
     this.api.editProductList(lstProducts).subscribe((data) => {
-      console.log('APRES VALIDATION ', data);
+      console.log('APRES VALIDATION product', data);
     });
     this.api.editTransactionsList(lstTransactions).subscribe((data) => {
-      console.log('APRES VALIDATION ', data);
+      console.log('APRES VALIDATION transac', data);
     });
 
   }
 
- loadData() {
+  loadData() {
     //this.lstStockTransac  = this.lData();
-   this.dataSource = new MatTableDataSource(this.lstStockTransac);
- }
+    this.dataSource = new MatTableDataSource(this.lstStockTransac);
+  }
 }
