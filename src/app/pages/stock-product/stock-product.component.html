@@ -1,17 +1,17 @@
+<mat-form-field appearance="fill" *ngFor="let empfilter of empFilters">
+  <mat-label>{{empfilter.name}}</mat-label>
+  <mat-select [(value)]="empfilter.defaultValue" (selectionChange)="applyEmpFilter($event, empfilter)">
+    <mat-option *ngFor="let op of empfilter.options" [value]="op">
+      {{op}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
 
+<div class="mat-elevation-z8" *ngIf="bool">
 
-<div class="mat-elevation-z8">
-  <mat-form-field appearance="fill" *ngFor="let empfilter of empFilters">
-    <mat-label>{{empfilter.name}}</mat-label>
-    <mat-select [(value)]="empfilter.defaultValue" (selectionChange)="applyEmpFilter($event, empfilter)">
-      <mat-option *ngFor="let op of empfilter.options" [value]="op">
-        {{op}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
 
   <div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource" matSort>
+    <table mat-table *ngIf="bool" [dataSource]="dataSource" matSort>
 
       <!-- Name Column -->
       <ng-container matColumnDef="product.name">
@@ -74,9 +74,9 @@
     <tr *matRowDef="let trans; columns: displayedColumns;" mat-row></tr>
   </table>
   <div class="paginator">
-    <mat-paginator [pageSizeOptions]="[5,10, 25, 100]" aria-label="Select page"></mat-paginator>
+    <mat-paginator *ngIf="bool" [pageSizeOptions]="[5,10, 25, 100]" aria-label="Select page"></mat-paginator>
   </div>
   <div class="buttonDiv">
-    <button (click)="save()" color="primary" mat-raised-button type="submit">Valider</button>
+    <button *ngIf="bool" (click)="save()" color="primary" mat-raised-button type="submit">Valider</button>
   </div>
 </div>

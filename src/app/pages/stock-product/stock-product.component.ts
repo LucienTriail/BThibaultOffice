@@ -25,6 +25,7 @@ export class StockProductComponent implements OnInit, AfterViewInit {
   // @ts-ignore
   dataSource: MatTableDataSource<StockTransac> ;
   empFilters: EmpFilter[]=[];
+  bool:boolean = false;
   category: string[]=['All','poissons','crustacés'];
   defaultValue = '';
   operations = [
@@ -43,11 +44,11 @@ export class StockProductComponent implements OnInit, AfterViewInit {
 
   constructor(private api: ApiService) {}
   ngOnInit(): void {
-    this.lstStockTransac  = this.lData();
-    this.dataSource = new MatTableDataSource(this.lstStockTransac);
+    this.lData();
+    //this.loadData();
+    console.log("c'est onInit" ,this.dataSource.data);
     this.empFilters.push({name:'category',options:this.category,defaultValue: ''});
     this.dataSource.filterPredicate = function (record,filter) {
-
       var map = new Map(JSON.parse(filter));
       let isMatch = false;
 
@@ -74,6 +75,7 @@ export class StockProductComponent implements OnInit, AfterViewInit {
     this.filterDictionary.set(empfilter.name,ob.value);
     var jsonString = JSON.stringify(Array.from(this.filterDictionary.entries()));
     this.dataSource.filter = jsonString;
+    this.bool = true;
   }
 
   applyFilter(event: Event) {
@@ -96,7 +98,8 @@ export class StockProductComponent implements OnInit, AfterViewInit {
       }
 
     });
-    return lstT;
+     this.dataSource = new MatTableDataSource(lstT);
+    //return lstT;
   }
 
 
@@ -156,6 +159,7 @@ export class StockProductComponent implements OnInit, AfterViewInit {
   }
 
  loadData() {
-    this.lstStockTransac  = this.lData();
-  }
+    //this.lstStockTransac  = this.lData();
+   this.dataSource = new MatTableDataSource(this.lstStockTransac);
+ }
 }
