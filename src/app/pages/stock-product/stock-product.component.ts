@@ -23,6 +23,7 @@ export class StockProductComponent implements OnInit, AfterViewInit {
   lstStockTransac: StockTransac[] = [];
   displayedColumns: string[] = ['product.name', 'product.price', 'category', 'product.discount', 'stockBis', 'operation'];
   // @ts-ignore
+
   dataSource: MatTableDataSource<StockTransac> ;
   empFilters: EmpFilter[]=[];
   bool:boolean = false;
@@ -42,6 +43,12 @@ export class StockProductComponent implements OnInit, AfterViewInit {
   percentageDiscountFormControl = new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]);
   quantityFormControl = new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]);
 
+
+  constructor(private api: ApiService) {
+
+  }
+
+
   constructor(private api: ApiService) {}
   ngOnInit(): void {
     this.lData();
@@ -50,6 +57,7 @@ export class StockProductComponent implements OnInit, AfterViewInit {
     this.empFilters.push({name:'category',options:this.category,defaultValue: ''});
     this.dataSource.filterPredicate = function (record,filter) {
       var map = new Map(JSON.parse(filter));
+      console.log('MAP', map);
       let isMatch = false;
 
       for(let [key,value] of map){
@@ -59,6 +67,7 @@ export class StockProductComponent implements OnInit, AfterViewInit {
 
       return isMatch;
     }
+
   }
 
   ngAfterViewInit() {
@@ -66,6 +75,7 @@ export class StockProductComponent implements OnInit, AfterViewInit {
     this.dataSource.paginator = this.paginator;
     // @ts-ignore
     this.dataSource.sort = this.sort;
+
   }
 
 
@@ -76,7 +86,12 @@ export class StockProductComponent implements OnInit, AfterViewInit {
     var jsonString = JSON.stringify(Array.from(this.filterDictionary.entries()));
     this.dataSource.filter = jsonString;
     this.bool = true;
+
+
   }
+
+
+ 
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

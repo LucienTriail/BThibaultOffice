@@ -74,7 +74,9 @@
     <tr *matRowDef="let trans; columns: displayedColumns;" mat-row></tr>
   </table>
   <div class="paginator">
+
     <mat-paginator *ngIf="bool" [pageSizeOptions]="[5,10, 25, 100]" aria-label="Select page"></mat-paginator>
+
   </div>
   <div class="buttonDiv">
     <button *ngIf="bool" (click)="save()" color="primary" mat-raised-button type="submit">Valider</button>
