@@ -50,7 +50,7 @@ export class StockProductComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.lData();
     //this.loadData();
-    console.log("c'est onInit", this.dataSource.data);
+    console.log("dans ng onInit, data source", this.dataSource.data);
     this.empFilters.push({name: 'category', options: this.category, defaultValue: ''});
     this.dataSource.filterPredicate = function (record, filter) {
       var map = new Map(JSON.parse(filter));
@@ -110,17 +110,18 @@ export class StockProductComponent implements OnInit, AfterViewInit {
 
   save() {
     let lstStockManage = this.dataSource.data;
-    console.log('putin de merde ', lstStockManage)
+    console.log('lst stockmanage', lstStockManage)
     let lstProducts: Products[] = [];
     let lstTransactions: Transactions[] = [];
     let changeProd = false;
 
     for (let trans of lstStockManage) {
       if (trans.stockBis > 0) {
+        console.log('trans.operation', trans.operation)
         switch (trans.operation) {
           case'Achat':
-            console.log('stock', trans.product.stock)
-            console.log('stock', trans.stockBis)
+            console.log('stock', trans.product.stock);
+            console.log('stockBIS', trans.stockBis);
 
             trans.product.stock += trans.stockBis;
             changeProd = true;
@@ -136,7 +137,7 @@ export class StockProductComponent implements OnInit, AfterViewInit {
         }
       }
 
-      if (changeProd && trans.operation != null) {
+      if (changeProd && trans.operation != null) { //
         let newTransac: Transactions = {
           date: "",
           productQuantity: 0,
@@ -158,13 +159,13 @@ export class StockProductComponent implements OnInit, AfterViewInit {
       }
       lstProducts.push(trans.product);
     }
-    console.log('lssssst', lstTransactions)
+    console.log('lst TRansac', lstTransactions)
 
     this.api.editProductList(lstProducts).subscribe((data) => {
-      console.log('APRES VALIDATION product', data);
+      // console.log('APRES VALIDATION product', data);
     });
     this.api.editTransactionsList(lstTransactions).subscribe((data) => {
-      console.log('APRES VALIDATION transac', data);
+      //  console.log('APRES VALIDATION transac', data);
     });
 
   }
@@ -172,5 +173,6 @@ export class StockProductComponent implements OnInit, AfterViewInit {
   loadData() {
     //this.lstStockTransac  = this.lData();
     this.dataSource = new MatTableDataSource(this.lstStockTransac);
+    console.log('dans load data', this.lstStockTransac)
   }
 }

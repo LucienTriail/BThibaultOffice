@@ -1,84 +1,86 @@
-<mat-form-field appearance="fill" *ngFor="let empfilter of empFilters">
+<mat-form-field *ngFor="let empfilter of empFilters" appearance="fill">
   <mat-label>{{empfilter.name}}</mat-label>
-  <mat-select [(value)]="empfilter.defaultValue" (selectionChange)="applyEmpFilter($event, empfilter)">
+  <mat-select (selectionChange)="applyEmpFilter($event, empfilter)" [(value)]="empfilter.defaultValue">
     <mat-option *ngFor="let op of empfilter.options" [value]="op">
       {{op}}
     </mat-option>
   </mat-select>
 </mat-form-field>
 
-<div class="mat-elevation-z8" *ngIf="bool">
+<div *ngIf="bool" class="mat-elevation-z8">
 
 
   <div class="mat-elevation-z8">
-    <table mat-table *ngIf="bool" [dataSource]="dataSource" matSort>
+    <table *ngIf="bool" [dataSource]="dataSource" mat-table matSort>
 
       <!-- Name Column -->
       <ng-container matColumnDef="product.name">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nom </th>
-        <td mat-cell *matCellDef="let trans" > {{trans.product.name}} </td>
+        <th *matHeaderCellDef mat-header-cell mat-sort-header> Nom</th>
+        <td *matCellDef="let trans" mat-cell> {{trans.product.name}} </td>
       </ng-container>
 
       <!-- Price Column -->
       <ng-container matColumnDef="product.price">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Prix </th>
-        <td mat-cell *matCellDef="let trans"> {{trans.product.price}} </td>
+        <th *matHeaderCellDef mat-header-cell mat-sort-header> Prix</th>
+        <td *matCellDef="let trans" mat-cell> {{trans.product.price}} </td>
       </ng-container>
 
       <!-- Categoty Column -->
       <ng-container matColumnDef="category">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Categorie </th>
-        <td mat-cell *matCellDef="let trans"> {{trans.category}} </td>
+        <th *matHeaderCellDef mat-header-cell mat-sort-header> Categorie</th>
+        <td *matCellDef="let trans" mat-cell> {{trans.category}} </td>
       </ng-container>
 
-    <!-- Stock quanity Column -->
-    <ng-container matColumnDef="stockBis">
-      <th *matHeaderCellDef mat-header-cell> Quantité</th>
-      <td *matCellDef="let trans" mat-cell>
-        <mat-form-field class="mat-column" mat-sort-header style="text-align: center">
-          <input [(ngModel)]="trans.stockBis" matInput placeholder="" type="number">
-          <mat-error *ngIf="quantityFormControl.hasError('pattern')">
-          </mat-error>
-        </mat-form-field>
-      </td>
-    </ng-container>
+      <!-- Stock quanity Column -->
+      <ng-container matColumnDef="stockBis">
+        <th *matHeaderCellDef mat-header-cell> Quantité</th>
+        <td *matCellDef="let trans" mat-cell>
+          <mat-form-field class="mat-column" mat-sort-header style="text-align: center">
+            <input [(ngModel)]="trans.stockBis" matInput placeholder="" type="number">
+            <mat-error *ngIf="quantityFormControl.hasError('pattern')">
+            </mat-error>
+          </mat-form-field>
+        </td>
+      </ng-container>
 
-    <!-- Discount Column -->
-    <ng-container matColumnDef="product.discount">
-      <!--          <th mat-header-cell *matHeaderCellDef mat-sort-header> Promotion </th>-->
-      <!--          <td mat-cell *matCellDef="let product"> {{product.discount}}% </td>-->
-      <th *matHeaderCellDef mat-header-cell mat-sort-header> Promotion</th>
-      <td *matCellDef="let trans" mat-cell>
-        <mat-form-field class="mat-column" style="text-align: center">
-          <input [(ngModel)]="trans.product.discount" matInput maxlength="3" name="number" placeholder="" type="number">
-          <mat-error *ngIf="percentageDiscountFormControl.hasError('pattern')">
-          </mat-error>
-        </mat-form-field>
-      </td>
-    </ng-container>
+      <!-- Discount Column -->
+      <ng-container matColumnDef="product.discount">
+        <!--          <th mat-header-cell *matHeaderCellDef mat-sort-header> Promotion </th>-->
+        <!--          <td mat-cell *matCellDef="let product"> {{product.discount}}% </td>-->
+        <th *matHeaderCellDef mat-header-cell mat-sort-header> Promotion</th>
+        <td *matCellDef="let trans" mat-cell>
+          <mat-form-field class="mat-column" style="text-align: center">
+            <input [(ngModel)]="trans.product.discount" matInput maxlength="3" name="number" placeholder=""
+                   type="number">
+            <mat-error *ngIf="percentageDiscountFormControl.hasError('pattern')">
+            </mat-error>
+          </mat-form-field>
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="operation">
-      <th *matHeaderCellDef mat-header-cell> Opération</th>
-      <td *matCellDef="let trans" mat-cell>
-        <mat-form-field>
-          <mat-select  placeholder="">
-            <mat-option *ngFor="let op of operations" [value]="op.value">
-              {{op.value}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="operation">
+        <th *matHeaderCellDef mat-header-cell> Opération</th>
+        <td *matCellDef="let trans" mat-cell>
+          <mat-form-field>
+            <mat-select [(ngModel)]="trans.operation" placeholder="">
+              <mat-option *ngFor="let op of operations" [value]="op.value">
+                {{op.value}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+      </ng-container>
 
-    <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
-    <tr *matRowDef="let trans; columns: displayedColumns;" mat-row></tr>
-  </table>
-  <div class="paginator">
+      <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+      <tr *matRowDef="let trans; columns: displayedColumns;" mat-row></tr>
+    </table>
+    <div class="paginator">
 
-    <mat-paginator *ngIf="bool" [pageSizeOptions]="[5,10, 25, 100]" aria-label="Select page"></mat-paginator>
+      <mat-paginator *ngIf="bool" [pageSizeOptions]="[5,10, 25, 100]" aria-label="Select page"></mat-paginator>
 
-  </div>
-  <div class="buttonDiv">
-    <button *ngIf="bool" (click)="save()" color="primary" mat-raised-button type="submit">Valider</button>
+    </div>
+    <div class="buttonDiv">
+      <button (click)="save()" *ngIf="bool" color="primary" mat-raised-button type="submit">Valider</button>
+    </div>
   </div>
 </div>
