@@ -7,6 +7,7 @@ export interface Products {
   "availability": boolean,
   "category": string,
   "price": number,
+  "owner": string,
   "discounted_price": number,
   "unit": string,
   "sale": boolean,

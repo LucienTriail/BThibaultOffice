@@ -1,36 +1,38 @@
-<mat-form-field *ngFor="let empfilter of empFilters" appearance="fill">
-  <mat-label>{{empfilter.name}}</mat-label>
-  <mat-select (selectionChange)="applyEmpFilter($event,empfilter)" [(value)]="empfilter.defaultValue">
-    <mat-option *ngFor="let op of empfilter.options" [value]="op">
-      {{op}}
-    </mat-option>
-  </mat-select>
-</mat-form-field>
+
+
 <div class="mat-elevation-z8">
-  <table [dataSource]="dataSource" mat-table matSort>
-    <!-- Name Column -->
-    <ng-container matColumnDef="product.name">
-      <th *matHeaderCellDef mat-header-cell mat-sort-header> Nom</th>
-      <td *matCellDef="let trans" mat-cell> {{trans.product.name}} </td>
-    </ng-container>
-    <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
-    <tr *matRowDef="let trans; columns: displayedColumns;" mat-row></tr>
+  <mat-form-field appearance="fill" *ngFor="let empfilter of empFilters">
+    <mat-label>{{empfilter.name}}</mat-label>
+    <mat-select [(value)]="empfilter.defaultValue" (selectionChange)="applyEmpFilter($event, empfilter)">
+      <mat-option *ngFor="let op of empfilter.options" [value]="op">
+        {{op}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 
-    <!-- Price Column -->
-    <ng-container matColumnDef="product.price">
-      <th *matHeaderCellDef mat-header-cell mat-sort-header> Prix</th>
-      <td *matCellDef="let trans" mat-cell> {{trans.product.price}} </td>
-    </ng-container>
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort>
 
-    <!-- Categoty Column -->
-    <ng-container class="mat-column" matColumnDef="category">
-      <th *matHeaderCellDef mat-header-cell mat-sort-header> Categorie</th>
-      <td *matCellDef="let trans" mat-cell> {{trans.category}} </td>
-    </ng-container>
+      <!-- Name Column -->
+      <ng-container matColumnDef="product.name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nom </th>
+        <td mat-cell *matCellDef="let trans" > {{trans.product.name}} </td>
+      </ng-container>
 
+      <!-- Price Column -->
+      <ng-container matColumnDef="product.price">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Prix </th>
+        <td mat-cell *matCellDef="let trans"> {{trans.product.price}} </td>
+      </ng-container>
+
+      <!-- Categoty Column -->
+      <ng-container matColumnDef="category">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Categorie </th>
+        <td mat-cell *matCellDef="let trans"> {{trans.category}} </td>
+      </ng-container>
 
     <!-- Stock quanity Column -->
-    <ng-container matColumnDef="product.stock">
+    <ng-container matColumnDef="stockBis">
       <th *matHeaderCellDef mat-header-cell> Quantité</th>
       <td *matCellDef="let trans" mat-cell>
         <mat-form-field class="mat-column" mat-sort-header style="text-align: center">
@@ -59,7 +61,7 @@
       <th *matHeaderCellDef mat-header-cell> Opération</th>
       <td *matCellDef="let trans" mat-cell>
         <mat-form-field>
-          <mat-select [(value)]="trans.operation" placeholder="">
+          <mat-select  placeholder="">
             <mat-option *ngFor="let op of operations" [value]="op.value">
               {{op.value}}
             </mat-option>
@@ -67,11 +69,14 @@
         </mat-form-field>
       </td>
     </ng-container>
+
+    <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+    <tr *matRowDef="let trans; columns: displayedColumns;" mat-row></tr>
   </table>
-  <div class="paginator">s
+  <div class="paginator">
     <mat-paginator [pageSizeOptions]="[5,10, 25, 100]" aria-label="Select page"></mat-paginator>
   </div>
   <div class="buttonDiv">
-    <button (click)="save()" color="primary" mat-raised-button type="submit">Valider</button>
+    <button color="primary" mat-raised-button type="submit">Valider</button>
   </div>
 </div>
