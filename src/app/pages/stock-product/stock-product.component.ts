@@ -44,9 +44,7 @@ export class StockProductComponent implements OnInit, AfterViewInit {
   quantityFormControl = new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]);
 
 
-  constructor(private api: ApiService) {
-
-  }
+  
 
 
   constructor(private api: ApiService) {}
