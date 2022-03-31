@@ -76,8 +76,7 @@ export class StockProductComponent implements OnInit, AfterViewInit {
 
   applyEmpFilter(ob: MatSelectChange, empfilter: EmpFilter) {
     this.filterDictionary.set(empfilter.name, ob.value);
-    var jsonString = JSON.stringify(Array.from(this.filterDictionary.entries()));
-    this.dataSource.filter = jsonString;
+    this.dataSource.filter = JSON.stringify(Array.from(this.filterDictionary.entries()));
     this.bool = true;
 
 
